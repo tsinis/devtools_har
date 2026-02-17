@@ -193,16 +193,16 @@ class HarEntry<T extends HarCookie> extends HarObject {
   @override
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
     {
-      kCache: cache.toJson(),
+      kCache: cache.toJson(includeNulls: includeNulls),
       kConnection: connectionId,
       kPageref: pageref,
-      kRequest: request.toJson(),
-      kResponse: response.toJson(),
+      kRequest: request.toJson(includeNulls: includeNulls),
+      kResponse: response.toJson(includeNulls: includeNulls),
       kServerIPAddress: serverIPAddress,
       kStartedDateTime: startedDateTimeRaw ?? startedDateTime.toIso8601String(),
       kTime: HarUtils.normalizeNumber(totalTime),
-      kTimings: timings.toJson(),
-      ...commonJson(),
+      kTimings: timings.toJson(includeNulls: includeNulls),
+      ...commonJson(includeNulls: includeNulls),
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );

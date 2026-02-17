@@ -177,15 +177,21 @@ class HarRequest<T extends HarCookie> extends HarObject {
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
     {
       kBodySize: bodySize,
-      kCookies: cookies.map((e) => e.toJson()).toList(),
-      kHeaders: headers.map((e) => e.toJson()).toList(),
+      kCookies: cookies
+          .map((e) => e.toJson(includeNulls: includeNulls))
+          .toList(),
+      kHeaders: headers
+          .map((e) => e.toJson(includeNulls: includeNulls))
+          .toList(),
       kHeadersSize: headersSize,
       kHttpVersion: httpVersion,
       kMethod: method.toJson(),
-      kPostData: postData?.toJson(),
-      kQueryString: queryString.map((e) => e.toJson()).toList(),
+      kPostData: postData?.toJson(includeNulls: includeNulls),
+      kQueryString: queryString
+          .map((e) => e.toJson(includeNulls: includeNulls))
+          .toList(),
       kUrl: url.toString(),
-      ...commonJson(),
+      ...commonJson(includeNulls: includeNulls),
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );

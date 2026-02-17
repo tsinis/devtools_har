@@ -102,9 +102,9 @@ class HarPostData extends HarObject {
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
     {
       kMimeType: mimeType,
-      kParams: params.map((e) => e.toJson()).toList(),
+      kParams: params.map((e) => e.toJson(includeNulls: includeNulls)).toList(),
       kText: text,
-      ...commonJson(),
+      ...commonJson(includeNulls: includeNulls),
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
@@ -191,7 +191,7 @@ class HarParam extends HarObject {
       kFileName: fileName,
       kName: name,
       kValue: value,
-      ...commonJson(),
+      ...commonJson(includeNulls: includeNulls),
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );

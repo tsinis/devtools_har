@@ -101,7 +101,11 @@ class DevToolsHarResponse extends HarResponse<DevToolsHarCookie> {
 
   @override
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
-    {...super.toJson(), kTransferSize: transferSize, kError: error},
+    {
+      ...super.toJson(includeNulls: includeNulls),
+      kTransferSize: transferSize,
+      kError: error,
+    },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
 }

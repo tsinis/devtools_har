@@ -65,7 +65,7 @@ class HarNameVersion extends HarObject {
   /// Optional fields that are `null` are omitted from the output.
   @override
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
-    {kName: name, kVersion: version, ...commonJson()},
+    {kName: name, kVersion: version, ...commonJson(includeNulls: includeNulls)},
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
 }

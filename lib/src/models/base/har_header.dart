@@ -60,7 +60,7 @@ class HarHeader extends HarObject {
   /// Optional fields that are `null` are omitted from the output.
   @override
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
-    {kName: name, kValue: value, ...commonJson()},
+    {kName: name, kValue: value, ...commonJson(includeNulls: includeNulls)},
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
 }

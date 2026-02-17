@@ -120,7 +120,7 @@ class HarContent extends HarObject {
       kMimeType: mimeType,
       kSize: size,
       kText: text,
-      ...commonJson(),
+      ...commonJson(includeNulls: includeNulls),
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );

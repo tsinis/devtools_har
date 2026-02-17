@@ -131,7 +131,7 @@ class HarCookie extends HarObject {
       kPath: path,
       kSecure: secure,
       kValue: value,
-      ...commonJson(),
+      ...commonJson(includeNulls: includeNulls),
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );

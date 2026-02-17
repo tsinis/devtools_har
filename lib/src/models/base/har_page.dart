@@ -114,10 +114,10 @@ class HarPage extends HarObject {
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
     {
       kId: id,
-      kPageTimings: pageTimings.toJson(),
+      kPageTimings: pageTimings.toJson(includeNulls: includeNulls),
       kStartedDateTime: startedDateTimeRaw ?? startedDateTime.toIso8601String(),
       kTitle: title,
-      ...commonJson(),
+      ...commonJson(includeNulls: includeNulls),
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
@@ -194,7 +194,7 @@ class HarPageTimings extends HarObject {
     {
       kOnContentLoad: HarUtils.normalizeNumber(onContentLoad),
       kOnLoad: HarUtils.normalizeNumber(onLoad),
-      ...commonJson(),
+      ...commonJson(includeNulls: includeNulls),
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );

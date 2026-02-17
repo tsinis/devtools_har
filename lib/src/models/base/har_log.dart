@@ -135,12 +135,15 @@ class HarLog<T extends HarEntry> extends HarObject {
   @override
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
     {
-      kBrowser: browser?.toJson(),
-      kCreator: creator.toJson(),
+      kBrowser: browser?.toJson(includeNulls: includeNulls),
+      kCreator: creator.toJson(includeNulls: includeNulls),
       kVersion: version,
-      if (pages.isNotEmpty) kPages: pages.map((e) => e.toJson()).toList(),
-      kEntries: entries.map((e) => e.toJson()).toList(),
-      ...commonJson(),
+      if (pages.isNotEmpty)
+        kPages: pages.map((e) => e.toJson(includeNulls: includeNulls)).toList(),
+      kEntries: entries
+          .map((e) => e.toJson(includeNulls: includeNulls))
+          .toList(),
+      ...commonJson(includeNulls: includeNulls),
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
