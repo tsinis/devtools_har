@@ -16,7 +16,6 @@ analyzer:
     prefer_relative_imports: warning
 
     # Error
-    always_require_non_null_named_parameters: error
     avoid_relative_lib_imports: error
     avoid_slow_async_io: error
     avoid_types_as_parameter_names: error
