@@ -22,17 +22,17 @@ import 'http_method.dart';
 class HarRequest<T extends HarCookie> extends HarObject {
   /// Creates a [HarRequest] with required HAR 1.2 request fields.
   const HarRequest({
-    required this.method,
     required this.url,
-    required this.httpVersion,
-    required this.cookies,
-    required this.headers,
-    required this.queryString,
     required this.headersSize,
     required this.bodySize,
+    this.queryString = const [],
+    this.headers = const [],
+    this.cookies = const [],
+    this.method = HttpMethod.get,
+    this.httpVersion = kDefaultHttpVersion,
     this.postData,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarRequest] from a decoded JSON map.

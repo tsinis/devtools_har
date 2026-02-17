@@ -15,16 +15,17 @@ import 'har_page.dart';
 class HarLog<T extends HarEntry> extends HarObject {
   /// Creates a [HarLog] with the given field values.
   ///
-  /// [version], [creator], and [entries] are required by the
-  /// HAR 1.2 spec. All other parameters are optional.
+  /// [version] and [creator] are required by the HAR 1.2 spec.
+  /// [entries] is also required by the spec but defaults to an empty list.
+  /// All other parameters are optional.
   const HarLog({
     required this.creator,
-    required this.entries,
+    this.entries = const [],
     this.version = kDefaultVersion,
     this.browser,
     this.pages = const [],
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarLog] from a decoded JSON map.

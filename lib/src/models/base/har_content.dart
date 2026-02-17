@@ -20,7 +20,7 @@ class HarContent extends HarObject {
     this.text,
     this.encoding,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarContent] from a decoded JSON map.

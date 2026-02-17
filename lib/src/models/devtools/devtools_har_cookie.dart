@@ -32,7 +32,7 @@ class DevToolsHarCookie extends HarCookie {
     super.httpOnly,
     super.secure,
     super.comment,
-    super.custom = const {},
+    super.custom,
     this.sameSite,
   });
 

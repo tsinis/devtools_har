@@ -28,7 +28,7 @@ class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
     super.connectionId,
     super.startedDateTimeRaw,
     super.comment,
-    super.custom = const {},
+    super.custom,
     this.fromCache,
     this.fromServiceWorker,
     this.initiator,

@@ -23,7 +23,7 @@ class HarPage extends HarObject {
     required this.pageTimings,
     this.startedDateTimeRaw,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarPage] from a decoded JSON map.
@@ -146,7 +146,7 @@ class HarPageTimings extends HarObject {
     this.onContentLoad,
     this.onLoad,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarPageTimings] from a decoded JSON map.

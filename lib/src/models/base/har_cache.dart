@@ -14,7 +14,7 @@ class HarCache extends HarObject {
     this.beforeRequest,
     this.afterRequest,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarCache] from a decoded JSON map.
@@ -83,7 +83,7 @@ class HarCacheEntry extends HarObject {
     this.expiresRaw,
     this.lastAccessRaw,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarCacheEntry] from a decoded JSON map.

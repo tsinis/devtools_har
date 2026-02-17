@@ -23,7 +23,7 @@ class HarCookie extends HarObject {
     this.httpOnly,
     this.secure,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarCookie] from a decoded JSON map.

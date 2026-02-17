@@ -26,17 +26,17 @@ import 'devtools_har_entry.dart';
 class DevToolsHarRequest extends HarRequest<DevToolsHarCookie> {
   /// Creates a [DevToolsHarRequest] for DevTools cookie parsing.
   const DevToolsHarRequest({
-    required super.method,
     required super.url,
-    required super.httpVersion,
-    required super.cookies,
-    required super.headers,
-    required super.queryString,
     required super.headersSize,
     required super.bodySize,
+    super.method,
+    super.httpVersion,
+    super.cookies,
+    super.headers,
+    super.queryString,
     super.postData,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [DevToolsHarRequest] from a decoded JSON map.

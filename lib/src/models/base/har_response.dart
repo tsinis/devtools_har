@@ -3,6 +3,7 @@ import '../har_utils.dart';
 import 'har_content.dart';
 import 'har_cookie.dart';
 import 'har_header.dart';
+import 'har_request.dart';
 
 /// Detailed info about an HTTP response.
 ///
@@ -26,15 +27,15 @@ class HarResponse<T extends HarCookie> extends HarObject {
   const HarResponse({
     required this.status,
     required this.statusText,
-    required this.httpVersion,
-    required this.cookies,
-    required this.headers,
     required this.content,
     required this.redirectURL,
     required this.headersSize,
     required this.bodySize,
+    this.headers = const [],
+    this.cookies = const [],
+    this.httpVersion = HarRequest.kDefaultHttpVersion,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarResponse] from a decoded JSON map.

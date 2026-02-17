@@ -37,7 +37,7 @@ class HarEntry<T extends HarCookie> extends HarObject {
     this.connectionId,
     this.startedDateTimeRaw,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarEntry] from a decoded JSON map.
