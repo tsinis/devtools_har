@@ -1,0 +1,53 @@
+name: test
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "lib/**"
+      - "test/**"
+      - "example/**"
+      - "pubspec.yaml"
+      - ".github/workflows/test.yaml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "lib/**"
+      - "test/**"
+      - "example/**"
+      - "pubspec.yaml"
+      - ".github/workflows/test.yaml"
+
+jobs:
+  test:
+    name: 🧪 Test
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' || !github.event.pull_request.draft }}
+    timeout-minutes: 10
+    steps:
+      - name: 📚 Checks-out repository
+        uses: actions/checkout@v6.0.2
+
+      - name: 🎯 Setup Dart
+        uses: dart-lang/setup-dart@v1.7.1
+
+      - name: 📦 Install Dependencies
+        run: dart pub upgrade
+
+      - name: 🧪 Run Tests
+        run: |
+          dart test --timeout=1ms --fail-fast --coverage=coverage
+          dart run coverage:format_coverage -l -i coverage -o coverage/lcov.info --report-on=lib
+
+      - name: 📊 Check Code Coverage
+        uses: VeryGoodOpenSource/very_good_coverage@v3.0.0
+        with:
+          min_coverage: 88
+
+      - name: 💯 Upload Code Coverage
+        uses: codecov/codecov-action@v5.5.2
+        with:
+          files: ./coverage/lcov.info
+          token: ${{ secrets.CODECOV_TOKEN }}

@@ -7,9 +7,10 @@ build/
 # If you're building an application, you may want to check-in your pubspec.lock
 pubspec.lock
 
-# Directory created by dartdoc
+# Directory created by dartdoc or coverage
 # If you don't generate documentation locally you can remove this line.
 doc/api/
+coverage/
 
 # dotenv environment variables file
 .env*
@@ -24,6 +25,28 @@ doc/api/
 *.js_
 *.js.deps
 *.js.map
+
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/*
+**/.idea
+
+# Visual Studio Code related
+.classpath
+.project
 
 .flutter-plugins
 .flutter-plugins-dependencies
