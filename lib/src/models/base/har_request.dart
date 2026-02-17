@@ -21,7 +21,8 @@ import 'http_method.dart';
 ///
 /// Reference: http://www.softwareishard.com/blog/har-12-spec/#request
 class HarRequest<T extends HarCookie> extends HarObject {
-  /// Creates a [HarRequest] with required HAR 1.2 request fields.
+  /// Creates a [HarRequest] for a HAR 1.2 request, applying defaults for
+  /// spec-required fields when they are omitted.
   const HarRequest({
     required this.url,
     required this.headersSize,
