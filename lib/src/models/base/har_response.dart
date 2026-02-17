@@ -3,7 +3,6 @@ import '../har_utils.dart';
 import 'har_content.dart';
 import 'har_cookie.dart';
 import 'har_header.dart';
-import 'har_request.dart';
 
 /// Detailed info about an HTTP response.
 ///
@@ -33,7 +32,7 @@ class HarResponse<T extends HarCookie> extends HarObject {
     required this.bodySize,
     this.headers = const [],
     this.cookies = const [],
-    this.httpVersion = HarRequest.kDefaultHttpVersion,
+    this.httpVersion = HarObject.kDefaultHttpVersion,
     super.comment,
     super.custom,
   });
@@ -82,7 +81,8 @@ class HarResponse<T extends HarCookie> extends HarObject {
     return HarResponse(
       status: num.tryParse(status?.toString() ?? '')?.toInt() ?? 0,
       statusText: json[kStatusText]?.toString() ?? '',
-      httpVersion: json[kHttpVersion]?.toString() ?? '',
+      httpVersion:
+          json[kHttpVersion]?.toString() ?? HarObject.kDefaultHttpVersion,
       cookies: List<T>.from(cookiesList),
       headers: headers is List
           ? headers.whereType<Json>().map(HarHeader.fromJson).toList()
