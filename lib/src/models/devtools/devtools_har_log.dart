@@ -24,18 +24,16 @@ class DevToolsHarLog extends HarLog<DevToolsHarEntry> {
   /// Creates a [DevToolsHarLog] with all [HarLog] fields.
   ///
   /// [entries] should contain [DevToolsHarEntry] instances to
-  /// benefit from typed DevTools fields.
+  /// benefit from typed DevTools fields. Defaults to an empty list.
   const DevToolsHarLog({
     required super.version,
     required super.creator,
-    required super.entries,
+    super.entries = const [],
     super.browser,
     super.pages = const [],
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
-
-  /// Deserialises a [DevToolsHarLog] from a decoded JSON map.
 
   /// Deserialises a [DevToolsHarLog] from a decoded JSON map.
   ///

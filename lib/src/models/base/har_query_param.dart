@@ -12,7 +12,7 @@ class HarQueryParam extends HarObject {
     required this.name,
     required this.value,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarQueryParam] from a decoded JSON map.

@@ -20,7 +20,7 @@ class HarNameVersion extends HarObject {
     required this.name,
     required this.version,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarNameVersion] from a decoded JSON map.

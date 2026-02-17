@@ -8,7 +8,6 @@ import 'har_cookie.dart';
 import 'har_request.dart';
 import 'har_response.dart';
 import 'har_timings.dart';
-import 'http_method.dart';
 
 /// A single HTTP request/response pair recorded in a HAR log.
 ///
@@ -37,7 +36,7 @@ class HarEntry<T extends HarCookie> extends HarObject {
     this.connectionId,
     this.startedDateTimeRaw,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarEntry] from a decoded JSON map.
@@ -90,24 +89,12 @@ class HarEntry<T extends HarCookie> extends HarObject {
       totalTime: num.tryParse(json[kTime]?.toString() ?? '')?.toDouble() ?? 0,
       request: request is Json
           ? HarRequest.fromJson(request)
-          : HarRequest(
-              method: HttpMethod.get,
-              url: Uri(),
-              httpVersion: HarRequest.kDefaultHttpVersion,
-              cookies: const [],
-              headers: const [],
-              queryString: const [],
-              headersSize: -1,
-              bodySize: -1,
-            ),
+          : HarRequest(url: Uri(), headersSize: -1, bodySize: -1),
       response: response is Json
           ? HarResponse.fromJson(response)
           : HarResponse(
               status: 0,
               statusText: '',
-              httpVersion: HarRequest.kDefaultHttpVersion,
-              cookies: const [],
-              headers: const [],
               content: const HarContent(
                 size: 0,
                 mimeType: HarContent.kFallbackMimeType,
@@ -203,9 +190,6 @@ class HarEntry<T extends HarCookie> extends HarObject {
   final String? connectionId;
 
   /// Serialises this entry back to a JSON-compatible map.
-  ///
-  /// Key order follows the spec listing. Optional fields that are
-  /// `null` are omitted.
   @override
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
     {

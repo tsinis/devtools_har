@@ -14,15 +14,15 @@ import '../har_utils.dart';
 class HarPostData extends HarObject {
   /// Creates a [HarPostData] with the given field values.
   ///
-  /// [mimeType], [params], and [text] are required by the HAR 1.2
-  /// spec (though [text] and [params] are mutually exclusive, so
-  /// [text] is typed as nullable here).
+  /// [mimeType] is required by the HAR 1.2 spec. [params] and [text]
+  /// are also specified by the spec (though they are mutually exclusive).
+  /// [params] defaults to an empty list and [text] defaults to `null`.
   const HarPostData({
     required this.mimeType,
-    required this.params,
-    required this.text,
+    this.params = const [],
+    this.text,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarPostData] from a decoded JSON map.
@@ -129,7 +129,7 @@ class HarParam extends HarObject {
     this.fileName,
     this.contentType,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarParam] from a decoded JSON map.

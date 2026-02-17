@@ -8,6 +8,9 @@ abstract class HarObject {
   /// JSON key for the human-readable comment (`"comment"`).
   static const kComment = 'comment';
 
+  /// Default HTTP version when not specified.
+  static const kDefaultHttpVersion = 'HTTP/1.1';
+
   /// A comment provided by the user or the application.
   final String? comment;
 

@@ -17,7 +17,7 @@ class HarHeader extends HarObject {
     required this.name,
     required this.value,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarHeader] from a decoded JSON map.

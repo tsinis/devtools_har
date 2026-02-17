@@ -10,9 +10,10 @@ import 'http_method.dart';
 ///
 /// Models the "request" object defined in the HAR 1.2 specification.
 ///
-/// All seven top-level fields (method, url, httpVersion, cookies,
-/// headers, queryString, headersSize, bodySize) are required by the
-/// spec. Only [postData] and [comment] are optional.
+/// [url], [headersSize], and [bodySize] are required. The remaining
+/// spec-required fields ([method], [httpVersion], [cookies], [headers],
+/// [queryString]) have safe defaults and may be omitted at the call site.
+/// Only [postData] and [comment] are truly optional per the spec.
 ///
 /// The class is generic over the cookie type [T] so that sub-classes
 /// (e.g. a DevTools variant) can substitute a richer cookie model
@@ -20,19 +21,20 @@ import 'http_method.dart';
 ///
 /// Reference: http://www.softwareishard.com/blog/har-12-spec/#request
 class HarRequest<T extends HarCookie> extends HarObject {
-  /// Creates a [HarRequest] with required HAR 1.2 request fields.
+  /// Creates a [HarRequest] for a HAR 1.2 request, applying defaults for
+  /// spec-required fields when they are omitted.
   const HarRequest({
-    required this.method,
     required this.url,
-    required this.httpVersion,
-    required this.cookies,
-    required this.headers,
-    required this.queryString,
     required this.headersSize,
     required this.bodySize,
+    this.queryString = const [],
+    this.headers = const [],
+    this.cookies = const [],
+    this.method = HttpMethod.get,
+    this.httpVersion = HarObject.kDefaultHttpVersion,
     this.postData,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarRequest] from a decoded JSON map.
@@ -70,7 +72,8 @@ class HarRequest<T extends HarCookie> extends HarObject {
     return HarRequest<T>(
       method: HttpMethod.tryParse(methodRaw) ?? HttpMethod.get,
       url: Uri.tryParse(urlRaw?.toString() ?? '') ?? Uri(),
-      httpVersion: json[kHttpVersion]?.toString() ?? kDefaultHttpVersion,
+      httpVersion:
+          json[kHttpVersion]?.toString() ?? HarObject.kDefaultHttpVersion,
       cookies: List<T>.from(cookiesList),
       headers: headers is List
           ? headers.whereType<Json>().map(HarHeader.fromJson).toList()
@@ -115,10 +118,6 @@ class HarRequest<T extends HarCookie> extends HarObject {
 
   /// JSON key for the request body size in bytes (`"bodySize"`).
   static const kBodySize = 'bodySize';
-
-  /// Default HTTP version used when the `httpVersion` field is
-  /// missing or `null` in the source JSON.
-  static const kDefaultHttpVersion = 'HTTP/1.1';
 
   /// The HTTP method of this request (GET, POST, etc.).
   ///

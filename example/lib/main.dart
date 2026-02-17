@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_asserts_with_message,avoid_print,avoid-long-functions
 // ignore_for_file: prefer-extracting-function-callbacks, avoid-adjacent-strings
 // ignore_for_file: prefer-moving-to-variable, avoid-nullable-interpolation
-// ignore_for_file: avoid-default-tostring, avoid-long-functions
+// ignore_for_file: avoid-default-tostring
 
 import 'dart:convert';
 import 'dart:io';
@@ -23,12 +23,10 @@ void main(List<String> args) {
     }
 
     final devtoolsRoot = DevToolsHarParser.parse(jsonStr);
-    if (devtoolsRoot.log.entries.isNotEmpty) {
-      final entry = devtoolsRoot.log.entries.firstOrNull;
-      if (entry != null) {
-        print('Priority: ${entry.priority}');
-        print('Resource type: ${entry.resourceType}');
-      }
+    final entry = devtoolsRoot.log.entries.firstOrNull;
+    if (entry != null) {
+      print('Priority: ${entry.priority}');
+      print('Resource type: ${entry.resourceType}');
     }
   } else {
     print('Missing HAR file: $path');
@@ -38,21 +36,13 @@ void main(List<String> args) {
     startedDateTime: DateTime.now().toUtc(),
     totalTime: 120,
     request: HarRequest(
-      method: HttpMethod.get,
       url: Uri.parse('https://api.example.com/v1/vehicles'),
-      httpVersion: 'HTTP/1.1',
-      cookies: const <HarCookie>[],
-      headers: const <HarHeader>[],
-      queryString: const <HarQueryParam>[],
       headersSize: -1,
       bodySize: 0,
     ),
     response: const HarResponse(
       status: 200,
       statusText: 'OK',
-      httpVersion: 'HTTP/1.1',
-      cookies: <HarCookie>[],
-      headers: <HarHeader>[],
       content: HarContent(size: 0, mimeType: HarContent.kFallbackMimeType),
       redirectURL: '',
       headersSize: -1,

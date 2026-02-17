@@ -88,7 +88,6 @@ NOMINMAX
 NOZORDER
 NULLABILITY
 Params
-Platfroms
 Stderrs
 TTFB
 XCT
@@ -257,7 +256,6 @@ nullptr
 opensource
 openstreetmap
 pageref
-painer
 parallelizable
 pbxproj
 pbxuser
@@ -272,7 +270,6 @@ pyc
 regexps
 registar
 resizable
-responsponds
 retryable
 retryables
 rfc

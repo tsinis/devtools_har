@@ -45,7 +45,7 @@ class HarTimings extends HarObject {
     this.connect,
     this.ssl,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarTimings] from a decoded JSON map.

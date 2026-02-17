@@ -10,8 +10,8 @@ void main() => group('$HarParser', () {
     final harContents = harFile.readAsStringSync();
     final parsed = HarParser.parse(harContents);
     final parsedJson = jsonEncode(parsed.toJson());
-    File('test/base_output.har').writeAsStringSync(parsedJson);
 
+    expect(parsedJson, isNotEmpty);
     expect(parsed.log.version, isNotEmpty);
     expect(parsed.log.creator.name, isNotEmpty);
     expect(parsed.log.entries, isNotEmpty);

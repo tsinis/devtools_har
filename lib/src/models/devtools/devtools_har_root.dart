@@ -6,11 +6,7 @@ import 'devtools_har_log.dart';
 /// Root object that may contain DevTools extras.
 class DevToolsHarRoot extends HarRoot<DevToolsHarLog> {
   /// Creates a [DevToolsHarRoot] wrapping a DevTools HAR log.
-  const DevToolsHarRoot({
-    required super.log,
-    super.comment,
-    super.custom = const {},
-  });
+  const DevToolsHarRoot({required super.log, super.comment, super.custom});
 
   /// Deserialises a [DevToolsHarRoot] from a decoded JSON map.
   factory DevToolsHarRoot.fromJson(Json json) => _fromJson(json);

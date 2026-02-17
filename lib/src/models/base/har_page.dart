@@ -23,7 +23,7 @@ class HarPage extends HarObject {
     required this.pageTimings,
     this.startedDateTimeRaw,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarPage] from a decoded JSON map.
@@ -34,7 +34,7 @@ class HarPage extends HarObject {
   ///
   /// [startedDateTime] is parsed via [DateTime.tryParse]; if the
   /// value is absent or unparseable it defaults to
-  /// [DateTime.timestamp] (UTC now).
+  /// [DateTime.utc(0)] (Unix epoch).
   factory HarPage.fromJson(Json json) => _fromJson(json);
 
   static HarPage _fromJson(Json json) {
@@ -57,8 +57,7 @@ class HarPage extends HarObject {
 
     return HarPage(
       startedDateTime:
-          DateTime.tryParse(startedDateTimeString ?? '') ??
-          DateTime.timestamp(),
+          DateTime.tryParse(startedDateTimeString ?? '') ?? DateTime.utc(0),
       startedDateTimeRaw: startedDateTimeString,
       id: idRaw?.toString() ?? '',
       title: titleRaw?.toString() ?? '',
@@ -146,7 +145,7 @@ class HarPageTimings extends HarObject {
     this.onContentLoad,
     this.onLoad,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarPageTimings] from a decoded JSON map.

@@ -41,7 +41,7 @@ class DevToolsHarTimings extends HarTimings {
     super.connect,
     super.ssl,
     super.comment,
-    super.custom = const {},
+    super.custom,
     this.blockedQueueing,
     this.blockedProxy,
   });

@@ -23,13 +23,12 @@ class HarCookie extends HarObject {
     this.httpOnly,
     this.secure,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarCookie] from a decoded JSON map.
   ///
-  /// Throws a [FormatException] if the required `name` or `value` keys
-  /// are missing or `null`.
+  /// Asserts if the required `name` or `value` keys are missing or `null`.
   /// The [expires] string is parsed via [HarUtils.optionalDateTime].
   factory HarCookie.fromJson(Json json) => _fromJson(json);
 
