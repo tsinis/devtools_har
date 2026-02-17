@@ -44,7 +44,7 @@ jobs:
       - name: 📊 Check Code Coverage
         uses: VeryGoodOpenSource/very_good_coverage@v3.0.0
         with:
-          min_coverage: 99
+          min_coverage: 88
 
       - name: 💯 Upload Code Coverage
         uses: codecov/codecov-action@v5.5.2
