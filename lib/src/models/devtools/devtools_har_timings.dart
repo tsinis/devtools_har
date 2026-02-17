@@ -106,7 +106,7 @@ class DevToolsHarTimings extends HarTimings {
   @override
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
     {
-      ...super.toJson(includeNulls: includeNulls),
+      ...super.toJson(),
       kBlockedQueueing: HarUtils.normalizeNumber(blockedQueueing),
       kBlockedProxy: HarUtils.normalizeNumber(blockedProxy),
     },

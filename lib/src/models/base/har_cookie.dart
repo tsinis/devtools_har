@@ -28,8 +28,7 @@ class HarCookie extends HarObject {
 
   /// Deserialises a [HarCookie] from a decoded JSON map.
   ///
-  /// Throws a [FormatException] if the required `name` or `value` keys
-  /// are missing or `null`.
+  /// Asserts if the required `name` or `value` keys are missing or `null`.
   /// The [expires] string is parsed via [HarUtils.optionalDateTime].
   factory HarCookie.fromJson(Json json) => _fromJson(json);
 
@@ -132,7 +131,7 @@ class HarCookie extends HarObject {
       kPath: path,
       kSecure: secure,
       kValue: value,
-      ...commonJson(includeNulls: includeNulls),
+      ...commonJson(),
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );

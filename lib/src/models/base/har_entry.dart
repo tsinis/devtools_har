@@ -203,22 +203,19 @@ class HarEntry<T extends HarCookie> extends HarObject {
   final String? connectionId;
 
   /// Serialises this entry back to a JSON-compatible map.
-  ///
-  /// Key order follows the spec listing. Optional fields that are
-  /// `null` are omitted.
   @override
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
     {
-      kCache: cache.toJson(includeNulls: includeNulls),
+      kCache: cache.toJson(),
       kConnection: connectionId,
       kPageref: pageref,
-      kRequest: request.toJson(includeNulls: includeNulls),
-      kResponse: response.toJson(includeNulls: includeNulls),
+      kRequest: request.toJson(),
+      kResponse: response.toJson(),
       kServerIPAddress: serverIPAddress,
       kStartedDateTime: startedDateTimeRaw ?? startedDateTime.toIso8601String(),
       kTime: HarUtils.normalizeNumber(totalTime),
-      kTimings: timings.toJson(includeNulls: includeNulls),
-      ...commonJson(includeNulls: includeNulls),
+      kTimings: timings.toJson(),
+      ...commonJson(),
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );

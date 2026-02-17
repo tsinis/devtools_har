@@ -77,7 +77,7 @@ class DevToolsHarCookie extends HarCookie {
 
   @override
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
-    {...super.toJson(includeNulls: includeNulls), kSameSite: sameSite?.value},
+    {...super.toJson(), kSameSite: sameSite?.value},
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
 }

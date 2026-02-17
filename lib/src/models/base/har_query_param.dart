@@ -58,7 +58,7 @@ class HarQueryParam extends HarObject {
   /// Optional fields that are `null` are omitted from the output.
   @override
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
-    {kName: name, kValue: value, ...commonJson(includeNulls: includeNulls)},
+    {kName: name, kValue: value, ...commonJson()},
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
 }

@@ -34,7 +34,7 @@ class HarPage extends HarObject {
   ///
   /// [startedDateTime] is parsed via [DateTime.tryParse]; if the
   /// value is absent or unparseable it defaults to
-  /// [DateTime.timestamp] (UTC now).
+  /// [DateTime.utc(0)] (Unix epoch).
   factory HarPage.fromJson(Json json) => _fromJson(json);
 
   static HarPage _fromJson(Json json) {
@@ -57,8 +57,7 @@ class HarPage extends HarObject {
 
     return HarPage(
       startedDateTime:
-          DateTime.tryParse(startedDateTimeString ?? '') ??
-          DateTime.timestamp(),
+          DateTime.tryParse(startedDateTimeString ?? '') ?? DateTime.utc(0),
       startedDateTimeRaw: startedDateTimeString,
       id: idRaw?.toString() ?? '',
       title: titleRaw?.toString() ?? '',
@@ -115,10 +114,10 @@ class HarPage extends HarObject {
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
     {
       kId: id,
-      kPageTimings: pageTimings.toJson(includeNulls: includeNulls),
+      kPageTimings: pageTimings.toJson(),
       kStartedDateTime: startedDateTimeRaw ?? startedDateTime.toIso8601String(),
       kTitle: title,
-      ...commonJson(includeNulls: includeNulls),
+      ...commonJson(),
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
@@ -195,7 +194,7 @@ class HarPageTimings extends HarObject {
     {
       kOnContentLoad: HarUtils.normalizeNumber(onContentLoad),
       kOnLoad: HarUtils.normalizeNumber(onLoad),
-      ...commonJson(includeNulls: includeNulls),
+      ...commonJson(),
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );

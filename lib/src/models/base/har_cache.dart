@@ -53,9 +53,9 @@ class HarCache extends HarObject {
   @override
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
     {
-      kAfterRequest: afterRequest?.toJson(includeNulls: includeNulls),
-      kBeforeRequest: beforeRequest?.toJson(includeNulls: includeNulls),
-      ...commonJson(includeNulls: includeNulls),
+      kAfterRequest: afterRequest?.toJson(),
+      kBeforeRequest: beforeRequest?.toJson(),
+      ...commonJson(),
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
@@ -152,7 +152,7 @@ class HarCacheEntry extends HarObject {
       kExpires: expiresRaw ?? expires?.toIso8601String(),
       kHitCount: hitCount,
       kLastAccess: lastAccessRaw ?? lastAccess.toIso8601String(),
-      ...commonJson(includeNulls: includeNulls),
+      ...commonJson(),
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );

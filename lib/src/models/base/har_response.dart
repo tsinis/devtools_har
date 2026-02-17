@@ -173,19 +173,15 @@ class HarResponse<T extends HarCookie> extends HarObject {
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
     {
       kBodySize: bodySize,
-      kContent: content.toJson(includeNulls: includeNulls),
-      kCookies: cookies
-          .map((e) => e.toJson(includeNulls: includeNulls))
-          .toList(),
-      kHeaders: headers
-          .map((e) => e.toJson(includeNulls: includeNulls))
-          .toList(),
+      kContent: content.toJson(),
+      kCookies: cookies.map((e) => e.toJson()).toList(),
+      kHeaders: headers.map((e) => e.toJson()).toList(),
       kHeadersSize: headersSize,
       kHttpVersion: httpVersion,
       kRedirectURL: redirectURL,
       kStatus: status,
       kStatusText: statusText,
-      ...commonJson(includeNulls: includeNulls),
+      ...commonJson(),
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );

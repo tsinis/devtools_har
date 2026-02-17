@@ -142,7 +142,7 @@ class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
   @override
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
     {
-      ...super.toJson(includeNulls: includeNulls),
+      ...super.toJson(),
       kFromCache: fromCache,
       kInitiator: initiator,
       kPriority: priority,

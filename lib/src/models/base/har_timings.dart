@@ -202,7 +202,7 @@ class HarTimings extends HarObject {
       kSend: HarUtils.normalizeNumber(send),
       kSsl: HarUtils.normalizeNumber(ssl),
       kWait: HarUtils.normalizeNumber(wait),
-      ...commonJson(includeNulls: includeNulls),
+      ...commonJson(),
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );

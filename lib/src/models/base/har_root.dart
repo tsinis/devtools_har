@@ -30,10 +30,7 @@ class HarRoot<T extends HarLog> extends HarObject {
 
   @override
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
-    {
-      kLog: log.toJson(includeNulls: includeNulls),
-      ...commonJson(includeNulls: includeNulls),
-    },
+    {kLog: log.toJson(), ...commonJson()},
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
 }
