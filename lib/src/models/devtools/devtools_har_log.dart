@@ -36,8 +36,6 @@ class DevToolsHarLog extends HarLog<DevToolsHarEntry> {
   });
 
   /// Deserialises a [DevToolsHarLog] from a decoded JSON map.
-
-  /// Deserialises a [DevToolsHarLog] from a decoded JSON map.
   ///
   /// Delegates all shared parsing logic to [HarLog]'s field
   /// handling but produces [DevToolsHarEntry] instances instead of
