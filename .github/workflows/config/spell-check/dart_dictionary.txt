@@ -132,6 +132,7 @@ dartpad
 dblite
 demonyms
 deps
+deserialised
 deserialises
 dgph
 dio
@@ -280,6 +281,7 @@ sconsign
 scrollable
 sdk
 sek
+serialised
 serialises
 setstate
 sizeof
