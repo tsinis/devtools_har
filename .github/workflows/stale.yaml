@@ -1,0 +1,27 @@
+name: stale
+on:
+  schedule:
+    - cron: "30 20 * * *"
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  stale:
+    name: 🔒 Close Stale Items
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: 🔒 Close Stale Issues and PRs
+        uses: actions/stale@v10.1.1
+        with:
+          days-before-stale: 60
+          days-before-close: 14
+          stale-pr-label: "stale"
+          stale-issue-label: "stale"
+          close-issue-message: "This issue was closed because it has been stalled for 14 days with no activity."
+          stale-issue-message: "This issue is stale because it has been open 60 days with no activity. Remove stale label or comment or this will be closed in 14 days."
+          stale-pr-message: "This PR is stale because it has been open 60 days with no activity. Remove stale label or comment or this will be closed in 14 days."
+          close-pr-message: "This PR was closed because it has been stalled for 14 days with no activity."
+          repo-token: ${{ secrets.GITHUB_TOKEN }}

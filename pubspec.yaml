@@ -1,0 +1,21 @@
+version: 0.1.0
+name: devtools_har
+description: DevTools HAR models for HTTP Archive (HAR) files
+maintainer: Roman Cinis
+repository: https://github.com/tsinis/devtools_har
+issue_tracker: https://github.com/tsinis/devtools_har/issues
+topics:
+ - http-archive
+ - har
+ - devtools
+ - http
+ - archive-http
+
+environment:
+  sdk: ^3.11.0
+
+dev_dependencies:
+  coverage: ^1.15.0 # From Google.
+  dart_code_metrics_presets: ^2.29.0 # DCM.
+  lints: ^6.1.0 # From Google.
+  test: ^1.29.0 # From Google.
