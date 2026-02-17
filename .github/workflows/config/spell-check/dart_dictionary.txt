@@ -13,7 +13,6 @@ BBD
 BITCODE
 BYZ
 Buildables
-cacheables
 CEB
 CFLAGS
 CHANGELOG
@@ -91,6 +90,7 @@ NULLABILITY
 Params
 Platfroms
 Stderrs
+TTFB
 XCT
 allprojects
 api
@@ -115,6 +115,7 @@ bfb
 bools
 buildlog
 buildscript
+cacheables
 cfbundle
 cioc
 classpath
@@ -131,6 +132,7 @@ dartpad
 dblite
 demonyms
 deps
+deserialises
 dgph
 dio
 dists
@@ -152,6 +154,7 @@ endfunction
 endif
 endtemplate
 entitlements
+entr
 entrypoint
 enum
 enums
@@ -246,11 +249,13 @@ noexcept
 nohup
 nok
 nonnull
+normalisation
 notoemoji
 nsh
 nullptr
 opensource
 openstreetmap
+pageref
 painer
 parallelizable
 pbxproj
@@ -275,6 +280,7 @@ sconsign
 scrollable
 sdk
 sek
+serialises
 setstate
 sizeof
 sln
@@ -303,10 +309,14 @@ tearoffs
 timezones
 titlebar
 todo
+tostring
 unawaited
+unchunked
 undef
 unicode
+unparseable
 unprocessable
+unrecognised
 unregister
 uri
 urls
