@@ -69,10 +69,7 @@ class HarTimings extends HarObject {
 
     assert(send >= 0, 'HarTimings: "$kSend" must be non-negative, got $send');
     assert(wait >= 0, 'HarTimings: "$kWait" must be non-negative, got $wait');
-    assert(
-      receive >= 0,
-      'HarTimings: "$kReceive" must be non-negative, got $receive',
-    );
+    assert(receive >= 0, '"$kReceive" must be non-negative got $receive');
 
     return HarTimings(
       blocked: num.tryParse(json[kBlocked]?.toString() ?? '')?.toDouble(),
