@@ -38,9 +38,6 @@ class HarRoot<T extends HarLog> extends HarObject {
   );
 
   @override
-  String toString() => 'HarRoot(${[
-    '$kLog: $log',
-    if (comment != null) '${HarObject.kComment}: $comment',
-    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
-  ].join(', ')})';
+  String toString() =>
+      '''HarRoot(${['$kLog: $log', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }

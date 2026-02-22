@@ -111,19 +111,6 @@ class DevToolsHarResponse extends HarResponse<DevToolsHarCookie> {
   );
 
   @override
-  String toString() => 'DevToolsHarResponse(${[
-    '${HarResponse.kStatus}: $status',
-    '${HarResponse.kStatusText}: $statusText',
-    '${HarResponse.kHttpVersion}: $httpVersion',
-    '${HarResponse.kCookies}: $cookies',
-    '${HarResponse.kHeaders}: $headers',
-    '${HarResponse.kContent}: $content',
-    '${HarResponse.kRedirectURL}: $redirectURL',
-    '${HarResponse.kHeadersSize}: $headersSize',
-    '${HarResponse.kBodySize}: $bodySize',
-    if (transferSize != null) '$kTransferSize: $transferSize',
-    if (error != null) '$kError: $error',
-    if (comment != null) '${HarObject.kComment}: $comment',
-    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
-  ].join(', ')})';
+  String toString() =>
+      '''DevToolsHarResponse(${['${HarResponse.kStatus}: $status', '${HarResponse.kStatusText}: $statusText', '${HarResponse.kHttpVersion}: $httpVersion', '${HarResponse.kCookies}: $cookies', '${HarResponse.kHeaders}: $headers', '${HarResponse.kContent}: $content', '${HarResponse.kRedirectURL}: $redirectURL', '${HarResponse.kHeadersSize}: $headersSize', '${HarResponse.kBodySize}: $bodySize', if (transferSize != null) '$kTransferSize: $transferSize', if (error != null) '$kError: $error', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }

@@ -30,8 +30,6 @@ abstract class HarObject {
   );
 
   @override
-  String toString() => 'HarObject(${[
-    if (comment != null) '$kComment: $comment',
-    if (custom.isNotEmpty) '$kCustom: $custom',
-  ].join(', ')})';
+  String toString() =>
+      '''HarObject(${[if (comment != null) '$kComment: $comment', if (custom.isNotEmpty) '$kCustom: $custom'].join(', ')})''';
 }

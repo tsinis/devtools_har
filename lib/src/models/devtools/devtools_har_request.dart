@@ -70,17 +70,7 @@ class DevToolsHarRequest extends HarRequest<DevToolsHarCookie> {
   }
 
   @override
-  String toString() => 'DevToolsHarRequest(${[
-    '${HarRequest.kMethod}: $method',
-    '${HarRequest.kUrl}: $url',
-    '${HarRequest.kHttpVersion}: $httpVersion',
-    '${HarRequest.kCookies}: $cookies',
-    '${HarRequest.kHeaders}: $headers',
-    '${HarRequest.kQueryString}: $queryString',
-    if (postData != null) '${HarRequest.kPostData}: $postData',
-    '${HarRequest.kHeadersSize}: $headersSize',
-    '${HarRequest.kBodySize}: $bodySize',
-    if (comment != null) '${HarObject.kComment}: $comment',
-    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
-  ].join(', ')})';
+  String toString() =>
+      // ignore: avoid-default-tostring, it's enum.
+      '''DevToolsHarRequest(${['${HarRequest.kMethod}: $method', '${HarRequest.kUrl}: $url', '${HarRequest.kHttpVersion}: $httpVersion', '${HarRequest.kCookies}: $cookies', '${HarRequest.kHeaders}: $headers', '${HarRequest.kQueryString}: $queryString', if (postData != null) '${HarRequest.kPostData}: $postData', '${HarRequest.kHeadersSize}: $headersSize', '${HarRequest.kBodySize}: $bodySize', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }

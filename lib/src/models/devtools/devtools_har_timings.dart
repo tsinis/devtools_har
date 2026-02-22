@@ -115,17 +115,6 @@ class DevToolsHarTimings extends HarTimings {
   );
 
   @override
-  String toString() => 'DevToolsHarTimings(${[
-    if (blocked != null) '${HarTimings.kBlocked}: $blocked',
-    if (dns != null) '${HarTimings.kDns}: $dns',
-    if (connect != null) '${HarTimings.kConnect}: $connect',
-    '${HarTimings.kSend}: $send',
-    '${HarTimings.kWait}: $wait',
-    '${HarTimings.kReceive}: $receive',
-    if (ssl != null) '${HarTimings.kSsl}: $ssl',
-    if (blockedQueueing != null) '$kBlockedQueueing: $blockedQueueing',
-    if (blockedProxy != null) '$kBlockedProxy: $blockedProxy',
-    if (comment != null) '${HarObject.kComment}: $comment',
-    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
-  ].join(', ')})';
+  String toString() =>
+      '''DevToolsHarTimings(${[if (blocked != null) '${HarTimings.kBlocked}: $blocked', if (dns != null) '${HarTimings.kDns}: $dns', if (connect != null) '${HarTimings.kConnect}: $connect', '${HarTimings.kSend}: $send', '${HarTimings.kWait}: $wait', '${HarTimings.kReceive}: $receive', if (ssl != null) '${HarTimings.kSsl}: $ssl', if (blockedQueueing != null) '$kBlockedQueueing: $blockedQueueing', if (blockedProxy != null) '$kBlockedProxy: $blockedProxy', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }

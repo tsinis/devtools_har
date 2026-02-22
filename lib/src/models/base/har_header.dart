@@ -65,10 +65,6 @@ class HarHeader extends HarObject {
   );
 
   @override
-  String toString() => 'HarHeader(${[
-    '$kName: $name',
-    '$kValue: $value',
-    if (comment != null) '${HarObject.kComment}: $comment',
-    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
-  ].join(', ')})';
+  String toString() =>
+      '''HarHeader(${['$kName: $name', '$kValue: $value', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }

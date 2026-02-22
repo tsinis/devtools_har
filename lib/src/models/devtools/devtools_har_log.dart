@@ -65,13 +65,6 @@ class DevToolsHarLog extends HarLog<DevToolsHarEntry> {
   }
 
   @override
-  String toString() => 'DevToolsHarLog(${[
-    '${HarLog.kVersion}: $version',
-    '${HarLog.kCreator}: $creator',
-    if (browser != null) '${HarLog.kBrowser}: $browser',
-    if (pages.isNotEmpty) '${HarLog.kPages}: $pages',
-    '${HarLog.kEntries}: $entries',
-    if (comment != null) '${HarObject.kComment}: $comment',
-    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
-  ].join(', ')})';
+  String toString() =>
+      '''DevToolsHarLog(${['${HarLog.kVersion}: $version', '${HarLog.kCreator}: $creator', if (browser != null) '${HarLog.kBrowser}: $browser', if (pages.isNotEmpty) '${HarLog.kPages}: $pages', '${HarLog.kEntries}: $entries', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }

@@ -61,12 +61,8 @@ class HarCache extends HarObject {
   );
 
   @override
-  String toString() => 'HarCache(${[
-    if (beforeRequest != null) '$kBeforeRequest: $beforeRequest',
-    if (afterRequest != null) '$kAfterRequest: $afterRequest',
-    if (comment != null) '${HarObject.kComment}: $comment',
-    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
-  ].join(', ')})';
+  String toString() =>
+      '''HarCache(${[if (beforeRequest != null) '$kBeforeRequest: $beforeRequest', if (afterRequest != null) '$kAfterRequest: $afterRequest', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }
 
 /// State of a cache entry (before or after the request).
@@ -172,14 +168,6 @@ class HarCacheEntry extends HarObject {
   );
 
   @override
-  String toString() => 'HarCacheEntry(${[
-    if (expires != null) '$kExpires: $expires',
-    if (expiresRaw != null) '$kExpiresRaw: $expiresRaw',
-    '$kLastAccess: $lastAccess',
-    if (lastAccessRaw != null) '$kLastAccessRaw: $lastAccessRaw',
-    '$kETag: $eTag',
-    '$kHitCount: $hitCount',
-    if (comment != null) '${HarObject.kComment}: $comment',
-    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
-  ].join(', ')})';
+  String toString() =>
+      '''HarCacheEntry(${[if (expires != null) '$kExpires: $expires', if (expiresRaw != null) '$kExpiresRaw: $expiresRaw', '$kLastAccess: $lastAccess', if (lastAccessRaw != null) '$kLastAccessRaw: $lastAccessRaw', '$kETag: $eTag', '$kHitCount: $hitCount', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }

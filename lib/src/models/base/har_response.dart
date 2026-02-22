@@ -191,17 +191,6 @@ class HarResponse<T extends HarCookie> extends HarObject {
   );
 
   @override
-  String toString() => 'HarResponse(${[
-    '$kStatus: $status',
-    '$kStatusText: $statusText',
-    '$kHttpVersion: $httpVersion',
-    '$kCookies: $cookies',
-    '$kHeaders: $headers',
-    '$kContent: $content',
-    '$kRedirectURL: $redirectURL',
-    '$kHeadersSize: $headersSize',
-    '$kBodySize: $bodySize',
-    if (comment != null) '${HarObject.kComment}: $comment',
-    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
-  ].join(', ')})';
+  String toString() =>
+      '''HarResponse(${['$kStatus: $status', '$kStatusText: $statusText', '$kHttpVersion: $httpVersion', '$kCookies: $cookies', '$kHeaders: $headers', '$kContent: $content', '$kRedirectURL: $redirectURL', '$kHeadersSize: $headersSize', '$kBodySize: $bodySize', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }

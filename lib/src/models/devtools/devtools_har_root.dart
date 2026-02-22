@@ -27,9 +27,6 @@ class DevToolsHarRoot extends HarRoot<DevToolsHarLog> {
   }
 
   @override
-  String toString() => 'DevToolsHarRoot(${[
-    '${HarRoot.kLog}: $log',
-    if (comment != null) '${HarObject.kComment}: $comment',
-    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
-  ].join(', ')})';
+  String toString() =>
+      '''DevToolsHarRoot(${['${HarRoot.kLog}: $log', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }

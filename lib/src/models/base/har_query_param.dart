@@ -63,10 +63,6 @@ class HarQueryParam extends HarObject {
   );
 
   @override
-  String toString() => 'HarQueryParam(${[
-    '$kName: $name',
-    '$kValue: $value',
-    if (comment != null) '${HarObject.kComment}: $comment',
-    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
-  ].join(', ')})';
+  String toString() =>
+      '''HarQueryParam(${['$kName: $name', '$kValue: $value', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }

@@ -126,15 +126,8 @@ class HarPage extends HarObject {
   );
 
   @override
-  String toString() => 'HarPage(${[
-    '$kStartedDateTime: $startedDateTime',
-    if (startedDateTimeRaw != null) '$kStartedDateTimeRaw: $startedDateTimeRaw',
-    '$kId: $id',
-    '$kTitle: $title',
-    '$kPageTimings: $pageTimings',
-    if (comment != null) '${HarObject.kComment}: $comment',
-    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
-  ].join(', ')})';
+  String toString() =>
+      '''HarPage(${['$kStartedDateTime: $startedDateTime', if (startedDateTimeRaw != null) '$kStartedDateTimeRaw: $startedDateTimeRaw', '$kId: $id', '$kTitle: $title', '$kPageTimings: $pageTimings', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }
 
 /// Page-level load timing milestones.
@@ -214,10 +207,6 @@ class HarPageTimings extends HarObject {
   );
 
   @override
-  String toString() => 'HarPageTimings(${[
-    if (onContentLoad != null) '$kOnContentLoad: $onContentLoad',
-    if (onLoad != null) '$kOnLoad: $onLoad',
-    if (comment != null) '${HarObject.kComment}: $comment',
-    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
-  ].join(', ')})';
+  String toString() =>
+      '''HarPageTimings(${[if (onContentLoad != null) '$kOnContentLoad: $onContentLoad', if (onLoad != null) '$kOnLoad: $onLoad', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }

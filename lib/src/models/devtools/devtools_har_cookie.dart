@@ -83,17 +83,7 @@ class DevToolsHarCookie extends HarCookie {
   );
 
   @override
-  String toString() => 'DevToolsHarCookie(${[
-    '${HarCookie.kName}: $name',
-    '${HarCookie.kValue}: $value',
-    if (path != null) '${HarCookie.kPath}: $path',
-    if (domain != null) '${HarCookie.kDomain}: $domain',
-    if (expires != null) '${HarCookie.kExpires}: $expires',
-    if (expiresRaw != null) '${HarCookie.kExpiresRaw}: $expiresRaw',
-    if (httpOnly != null) '${HarCookie.kHttpOnly}: $httpOnly',
-    if (secure != null) '${HarCookie.kSecure}: $secure',
-    if (sameSite != null) '$kSameSite: $sameSite',
-    if (comment != null) '${HarObject.kComment}: $comment',
-    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
-  ].join(', ')})';
+  String toString() =>
+      // ignore: avoid-default-tostring, it's enum.
+      '''DevToolsHarCookie(${['${HarCookie.kName}: $name', '${HarCookie.kValue}: $value', if (path != null) '${HarCookie.kPath}: $path', if (domain != null) '${HarCookie.kDomain}: $domain', if (expires != null) '${HarCookie.kExpires}: $expires', if (expiresRaw != null) '${HarCookie.kExpiresRaw}: $expiresRaw', if (httpOnly != null) '${HarCookie.kHttpOnly}: $httpOnly', if (secure != null) '${HarCookie.kSecure}: $secure', if (sameSite != null) '$kSameSite: $sameSite', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }

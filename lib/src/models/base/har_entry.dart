@@ -211,18 +211,6 @@ class HarEntry<T extends HarCookie> extends HarObject {
   );
 
   @override
-  String toString() => 'HarEntry(${[
-    if (pageref != null) '$kPageref: $pageref',
-    '$kStartedDateTime: $startedDateTime',
-    if (startedDateTimeRaw != null) '$kStartedDateTimeRaw: $startedDateTimeRaw',
-    '$kTime: $totalTime',
-    '$kRequest: $request',
-    '$kResponse: $response',
-    '$kCache: $cache',
-    '$kTimings: $timings',
-    if (serverIPAddress != null) '$kServerIPAddress: $serverIPAddress',
-    if (connectionId != null) '$kConnection: $connectionId',
-    if (comment != null) '${HarObject.kComment}: $comment',
-    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
-  ].join(', ')})';
+  String toString() =>
+      '''HarEntry(${[if (pageref != null) '$kPageref: $pageref', '$kStartedDateTime: $startedDateTime', if (startedDateTimeRaw != null) '$kStartedDateTimeRaw: $startedDateTimeRaw', '$kTime: $totalTime', '$kRequest: $request', '$kResponse: $response', '$kCache: $cache', '$kTimings: $timings', if (serverIPAddress != null) '$kServerIPAddress: $serverIPAddress', if (connectionId != null) '$kConnection: $connectionId', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }
