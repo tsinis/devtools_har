@@ -33,6 +33,10 @@ cookies, and vendor-prefixed fields.
     no `dart:io` / `dart:html`. Works on VM, Web, and ahead-of-time
     targets.
 
+* **Typed toString() overrides** — all model classes provide a detailed
+    `toString()` implementation that only includes non-null fields for
+    easier debugging and logging.
+
 ## Getting started
 
 ```yaml

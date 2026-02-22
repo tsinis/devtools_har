@@ -25,4 +25,11 @@ class DevToolsHarRoot extends HarRoot<DevToolsHarLog> {
       custom: HarUtils.collectCustom(json),
     );
   }
+
+  @override
+  String toString() => 'DevToolsHarRoot(${[
+    'log: $log',
+    if (comment != null) 'comment: $comment',
+    if (custom.isNotEmpty) 'custom: $custom',
+  ].join(', ')})';
 }

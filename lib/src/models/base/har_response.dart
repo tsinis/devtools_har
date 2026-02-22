@@ -189,4 +189,19 @@ class HarResponse<T extends HarCookie> extends HarObject {
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() => 'HarResponse(${[
+    'status: $status',
+    'statusText: $statusText',
+    'httpVersion: $httpVersion',
+    'cookies: $cookies',
+    'headers: $headers',
+    'content: $content',
+    'redirectURL: $redirectURL',
+    'headersSize: $headersSize',
+    'bodySize: $bodySize',
+    if (comment != null) 'comment: $comment',
+    if (custom.isNotEmpty) 'custom: $custom',
+  ].join(', ')})';
 }

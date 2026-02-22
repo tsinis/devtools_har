@@ -121,6 +121,17 @@ class HarPage extends HarObject {
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() => 'HarPage(${[
+    'startedDateTime: $startedDateTime',
+    if (startedDateTimeRaw != null) 'startedDateTimeRaw: $startedDateTimeRaw',
+    'id: $id',
+    'title: $title',
+    'pageTimings: $pageTimings',
+    if (comment != null) 'comment: $comment',
+    if (custom.isNotEmpty) 'custom: $custom',
+  ].join(', ')})';
 }
 
 /// Page-level load timing milestones.
@@ -198,4 +209,12 @@ class HarPageTimings extends HarObject {
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() => 'HarPageTimings(${[
+    if (onContentLoad != null) 'onContentLoad: $onContentLoad',
+    if (onLoad != null) 'onLoad: $onLoad',
+    if (comment != null) 'comment: $comment',
+    if (custom.isNotEmpty) 'custom: $custom',
+  ].join(', ')})';
 }

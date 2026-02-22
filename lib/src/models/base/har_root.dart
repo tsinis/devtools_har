@@ -36,4 +36,11 @@ class HarRoot<T extends HarLog> extends HarObject {
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() => 'HarRoot(${[
+    'log: $log',
+    if (comment != null) 'comment: $comment',
+    if (custom.isNotEmpty) 'custom: $custom',
+  ].join(', ')})';
 }

@@ -206,4 +206,17 @@ class HarTimings extends HarObject {
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() => 'HarTimings(${[
+    if (blocked != null) 'blocked: $blocked',
+    if (dns != null) 'dns: $dns',
+    if (connect != null) 'connect: $connect',
+    'send: $send',
+    'wait: $wait',
+    'receive: $receive',
+    if (ssl != null) 'ssl: $ssl',
+    if (comment != null) 'comment: $comment',
+    if (custom.isNotEmpty) 'custom: $custom',
+  ].join(', ')})';
 }

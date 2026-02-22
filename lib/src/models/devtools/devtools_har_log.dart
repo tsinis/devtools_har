@@ -62,4 +62,15 @@ class DevToolsHarLog extends HarLog<DevToolsHarEntry> {
       custom: HarUtils.collectCustom(json),
     );
   }
+
+  @override
+  String toString() => 'DevToolsHarLog(${[
+    'version: $version',
+    'creator: $creator',
+    if (browser != null) 'browser: $browser',
+    if (pages.isNotEmpty) 'pages: $pages',
+    'entries: $entries',
+    if (comment != null) 'comment: $comment',
+    if (custom.isNotEmpty) 'custom: $custom',
+  ].join(', ')})';
 }

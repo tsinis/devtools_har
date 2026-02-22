@@ -59,6 +59,14 @@ class HarCache extends HarObject {
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() => 'HarCache(${[
+    if (beforeRequest != null) 'beforeRequest: $beforeRequest',
+    if (afterRequest != null) 'afterRequest: $afterRequest',
+    if (comment != null) 'comment: $comment',
+    if (custom.isNotEmpty) 'custom: $custom',
+  ].join(', ')})';
 }
 
 /// State of a cache entry (before or after the request).
@@ -156,4 +164,16 @@ class HarCacheEntry extends HarObject {
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() => 'HarCacheEntry(${[
+    if (expires != null) 'expires: $expires',
+    if (expiresRaw != null) 'expiresRaw: $expiresRaw',
+    'lastAccess: $lastAccess',
+    if (lastAccessRaw != null) 'lastAccessRaw: $lastAccessRaw',
+    'eTag: $eTag',
+    'hitCount: $hitCount',
+    if (comment != null) 'comment: $comment',
+    if (custom.isNotEmpty) 'custom: $custom',
+  ].join(', ')})';
 }

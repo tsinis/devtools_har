@@ -112,4 +112,19 @@ class DevToolsHarTimings extends HarTimings {
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() => 'DevToolsHarTimings(${[
+    if (blocked != null) 'blocked: $blocked',
+    if (dns != null) 'dns: $dns',
+    if (connect != null) 'connect: $connect',
+    'send: $send',
+    'wait: $wait',
+    'receive: $receive',
+    if (ssl != null) 'ssl: $ssl',
+    if (blockedQueueing != null) 'blockedQueueing: $blockedQueueing',
+    if (blockedProxy != null) 'blockedProxy: $blockedProxy',
+    if (comment != null) 'comment: $comment',
+    if (custom.isNotEmpty) 'custom: $custom',
+  ].join(', ')})';
 }

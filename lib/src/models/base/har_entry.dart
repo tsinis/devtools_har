@@ -206,4 +206,20 @@ class HarEntry<T extends HarCookie> extends HarObject {
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() => 'HarEntry(${[
+    if (pageref != null) 'pageref: $pageref',
+    'startedDateTime: $startedDateTime',
+    if (startedDateTimeRaw != null) 'startedDateTimeRaw: $startedDateTimeRaw',
+    'totalTime: $totalTime',
+    'request: $request',
+    'response: $response',
+    'cache: $cache',
+    'timings: $timings',
+    if (serverIPAddress != null) 'serverIPAddress: $serverIPAddress',
+    if (connectionId != null) 'connectionId: $connectionId',
+    if (comment != null) 'comment: $comment',
+    if (custom.isNotEmpty) 'custom: $custom',
+  ].join(', ')})';
 }

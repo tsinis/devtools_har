@@ -152,4 +152,26 @@ class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() => 'DevToolsHarEntry(${[
+    if (pageref != null) 'pageref: $pageref',
+    'startedDateTime: $startedDateTime',
+    if (startedDateTimeRaw != null) 'startedDateTimeRaw: $startedDateTimeRaw',
+    'totalTime: $totalTime',
+    'request: $request',
+    'response: $response',
+    'cache: $cache',
+    'timings: $timings',
+    if (serverIPAddress != null) 'serverIPAddress: $serverIPAddress',
+    if (connectionId != null) 'connectionId: $connectionId',
+    if (fromCache != null) 'fromCache: $fromCache',
+    if (fromServiceWorker != null) 'fromServiceWorker: $fromServiceWorker',
+    if (initiator != null) 'initiator: $initiator',
+    if (priority != null) 'priority: $priority',
+    if (resourceType != null) 'resourceType: $resourceType',
+    if (webSocketMessages != null) 'webSocketMessages: $webSocketMessages',
+    if (comment != null) 'comment: $comment',
+    if (custom.isNotEmpty) 'custom: $custom',
+  ].join(', ')})';
 }

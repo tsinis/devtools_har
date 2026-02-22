@@ -135,4 +135,18 @@ class HarCookie extends HarObject {
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() => 'HarCookie(${[
+    'name: $name',
+    'value: $value',
+    if (path != null) 'path: $path',
+    if (domain != null) 'domain: $domain',
+    if (expires != null) 'expires: $expires',
+    if (expiresRaw != null) 'expiresRaw: $expiresRaw',
+    if (httpOnly != null) 'httpOnly: $httpOnly',
+    if (secure != null) 'secure: $secure',
+    if (comment != null) 'comment: $comment',
+    if (custom.isNotEmpty) 'custom: $custom',
+  ].join(', ')})';
 }

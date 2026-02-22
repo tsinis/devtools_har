@@ -108,4 +108,21 @@ class DevToolsHarResponse extends HarResponse<DevToolsHarCookie> {
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() => 'DevToolsHarResponse(${[
+    'status: $status',
+    'statusText: $statusText',
+    'httpVersion: $httpVersion',
+    'cookies: $cookies',
+    'headers: $headers',
+    'content: $content',
+    'redirectURL: $redirectURL',
+    'headersSize: $headersSize',
+    'bodySize: $bodySize',
+    if (transferSize != null) 'transferSize: $transferSize',
+    if (error != null) 'error: $error',
+    if (comment != null) 'comment: $comment',
+    if (custom.isNotEmpty) 'custom: $custom',
+  ].join(', ')})';
 }

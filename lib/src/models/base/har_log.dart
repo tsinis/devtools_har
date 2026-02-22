@@ -147,4 +147,15 @@ class HarLog<T extends HarEntry> extends HarObject {
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() => 'HarLog(${[
+    'version: $version',
+    'creator: $creator',
+    if (browser != null) 'browser: $browser',
+    if (pages.isNotEmpty) 'pages: $pages',
+    'entries: $entries',
+    if (comment != null) 'comment: $comment',
+    if (custom.isNotEmpty) 'custom: $custom',
+  ].join(', ')})';
 }

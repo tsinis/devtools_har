@@ -68,6 +68,14 @@ class HarNameVersion extends HarObject {
     {kName: name, kVersion: version, ...commonJson(includeNulls: includeNulls)},
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() => 'HarNameVersion(${[
+    'name: $name',
+    'version: $version',
+    if (comment != null) 'comment: $comment',
+    if (custom.isNotEmpty) 'custom: $custom',
+  ].join(', ')})';
 }
 
 /// Creator application info (alias for [HarNameVersion]).

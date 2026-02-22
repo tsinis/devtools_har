@@ -80,4 +80,19 @@ class DevToolsHarCookie extends HarCookie {
     {...super.toJson(includeNulls: includeNulls), kSameSite: sameSite?.value},
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() => 'DevToolsHarCookie(${[
+    'name: $name',
+    'value: $value',
+    if (path != null) 'path: $path',
+    if (domain != null) 'domain: $domain',
+    if (expires != null) 'expires: $expires',
+    if (expiresRaw != null) 'expiresRaw: $expiresRaw',
+    if (httpOnly != null) 'httpOnly: $httpOnly',
+    if (secure != null) 'secure: $secure',
+    if (sameSite != null) 'sameSite: $sameSite',
+    if (comment != null) 'comment: $comment',
+    if (custom.isNotEmpty) 'custom: $custom',
+  ].join(', ')})';
 }
