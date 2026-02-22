@@ -111,11 +111,11 @@ class HarPostData extends HarObject {
 
   @override
   String toString() => 'HarPostData(${[
-    'mimeType: $mimeType',
-    if (params.isNotEmpty) 'params: $params',
-    if (text != null) 'text: $text',
-    if (comment != null) 'comment: $comment',
-    if (custom.isNotEmpty) 'custom: $custom',
+    '$kMimeType: $mimeType',
+    if (params.isNotEmpty) '$kParams: $params',
+    if (text != null) '$kText: $text',
+    if (comment != null) '${HarObject.kComment}: $comment',
+    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
   ].join(', ')})';
 }
 
@@ -207,11 +207,11 @@ class HarParam extends HarObject {
 
   @override
   String toString() => 'HarParam(${[
-    'name: $name',
-    if (value != null) 'value: $value',
-    if (fileName != null) 'fileName: $fileName',
-    if (contentType != null) 'contentType: $contentType',
-    if (comment != null) 'comment: $comment',
-    if (custom.isNotEmpty) 'custom: $custom',
+    '$kName: $name',
+    if (value != null) '$kValue: $value',
+    if (fileName != null) '$kFileName: $fileName',
+    if (contentType != null) '$kContentType: $contentType',
+    if (comment != null) '${HarObject.kComment}: $comment',
+    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
   ].join(', ')})';
 }

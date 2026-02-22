@@ -71,10 +71,10 @@ class HarNameVersion extends HarObject {
 
   @override
   String toString() => 'HarNameVersion(${[
-    'name: $name',
-    'version: $version',
-    if (comment != null) 'comment: $comment',
-    if (custom.isNotEmpty) 'custom: $custom',
+    '$kName: $name',
+    '$kVersion: $version',
+    if (comment != null) '${HarObject.kComment}: $comment',
+    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
   ].join(', ')})';
 }
 

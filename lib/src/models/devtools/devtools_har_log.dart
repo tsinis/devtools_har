@@ -2,6 +2,7 @@
 
 import '../base/har_entry.dart';
 import '../base/har_log.dart';
+import '../har_object.dart';
 import '../har_utils.dart';
 import 'devtools_har_entry.dart';
 
@@ -65,12 +66,12 @@ class DevToolsHarLog extends HarLog<DevToolsHarEntry> {
 
   @override
   String toString() => 'DevToolsHarLog(${[
-    'version: $version',
-    'creator: $creator',
-    if (browser != null) 'browser: $browser',
-    if (pages.isNotEmpty) 'pages: $pages',
-    'entries: $entries',
-    if (comment != null) 'comment: $comment',
-    if (custom.isNotEmpty) 'custom: $custom',
+    '${HarLog.kVersion}: $version',
+    '${HarLog.kCreator}: $creator',
+    if (browser != null) '${HarLog.kBrowser}: $browser',
+    if (pages.isNotEmpty) '${HarLog.kPages}: $pages',
+    '${HarLog.kEntries}: $entries',
+    if (comment != null) '${HarObject.kComment}: $comment',
+    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
   ].join(', ')})';
 }

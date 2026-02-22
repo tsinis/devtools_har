@@ -81,6 +81,9 @@ class HarPage extends HarObject {
   /// JSON key for the page load timings object (`"pageTimings"`).
   static const kPageTimings = 'pageTimings';
 
+  /// Internal key for preserving the original start timestamp string.
+  static const kStartedDateTimeRaw = 'startedDateTimeRaw';
+
   /// Date and time stamp for the beginning of the page load
   /// (ISO 8601 format).
   ///
@@ -124,13 +127,13 @@ class HarPage extends HarObject {
 
   @override
   String toString() => 'HarPage(${[
-    'startedDateTime: $startedDateTime',
-    if (startedDateTimeRaw != null) 'startedDateTimeRaw: $startedDateTimeRaw',
-    'id: $id',
-    'title: $title',
-    'pageTimings: $pageTimings',
-    if (comment != null) 'comment: $comment',
-    if (custom.isNotEmpty) 'custom: $custom',
+    '$kStartedDateTime: $startedDateTime',
+    if (startedDateTimeRaw != null) '$kStartedDateTimeRaw: $startedDateTimeRaw',
+    '$kId: $id',
+    '$kTitle: $title',
+    '$kPageTimings: $pageTimings',
+    if (comment != null) '${HarObject.kComment}: $comment',
+    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
   ].join(', ')})';
 }
 
@@ -212,9 +215,9 @@ class HarPageTimings extends HarObject {
 
   @override
   String toString() => 'HarPageTimings(${[
-    if (onContentLoad != null) 'onContentLoad: $onContentLoad',
-    if (onLoad != null) 'onLoad: $onLoad',
-    if (comment != null) 'comment: $comment',
-    if (custom.isNotEmpty) 'custom: $custom',
+    if (onContentLoad != null) '$kOnContentLoad: $onContentLoad',
+    if (onLoad != null) '$kOnLoad: $onLoad',
+    if (comment != null) '${HarObject.kComment}: $comment',
+    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
   ].join(', ')})';
 }

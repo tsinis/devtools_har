@@ -62,10 +62,10 @@ class HarCache extends HarObject {
 
   @override
   String toString() => 'HarCache(${[
-    if (beforeRequest != null) 'beforeRequest: $beforeRequest',
-    if (afterRequest != null) 'afterRequest: $afterRequest',
-    if (comment != null) 'comment: $comment',
-    if (custom.isNotEmpty) 'custom: $custom',
+    if (beforeRequest != null) '$kBeforeRequest: $beforeRequest',
+    if (afterRequest != null) '$kAfterRequest: $afterRequest',
+    if (comment != null) '${HarObject.kComment}: $comment',
+    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
   ].join(', ')})';
 }
 
@@ -135,6 +135,12 @@ class HarCacheEntry extends HarObject {
   /// JSON key for the cache hit count (`"hitCount"`).
   static const kHitCount = 'hitCount';
 
+  /// Internal key for preserving the original expiration string.
+  static const kExpiresRaw = 'expiresRaw';
+
+  /// Internal key for preserving the original last access string.
+  static const kLastAccessRaw = 'lastAccessRaw';
+
   /// Expiration time of the cache entry. `null` when not available.
   final DateTime? expires;
 
@@ -167,13 +173,13 @@ class HarCacheEntry extends HarObject {
 
   @override
   String toString() => 'HarCacheEntry(${[
-    if (expires != null) 'expires: $expires',
-    if (expiresRaw != null) 'expiresRaw: $expiresRaw',
-    'lastAccess: $lastAccess',
-    if (lastAccessRaw != null) 'lastAccessRaw: $lastAccessRaw',
-    'eTag: $eTag',
-    'hitCount: $hitCount',
-    if (comment != null) 'comment: $comment',
-    if (custom.isNotEmpty) 'custom: $custom',
+    if (expires != null) '$kExpires: $expires',
+    if (expiresRaw != null) '$kExpiresRaw: $expiresRaw',
+    '$kLastAccess: $lastAccess',
+    if (lastAccessRaw != null) '$kLastAccessRaw: $lastAccessRaw',
+    '$kETag: $eTag',
+    '$kHitCount: $hitCount',
+    if (comment != null) '${HarObject.kComment}: $comment',
+    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
   ].join(', ')})';
 }

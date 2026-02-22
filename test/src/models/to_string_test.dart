@@ -100,7 +100,7 @@ void main() {
 
     test('DevToolsHarTimings', () {
       const timings = DevToolsHarTimings(send: 1.0, wait: 2.0, receive: 3.0, blockedQueueing: 0.1);
-      expect(timings.toString(), 'DevToolsHarTimings(send: 1.0, wait: 2.0, receive: 3.0, blockedQueueing: 0.1)');
+      expect(timings.toString(), 'DevToolsHarTimings(send: 1.0, wait: 2.0, receive: 3.0, _blocked_queueing: 0.1)');
     });
 
     test('DevToolsHarRequest', () {

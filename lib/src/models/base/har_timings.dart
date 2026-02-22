@@ -209,14 +209,14 @@ class HarTimings extends HarObject {
 
   @override
   String toString() => 'HarTimings(${[
-    if (blocked != null) 'blocked: $blocked',
-    if (dns != null) 'dns: $dns',
-    if (connect != null) 'connect: $connect',
-    'send: $send',
-    'wait: $wait',
-    'receive: $receive',
-    if (ssl != null) 'ssl: $ssl',
-    if (comment != null) 'comment: $comment',
-    if (custom.isNotEmpty) 'custom: $custom',
+    if (blocked != null) '$kBlocked: $blocked',
+    if (dns != null) '$kDns: $dns',
+    if (connect != null) '$kConnect: $connect',
+    '$kSend: $send',
+    '$kWait: $wait',
+    '$kReceive: $receive',
+    if (ssl != null) '$kSsl: $ssl',
+    if (comment != null) '${HarObject.kComment}: $comment',
+    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
   ].join(', ')})';
 }

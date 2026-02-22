@@ -83,6 +83,9 @@ class HarCookie extends HarObject {
   /// JSON key for the secure flag (`"secure"`).
   static const kSecure = 'secure';
 
+  /// Internal key for preserving the original expiration string.
+  static const kExpiresRaw = 'expiresRaw';
+
   /// The name of the cookie.
   ///
   /// Required by the HAR 1.2 spec.
@@ -138,15 +141,15 @@ class HarCookie extends HarObject {
 
   @override
   String toString() => 'HarCookie(${[
-    'name: $name',
-    'value: $value',
-    if (path != null) 'path: $path',
-    if (domain != null) 'domain: $domain',
-    if (expires != null) 'expires: $expires',
-    if (expiresRaw != null) 'expiresRaw: $expiresRaw',
-    if (httpOnly != null) 'httpOnly: $httpOnly',
-    if (secure != null) 'secure: $secure',
-    if (comment != null) 'comment: $comment',
-    if (custom.isNotEmpty) 'custom: $custom',
+    '$kName: $name',
+    '$kValue: $value',
+    if (path != null) '$kPath: $path',
+    if (domain != null) '$kDomain: $domain',
+    if (expires != null) '$kExpires: $expires',
+    if (expiresRaw != null) '$kExpiresRaw: $expiresRaw',
+    if (httpOnly != null) '$kHttpOnly: $httpOnly',
+    if (secure != null) '$kSecure: $secure',
+    if (comment != null) '${HarObject.kComment}: $comment',
+    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
   ].join(', ')})';
 }

@@ -1,6 +1,7 @@
 // ignore_for_file: prefer-class-destructuring, avoid-similar-names
 
 import '../base/har_entry.dart';
+import '../har_object.dart';
 import '../har_utils.dart';
 import 'devtools_har_cookie.dart';
 import 'devtools_har_request.dart';
@@ -155,23 +156,23 @@ class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
 
   @override
   String toString() => 'DevToolsHarEntry(${[
-    if (pageref != null) 'pageref: $pageref',
-    'startedDateTime: $startedDateTime',
-    if (startedDateTimeRaw != null) 'startedDateTimeRaw: $startedDateTimeRaw',
-    'totalTime: $totalTime',
-    'request: $request',
-    'response: $response',
-    'cache: $cache',
-    'timings: $timings',
-    if (serverIPAddress != null) 'serverIPAddress: $serverIPAddress',
-    if (connectionId != null) 'connectionId: $connectionId',
-    if (fromCache != null) 'fromCache: $fromCache',
-    if (fromServiceWorker != null) 'fromServiceWorker: $fromServiceWorker',
-    if (initiator != null) 'initiator: $initiator',
-    if (priority != null) 'priority: $priority',
-    if (resourceType != null) 'resourceType: $resourceType',
-    if (webSocketMessages != null) 'webSocketMessages: $webSocketMessages',
-    if (comment != null) 'comment: $comment',
-    if (custom.isNotEmpty) 'custom: $custom',
+    if (pageref != null) '${HarEntry.kPageref}: $pageref',
+    '${HarEntry.kStartedDateTime}: $startedDateTime',
+    if (startedDateTimeRaw != null) '${HarEntry.kStartedDateTimeRaw}: $startedDateTimeRaw',
+    '${HarEntry.kTime}: $totalTime',
+    '${HarEntry.kRequest}: $request',
+    '${HarEntry.kResponse}: $response',
+    '${HarEntry.kCache}: $cache',
+    '${HarEntry.kTimings}: $timings',
+    if (serverIPAddress != null) '${HarEntry.kServerIPAddress}: $serverIPAddress',
+    if (connectionId != null) '${HarEntry.kConnection}: $connectionId',
+    if (fromCache != null) '$kFromCache: $fromCache',
+    if (fromServiceWorker != null) '$kFromServiceWorker: $fromServiceWorker',
+    if (initiator != null) '$kInitiator: $initiator',
+    if (priority != null) '$kPriority: $priority',
+    if (resourceType != null) '$kResourceType: $resourceType',
+    if (webSocketMessages != null) '$kWebSocketMessages: $webSocketMessages',
+    if (comment != null) '${HarObject.kComment}: $comment',
+    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
   ].join(', ')})';
 }

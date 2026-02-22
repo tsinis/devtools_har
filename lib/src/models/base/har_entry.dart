@@ -141,6 +141,9 @@ class HarEntry<T extends HarCookie> extends HarObject {
   /// JSON key for the connection identifier (`"connection"`).
   static const kConnection = 'connection';
 
+  /// Internal key for preserving the original start timestamp string.
+  static const kStartedDateTimeRaw = 'startedDateTimeRaw';
+
   /// Reference to the parent page.
   ///
   /// `null` if the exporting application does not support grouping
@@ -209,17 +212,17 @@ class HarEntry<T extends HarCookie> extends HarObject {
 
   @override
   String toString() => 'HarEntry(${[
-    if (pageref != null) 'pageref: $pageref',
-    'startedDateTime: $startedDateTime',
-    if (startedDateTimeRaw != null) 'startedDateTimeRaw: $startedDateTimeRaw',
-    'totalTime: $totalTime',
-    'request: $request',
-    'response: $response',
-    'cache: $cache',
-    'timings: $timings',
-    if (serverIPAddress != null) 'serverIPAddress: $serverIPAddress',
-    if (connectionId != null) 'connectionId: $connectionId',
-    if (comment != null) 'comment: $comment',
-    if (custom.isNotEmpty) 'custom: $custom',
+    if (pageref != null) '$kPageref: $pageref',
+    '$kStartedDateTime: $startedDateTime',
+    if (startedDateTimeRaw != null) '$kStartedDateTimeRaw: $startedDateTimeRaw',
+    '$kTime: $totalTime',
+    '$kRequest: $request',
+    '$kResponse: $response',
+    '$kCache: $cache',
+    '$kTimings: $timings',
+    if (serverIPAddress != null) '$kServerIPAddress: $serverIPAddress',
+    if (connectionId != null) '$kConnection: $connectionId',
+    if (comment != null) '${HarObject.kComment}: $comment',
+    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
   ].join(', ')})';
 }

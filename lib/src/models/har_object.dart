@@ -8,6 +8,9 @@ abstract class HarObject {
   /// JSON key for the human-readable comment (`"comment"`).
   static const kComment = 'comment';
 
+  /// Key for vendor-specific custom fields (`"custom"`).
+  static const kCustom = 'custom';
+
   /// Default HTTP version when not specified.
   static const kDefaultHttpVersion = 'HTTP/1.1';
 
@@ -28,7 +31,7 @@ abstract class HarObject {
 
   @override
   String toString() => 'HarObject(${[
-    if (comment != null) 'comment: $comment',
-    if (custom.isNotEmpty) 'custom: $custom',
+    if (comment != null) '$kComment: $comment',
+    if (custom.isNotEmpty) '$kCustom: $custom',
   ].join(', ')})';
 }

@@ -1,6 +1,7 @@
 // ignore_for_file: prefer-class-destructuring
 
 import '../base/har_response.dart';
+import '../har_object.dart';
 import '../har_utils.dart';
 import 'devtools_har_cookie.dart';
 import 'devtools_har_entry.dart';
@@ -111,18 +112,18 @@ class DevToolsHarResponse extends HarResponse<DevToolsHarCookie> {
 
   @override
   String toString() => 'DevToolsHarResponse(${[
-    'status: $status',
-    'statusText: $statusText',
-    'httpVersion: $httpVersion',
-    'cookies: $cookies',
-    'headers: $headers',
-    'content: $content',
-    'redirectURL: $redirectURL',
-    'headersSize: $headersSize',
-    'bodySize: $bodySize',
-    if (transferSize != null) 'transferSize: $transferSize',
-    if (error != null) 'error: $error',
-    if (comment != null) 'comment: $comment',
-    if (custom.isNotEmpty) 'custom: $custom',
+    '${HarResponse.kStatus}: $status',
+    '${HarResponse.kStatusText}: $statusText',
+    '${HarResponse.kHttpVersion}: $httpVersion',
+    '${HarResponse.kCookies}: $cookies',
+    '${HarResponse.kHeaders}: $headers',
+    '${HarResponse.kContent}: $content',
+    '${HarResponse.kRedirectURL}: $redirectURL',
+    '${HarResponse.kHeadersSize}: $headersSize',
+    '${HarResponse.kBodySize}: $bodySize',
+    if (transferSize != null) '$kTransferSize: $transferSize',
+    if (error != null) '$kError: $error',
+    if (comment != null) '${HarObject.kComment}: $comment',
+    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
   ].join(', ')})';
 }

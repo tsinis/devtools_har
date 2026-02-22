@@ -1,6 +1,7 @@
 // ignore_for_file: prefer-class-destructuring
 
 import '../base/har_request.dart';
+import '../har_object.dart';
 import '../har_utils.dart';
 import 'devtools_har_cookie.dart';
 import 'devtools_har_entry.dart';
@@ -70,16 +71,16 @@ class DevToolsHarRequest extends HarRequest<DevToolsHarCookie> {
 
   @override
   String toString() => 'DevToolsHarRequest(${[
-    'method: $method',
-    'url: $url',
-    'httpVersion: $httpVersion',
-    'cookies: $cookies',
-    'headers: $headers',
-    'queryString: $queryString',
-    if (postData != null) 'postData: $postData',
-    'headersSize: $headersSize',
-    'bodySize: $bodySize',
-    if (comment != null) 'comment: $comment',
-    if (custom.isNotEmpty) 'custom: $custom',
+    '${HarRequest.kMethod}: $method',
+    '${HarRequest.kUrl}: $url',
+    '${HarRequest.kHttpVersion}: $httpVersion',
+    '${HarRequest.kCookies}: $cookies',
+    '${HarRequest.kHeaders}: $headers',
+    '${HarRequest.kQueryString}: $queryString',
+    if (postData != null) '${HarRequest.kPostData}: $postData',
+    '${HarRequest.kHeadersSize}: $headersSize',
+    '${HarRequest.kBodySize}: $bodySize',
+    if (comment != null) '${HarObject.kComment}: $comment',
+    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
   ].join(', ')})';
 }

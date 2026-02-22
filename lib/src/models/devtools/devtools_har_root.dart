@@ -28,8 +28,8 @@ class DevToolsHarRoot extends HarRoot<DevToolsHarLog> {
 
   @override
   String toString() => 'DevToolsHarRoot(${[
-    'log: $log',
-    if (comment != null) 'comment: $comment',
-    if (custom.isNotEmpty) 'custom: $custom',
+    '${HarRoot.kLog}: $log',
+    if (comment != null) '${HarObject.kComment}: $comment',
+    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
   ].join(', ')})';
 }

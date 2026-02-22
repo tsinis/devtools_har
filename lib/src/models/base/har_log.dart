@@ -150,12 +150,12 @@ class HarLog<T extends HarEntry> extends HarObject {
 
   @override
   String toString() => 'HarLog(${[
-    'version: $version',
-    'creator: $creator',
-    if (browser != null) 'browser: $browser',
-    if (pages.isNotEmpty) 'pages: $pages',
-    'entries: $entries',
-    if (comment != null) 'comment: $comment',
-    if (custom.isNotEmpty) 'custom: $custom',
+    '$kVersion: $version',
+    '$kCreator: $creator',
+    if (browser != null) '$kBrowser: $browser',
+    if (pages.isNotEmpty) '$kPages: $pages',
+    '$kEntries: $entries',
+    if (comment != null) '${HarObject.kComment}: $comment',
+    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
   ].join(', ')})';
 }

@@ -1,6 +1,7 @@
 // ignore_for_file: prefer-class-destructuring
 
 import '../base/har_cookie.dart';
+import '../har_object.dart';
 import '../har_utils.dart';
 import 'cookie_same_site.dart';
 
@@ -83,16 +84,16 @@ class DevToolsHarCookie extends HarCookie {
 
   @override
   String toString() => 'DevToolsHarCookie(${[
-    'name: $name',
-    'value: $value',
-    if (path != null) 'path: $path',
-    if (domain != null) 'domain: $domain',
-    if (expires != null) 'expires: $expires',
-    if (expiresRaw != null) 'expiresRaw: $expiresRaw',
-    if (httpOnly != null) 'httpOnly: $httpOnly',
-    if (secure != null) 'secure: $secure',
-    if (sameSite != null) 'sameSite: $sameSite',
-    if (comment != null) 'comment: $comment',
-    if (custom.isNotEmpty) 'custom: $custom',
+    '${HarCookie.kName}: $name',
+    '${HarCookie.kValue}: $value',
+    if (path != null) '${HarCookie.kPath}: $path',
+    if (domain != null) '${HarCookie.kDomain}: $domain',
+    if (expires != null) '${HarCookie.kExpires}: $expires',
+    if (expiresRaw != null) '${HarCookie.kExpiresRaw}: $expiresRaw',
+    if (httpOnly != null) '${HarCookie.kHttpOnly}: $httpOnly',
+    if (secure != null) '${HarCookie.kSecure}: $secure',
+    if (sameSite != null) '$kSameSite: $sameSite',
+    if (comment != null) '${HarObject.kComment}: $comment',
+    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
   ].join(', ')})';
 }

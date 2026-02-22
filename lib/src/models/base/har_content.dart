@@ -127,12 +127,12 @@ class HarContent extends HarObject {
 
   @override
   String toString() => 'HarContent(${[
-    'size: $size',
-    'mimeType: $mimeType',
-    if (compression != null) 'compression: $compression',
-    if (text != null) 'text: $text',
-    if (encoding != null) 'encoding: $encoding',
-    if (comment != null) 'comment: $comment',
-    if (custom.isNotEmpty) 'custom: $custom',
+    '$kSize: $size',
+    '$kMimeType: $mimeType',
+    if (compression != null) '$kCompression: $compression',
+    if (text != null) '$kText: $text',
+    if (encoding != null) '$kEncoding: $encoding',
+    if (comment != null) '${HarObject.kComment}: $comment',
+    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
   ].join(', ')})';
 }

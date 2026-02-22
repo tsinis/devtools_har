@@ -197,16 +197,16 @@ class HarRequest<T extends HarCookie> extends HarObject {
 
   @override
   String toString() => 'HarRequest(${[
-    'method: $method',
-    'url: $url',
-    'httpVersion: $httpVersion',
-    'cookies: $cookies',
-    'headers: $headers',
-    'queryString: $queryString',
-    if (postData != null) 'postData: $postData',
-    'headersSize: $headersSize',
-    'bodySize: $bodySize',
-    if (comment != null) 'comment: $comment',
-    if (custom.isNotEmpty) 'custom: $custom',
+    '$kMethod: $method',
+    '$kUrl: $url',
+    '$kHttpVersion: $httpVersion',
+    '$kCookies: $cookies',
+    '$kHeaders: $headers',
+    '$kQueryString: $queryString',
+    if (postData != null) '$kPostData: $postData',
+    '$kHeadersSize: $headersSize',
+    '$kBodySize: $bodySize',
+    if (comment != null) '${HarObject.kComment}: $comment',
+    if (custom.isNotEmpty) '${HarObject.kCustom}: $custom',
   ].join(', ')})';
 }
