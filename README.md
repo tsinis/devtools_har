@@ -7,7 +7,7 @@ cookies, and vendor-prefixed fields.
 ## Features
 
 * **Full HAR 1.2 coverage** — typed Dart classes for every object in the
-    [HAR 1.2 spec][har-spec]: `HarLog`, `HarEntry`, `HarRequest`,
+    HAR 1.2 specification: `HarLog`, `HarEntry`, `HarRequest`,
     `HarResponse`, `HarCookie`, `HarHeader`, `HarQueryParam`, `HarPostData`,
     `HarContent`, `HarCache`, `HarTimings`, and `HarPage`.
 
@@ -165,8 +165,6 @@ print(entry.custom['_myToolAnnotation']);
 
 ## References
 
-* [HAR 1.2 Specification][har-spec]
 * [Chromium DevTools Protocol — Network domain][cdp-network]
 
-[har-spec]: http://www.softwareishard.com/blog/har-12-spec/
 [cdp-network]: https://chromedevtools.github.io/devtools-protocol/1-3/Network/
