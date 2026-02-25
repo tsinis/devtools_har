@@ -19,8 +19,7 @@ import 'har_header.dart';
 /// count but still appear in the [headers] list.
 ///
 /// [bodySize] should be `0` for `304 Not Modified` responses.
-///
-/// Reference: http://www.softwareishard.com/blog/har-12-spec/#response
+// Reference: http://www.softwareishard.com/blog/har-12-spec/#response
 class HarResponse<T extends HarCookie> extends HarObject {
   /// Creates a [HarResponse] with required HAR 1.2 response fields.
   const HarResponse({
@@ -39,7 +38,7 @@ class HarResponse<T extends HarCookie> extends HarObject {
 
   /// Deserialises a [HarResponse] from a decoded JSON map.
   ///
-  /// Required fields are guarded by [assert]s in debug mode.
+  /// Required fields are guarded by asserts in debug mode.
   /// In release builds missing or mis-typed values fall back to
   /// safe defaults (`0` for [status], empty string for text fields,
   /// `-1` for sizes, empty lists for arrays).

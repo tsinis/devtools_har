@@ -29,8 +29,7 @@ import '../har_utils.dart';
 ///
 /// The [ssl] time, when defined and not `-1`, is already included in
 /// [connect] and must not be added separately.
-///
-/// Reference: http://www.softwareishard.com/blog/har-12-spec/#timings
+// Reference: http://www.softwareishard.com/blog/har-12-spec/#timings
 class HarTimings extends HarObject {
   /// Creates a [HarTimings] with the given field values.
   ///

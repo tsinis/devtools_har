@@ -7,8 +7,7 @@ import '../har_utils.dart';
 ///
 /// Used in both `<request>` and `<response>` objects to represent
 /// individual HTTP headers.
-///
-/// Reference: http://www.softwareishard.com/blog/har-12-spec/#headers
+// Reference: http://www.softwareishard.com/blog/har-12-spec/#headers
 class HarHeader extends HarObject {
   /// Creates a [HarHeader] with the given field values.
   ///
@@ -22,7 +21,7 @@ class HarHeader extends HarObject {
 
   /// Deserialises a [HarHeader] from a decoded JSON map.
   ///
-  /// Required fields ([name], [value]) are guarded by [assert]s
+  /// Required fields ([name], [value]) are guarded by asserts
   /// that fire in debug mode. In release builds, missing keys
   /// fall back to empty strings.
   factory HarHeader.fromJson(Json json) => _fromJson(json);

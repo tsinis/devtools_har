@@ -15,7 +15,7 @@ concurrency:
 jobs:
   branch-name:
     name: 🔀 Check Branch Name
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     timeout-minutes: 4
     steps:
       - name: 🔀 Assert Branch Naming Convention
@@ -26,9 +26,9 @@ jobs:
 
   assign:
     name: ✍🏻 Auto-assign PR
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     timeout-minutes: 4
-    if: github.actor != 'dependabot[bot]'
+    if: github.event.pull_request.user.login != 'dependabot[bot]'
     steps:
       - name: ✍🏻 Add Reviewer and Author Assign
         uses: devmyong/auto-assign@v1.0.1
@@ -50,7 +50,7 @@ jobs:
 
   pr-labels:
     name: 🏷️ Add PR Labels
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     needs: branch-name
     timeout-minutes: 4
     steps:

@@ -2,8 +2,7 @@ import '../har_object.dart';
 import '../har_utils.dart';
 
 /// A single query-string parameter from a request URL.
-///
-/// Reference: http://www.softwareishard.com/blog/har-12-spec/#queryString
+// Reference: http://www.softwareishard.com/blog/har-12-spec/#queryString
 class HarQueryParam extends HarObject {
   /// Creates a [HarQueryParam] with the given field values.
   ///

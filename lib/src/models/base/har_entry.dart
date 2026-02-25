@@ -20,8 +20,7 @@ import 'har_timings.dart';
 /// sub-classes can thread a richer cookie model through both
 /// [request] and [response] without duplicating parsing logic.
 /// For the base HAR 1.2 model, [T] is [HarCookie].
-///
-/// Reference: http://www.softwareishard.com/blog/har-12-spec/#entries
+// Reference: http://www.softwareishard.com/blog/har-12-spec/#entries
 class HarEntry<T extends HarCookie> extends HarObject {
   /// Creates a [HarEntry] describing one request/response exchange.
   const HarEntry({
@@ -42,7 +41,7 @@ class HarEntry<T extends HarCookie> extends HarObject {
   /// Deserialises a [HarEntry] from a decoded JSON map.
   ///
   /// Required fields ([startedDateTime], [request], [response],
-  /// [cache], [timings]) are validated with [assert] so that
+  /// [cache], [timings]) are validated with assert so that
   /// malformed input is caught during development, while release
   /// builds degrade gracefully with safe defaults.
   ///
@@ -53,9 +52,7 @@ class HarEntry<T extends HarCookie> extends HarObject {
   /// [totalTime] is typed as [double] because the spec defines it
   /// as the sum of all timings in milliseconds, and exporters such
   /// as Chrome DevTools emit sub-millisecond precision.
-  ///
-  /// Reference: http://www.softwareishard.com/blog/har-12-spec/#entries
-
+  // Reference: http://www.softwareishard.com/blog/har-12-spec/#entries
   static HarEntry<T> fromJson<T extends HarCookie>(Json json) =>
       _fromJson<T>(json);
 

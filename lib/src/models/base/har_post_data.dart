@@ -9,8 +9,7 @@ import '../har_utils.dart';
 /// use [text] for raw body payloads and [params] for
 /// `application/x-www-form-urlencoded` or `multipart/form-data`
 /// parameters. In practice, Chrome and Firefox often emit both.
-///
-/// Reference: http://www.softwareishard.com/blog/har-12-spec/#postData
+// Reference: http://www.softwareishard.com/blog/har-12-spec/#postData
 class HarPostData extends HarObject {
   /// Creates a [HarPostData] with the given field values.
   ///
@@ -120,8 +119,7 @@ class HarPostData extends HarObject {
 ///
 /// For `multipart/form-data` uploads the [fileName] and [contentType]
 /// fields describe the uploaded file.
-///
-/// Reference: http://www.softwareishard.com/blog/har-12-spec/#params
+// Reference: http://www.softwareishard.com/blog/har-12-spec/#params.
 // ignore: prefer-single-declaration-per-file, they are closely related.
 class HarParam extends HarObject {
   /// Creates a [HarParam] with the given field values.
