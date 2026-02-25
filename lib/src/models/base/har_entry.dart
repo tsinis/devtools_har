@@ -141,7 +141,8 @@ class HarEntry<T extends HarCookie> extends HarObject {
   /// JSON key for the connection identifier (`"connection"`).
   static const kConnection = 'connection';
 
-  /// Internal key for preserving the original start timestamp string.
+  /// Public static constant used as a display label in `toString()`.
+  /// This is not a JSON key.
   static const kStartedDateTimeRaw = 'startedDateTimeRaw';
 
   /// Reference to the parent page.
