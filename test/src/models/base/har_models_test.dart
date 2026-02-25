@@ -1,5 +1,6 @@
 // ignore_for_file: avoid-long-functions, prefer-class-destructuring
 
+import 'package:devtools_har/src/helpers/har_utils.dart';
 import 'package:devtools_har/src/models/base/har_cache.dart';
 import 'package:devtools_har/src/models/base/har_content.dart';
 import 'package:devtools_har/src/models/base/har_entry.dart';
@@ -8,7 +9,6 @@ import 'package:devtools_har/src/models/base/har_request.dart';
 import 'package:devtools_har/src/models/base/har_response.dart';
 import 'package:devtools_har/src/models/base/har_timings.dart';
 import 'package:devtools_har/src/models/har_object.dart';
-import 'package:devtools_har/src/models/har_utils.dart';
 import 'package:test/test.dart';
 
 void main() {
