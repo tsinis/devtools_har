@@ -1,5 +1,5 @@
 import 'dart:convert' show JsonCodec;
-import '../har_utils.dart';
+import '../../helpers/har_utils.dart';
 import 'devtools_har_root.dart';
 
 /// Simple parser that auto‐detects DevTools extras.

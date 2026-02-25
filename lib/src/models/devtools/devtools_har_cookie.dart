@@ -1,8 +1,8 @@
 // ignore_for_file: prefer-class-destructuring
 
+import '../../helpers/har_utils.dart';
 import '../base/har_cookie.dart';
 import '../har_object.dart';
-import '../har_utils.dart';
 import 'cookie_same_site.dart';
 
 /// A Chrome DevTools extension of [HarCookie] that adds the

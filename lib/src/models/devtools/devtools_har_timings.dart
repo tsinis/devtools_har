@@ -1,8 +1,8 @@
 // ignore_for_file: prefer-class-destructuring
 
+import '../../helpers/har_utils.dart';
 import '../base/har_timings.dart';
 import '../har_object.dart';
-import '../har_utils.dart';
 
 /// Chrome DevTools extension of [HarTimings] with additional
 /// breakdown of the [HarTimings.blocked] phase.

@@ -1,10 +1,12 @@
+[![License: BSD3](https://img.shields.io/badge/License-BSD3-green.svg)](https://opensource.org/licenses/bsd-3-clause)
+[![Codecov](https://codecov.io/gh/tsinis/devtools_har/graph/badge.svg?token=oGAg37uXqJ)](https://codecov.io/gh/tsinis/devtools_har)
+[![Analyze](https://github.com/tsinis/devtools_har/actions/workflows/analyze.yaml/badge.svg)](https://github.com/tsinis/devtools_har/actions/workflows/analyze.yaml)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har.svg?type=shield&issueType=license)](https://app.fossa.com/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har?ref=badge_shield&issueType=license)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har.svg?type=shield&issueType=security)](https://app.fossa.com/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har?ref=badge_shield&issueType=security)
+
 # devtools_har
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har?ref=badge_shield)
 
-
-HAR 1.2 and browser DevTools-extended typed models for Dart.
-Full coverage of log, entries, requests, responses, timings, cache,
-cookies, and vendor-prefixed fields.
+HAR 1.2 and browser DevTools-extended typed models for Dart. Full coverage of log, entries, requests, responses, timings, cache, cookies, and vendor-prefixed fields.
 
 ## Features
 
@@ -35,10 +37,18 @@ cookies, and vendor-prefixed fields.
     no `dart:io` / `dart:html`. Works on VM, Web, and ahead-of-time
     targets.
 
+* **High code coverage** — The code in this package has almost 100% code coverage, providing confidence in its reliability and stability.
+
 * **Typed toString() overrides** — all model classes provide a detailed
     `toString()` implementation; required fields are always present,
     while optional null/undefined fields are omitted for cleaner
     debugging and logging.
+
+* **Comprehensive documentation** — This package provides full documentation for public members, usually with examples, ensuring clarity and ease of use.
+
+* **Lightweight** — This package keeps under 300 KB, ensuring it fits within the pub cache limit. This leads to quick, low-bandwidth downloads and faster caching, minimizing resource impact.
+
+* **BSD-3-Clause License** — This package and sources are released under the BSD-3-Clause license, a permissive license that is also used by the Dart and Flutter SDKs. It allows users to use, modify, and distribute the code with minimal restrictions.
 
 ## Getting started
 
@@ -169,8 +179,4 @@ print(entry.custom['_myToolAnnotation']);
 
 * [Chromium DevTools Protocol — Network domain][cdp-network]
 
-[cdp-network]: https://chromedevtools.github.io/devtools-protocol/1-3/Network/
-
-
-## License
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har?ref=badge_large)
+[cdp-network]: https://chromedevtools.github.io/devtools-protocol/1-3/Network

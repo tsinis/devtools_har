@@ -1,3 +1,5 @@
+import 'extensions/map_null_pruning_extension.dart';
+
 /// Convenience alias for a decoded JSON map.
 typedef Json = Map<String, dynamic>;
 
@@ -5,9 +7,7 @@ typedef Json = Map<String, dynamic>;
 sealed class HarUtils {
   /// Apply null filtering based on [includeNulls].
   static Json applyNullPolicy(Json json, {bool includeNulls = false}) =>
-      includeNulls
-      ? json
-      : Json.fromEntries(json.entries.where((entry) => entry.value != null));
+      includeNulls ? json : json.withoutNullValues;
 
   /// Preserve integer types when a numeric value is whole.
   static num? normalizeNumber(num? numb) {

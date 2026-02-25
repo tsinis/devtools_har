@@ -1,8 +1,8 @@
 // ignore_for_file: prefer-class-destructuring, avoid-similar-names
 
+import '../../helpers/har_utils.dart';
 import '../base/har_entry.dart';
 import '../har_object.dart';
-import '../har_utils.dart';
 import 'devtools_har_cookie.dart';
 import 'devtools_har_request.dart';
 import 'devtools_har_response.dart';

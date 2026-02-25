@@ -1,7 +1,7 @@
 // ignore_for_file: no-equal-arguments
 
+import '../../helpers/har_utils.dart';
 import '../har_object.dart';
-import '../har_utils.dart';
 import 'har_cache.dart';
 import 'har_content.dart';
 import 'har_cookie.dart';
@@ -56,7 +56,6 @@ class HarEntry<T extends HarCookie> extends HarObject {
   static HarEntry<T> fromJson<T extends HarCookie>(Json json) =>
       _fromJson<T>(json);
 
-  // ignore: avoid-long-functions, a lot of fields to parse/validate.
   static HarEntry<T> _fromJson<T extends HarCookie>(Json json) {
     final startedDateTimeRaw = json[kStartedDateTime];
     assert(
@@ -92,10 +91,7 @@ class HarEntry<T extends HarCookie> extends HarObject {
           : HarResponse(
               status: 0,
               statusText: '',
-              content: const HarContent(
-                size: 0,
-                mimeType: HarContent.kFallbackMimeType,
-              ),
+              content: const HarContent(size: 0),
               redirectURL: '',
               headersSize: -1,
               bodySize: -1,

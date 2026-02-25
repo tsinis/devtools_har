@@ -1,9 +1,9 @@
 // ignore_for_file: prefer-class-destructuring
 
+import '../../helpers/har_utils.dart';
 import '../base/har_entry.dart';
 import '../base/har_log.dart';
 import '../har_object.dart';
-import '../har_utils.dart';
 import 'devtools_har_entry.dart';
 
 /// Chrome DevTools extension of [HarLog].

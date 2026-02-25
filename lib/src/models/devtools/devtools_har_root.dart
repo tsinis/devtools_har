@@ -1,6 +1,6 @@
+import '../../helpers/har_utils.dart';
 import '../base/har_root.dart';
 import '../har_object.dart';
-import '../har_utils.dart';
 import 'devtools_har_log.dart';
 
 /// Root object that may contain DevTools extras.

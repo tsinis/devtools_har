@@ -1,5 +1,5 @@
+import '../../helpers/har_utils.dart';
 import '../har_object.dart';
-import '../har_utils.dart';
 import 'har_content.dart';
 import 'har_cookie.dart';
 import 'har_header.dart';
@@ -88,7 +88,7 @@ class HarResponse<T extends HarCookie> extends HarObject {
           : const [],
       content: contentRaw is Json
           ? HarContent.fromJson(contentRaw)
-          : const HarContent(size: 0, mimeType: HarContent.kFallbackMimeType),
+          : const HarContent(size: 0),
       redirectURL: json[kRedirectURL]?.toString() ?? '',
       headersSize: num.tryParse(headersSize?.toString() ?? '')?.toInt() ?? -1,
       bodySize: num.tryParse(bodySize?.toString() ?? '')?.toInt() ?? -1,

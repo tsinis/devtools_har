@@ -1,6 +1,8 @@
 /// HAR 1.2 and DevTools HAR models.
 library devtools_har;
 
+export 'src/helpers/extensions/map_null_pruning_extension.dart';
+export 'src/helpers/har_utils.dart';
 export 'src/models/base/har_cache.dart';
 export 'src/models/base/har_content.dart';
 export 'src/models/base/har_cookie.dart';
@@ -27,4 +29,3 @@ export 'src/models/devtools/devtools_har_response.dart';
 export 'src/models/devtools/devtools_har_root.dart';
 export 'src/models/devtools/devtools_har_timings.dart';
 export 'src/models/har_object.dart';
-export 'src/models/har_utils.dart';
