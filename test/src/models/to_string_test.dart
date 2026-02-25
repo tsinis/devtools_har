@@ -59,14 +59,15 @@ void main() => group('toString() overrides', () {
     final now = DateTime.now();
     final cacheEntry = HarCacheEntry(lastAccess: now, eTag: 'abc', hitCount: 5);
     final cache = HarCache(beforeRequest: cacheEntry);
-    expect(cacheEntry.toString(), contains('HarCacheEntry('));
-    expect(cacheEntry.toString(), contains('lastAccess: $now'));
-    expect(cacheEntry.toString(), contains('eTag: abc'));
-    expect(cacheEntry.toString(), contains('hitCount: 5'));
-    expect(
-      cache.toString(),
-      contains('HarCache(beforeRequest: HarCacheEntry('),
-    );
+
+    final entryStr = cacheEntry.toString();
+    expect(entryStr, contains('HarCacheEntry('));
+    expect(entryStr, contains('lastAccess: $now'));
+    expect(entryStr, contains('eTag: abc'));
+    expect(entryStr, contains('hitCount: 5'));
+
+    final cacheStr = cache.toString();
+    expect(cacheStr, contains('HarCache(beforeRequest: HarCacheEntry('));
   });
 
   test('HarTimings', () {
@@ -147,9 +148,11 @@ void main() => group('toString() overrides', () {
       cache: const HarCache(),
       timings: const HarTimings(send: 0, wait: 0, receive: 0),
     );
-    expect(entry.toString(), contains('HarEntry('));
-    expect(entry.toString(), contains('startedDateTime: $now'));
-    expect(entry.toString(), contains('request: HarRequest('));
+
+    final s = entry.toString();
+    expect(s, contains('HarEntry('));
+    expect(s, contains('startedDateTime: $now'));
+    expect(s, contains('request: HarRequest('));
   });
 
   test('HarLog and HarNameVersion', () {
@@ -200,7 +203,11 @@ void main() => group('toString() overrides', () {
   test('DevToolsHarRequest', () {
     final url = Uri.parse('https://example.com');
     final request = DevToolsHarRequest(url: url, headersSize: 100, bodySize: 0);
-    expect(request.toString(), contains('DevToolsHarRequest('));
+
+    final s = request.toString();
+    expect(s, contains('DevToolsHarRequest('));
+    expect(s, contains('https://example.com'));
+    expect(s, contains('headersSize: 100'));
   });
 
   test('DevToolsHarResponse', () {
@@ -251,7 +258,11 @@ void main() => group('toString() overrides', () {
   test('DevToolsHarLog', () {
     const creator = HarCreator(name: 'Tool', version: '1.0');
     const log = DevToolsHarLog(version: '1.2', creator: creator);
-    expect(log.toString(), contains('DevToolsHarLog('));
+
+    final s = log.toString();
+    expect(s, contains('DevToolsHarLog('));
+    expect(s, contains('version: 1.2'));
+    expect(s, contains('creator: HarNameVersion(name: Tool, version: 1.0)'));
   });
 
   test('DevToolsHarRoot', () {

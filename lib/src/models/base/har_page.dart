@@ -81,7 +81,8 @@ class HarPage extends HarObject {
   /// JSON key for the page load timings object (`"pageTimings"`).
   static const kPageTimings = 'pageTimings';
 
-  /// Internal key for preserving the original start timestamp string.
+  /// Public static constant used as a display label in `toString()`.
+  /// This is not a JSON key.
   static const kStartedDateTimeRaw = 'startedDateTimeRaw';
 
   /// Date and time stamp for the beginning of the page load

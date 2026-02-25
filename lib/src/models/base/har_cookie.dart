@@ -83,7 +83,8 @@ class HarCookie extends HarObject {
   /// JSON key for the secure flag (`"secure"`).
   static const kSecure = 'secure';
 
-  /// Internal key for preserving the original expiration string.
+  /// Public static constant used as a display label in `toString()`.
+  /// This is not a JSON key.
   static const kExpiresRaw = 'expiresRaw';
 
   /// The name of the cookie.

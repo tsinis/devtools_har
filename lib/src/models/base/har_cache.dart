@@ -131,10 +131,12 @@ class HarCacheEntry extends HarObject {
   /// JSON key for the cache hit count (`"hitCount"`).
   static const kHitCount = 'hitCount';
 
-  /// Internal key for preserving the original expiration string.
+  /// Public static constant used as a display label in `toString()`.
+  /// This is not a JSON key.
   static const kExpiresRaw = 'expiresRaw';
 
-  /// Internal key for preserving the original last access string.
+  /// Public static constant used as a display label in `toString()`.
+  /// This is not a JSON key.
   static const kLastAccessRaw = 'lastAccessRaw';
 
   /// Expiration time of the cache entry. `null` when not available.

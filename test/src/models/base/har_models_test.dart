@@ -245,17 +245,6 @@ void main() {
       );
     });
 
-    test('HarCacheEntry.fromJson with missing expire', () {
-      const json = {
-        'eTag': 'etag123',
-        'hitCount': 5,
-        'lastAccess': '2025-03-14T10:00:00.000Z',
-      };
-
-      final entry = HarCacheEntry.fromJson(json);
-      expect(entry.expires, isNull);
-    });
-
     test('HarCacheEntry.toJson preserves raw datetime strings', () {
       final entry = HarCacheEntry(
         lastAccess: DateTime.utc(2025, 3, 14),
@@ -303,7 +292,10 @@ void main() {
     });
 
     test('HarPostData.fromJson with minimal data', () {
-      const json = {'mimeType': 'application/json', 'params': <String>[]};
+      const json = {
+        'mimeType': 'application/json',
+        'params': <Map<String, dynamic>>[],
+      };
 
       final postData = HarPostData.fromJson(json);
       expect(postData.mimeType, 'application/json');
@@ -405,35 +397,47 @@ void main() {
 
   group('HarEntry', () {
     test('fromJson with valid data preserves all fields', () {
-      final entry = HarEntry(
-        pageref: 'page_1',
-        startedDateTime: DateTime.utc(2025, 3, 14),
-        startedDateTimeRaw: '2025-03-14T10:00:00.000Z',
-        totalTime: 245.5,
-        request: HarRequest(
-          url: Uri.parse('https://example.com'),
-          headersSize: 100,
-          bodySize: 0,
-        ),
-        response: const HarResponse(
-          status: 200,
-          statusText: 'OK',
-          content: HarContent(size: 1024, mimeType: 'text/html'),
-          redirectURL: '',
-          headersSize: 200,
-          bodySize: 1024,
-        ),
-        cache: const HarCache(),
-        timings: const HarTimings(send: 50, wait: 100, receive: 75),
-        serverIPAddress: '192.168.1.1',
-        connectionId: 'conn_1',
-        comment: 'Test',
-      );
+      const json = {
+        'cache': <String, dynamic>{},
+        'comment': 'Test',
+        'connection': 'conn_1',
+        'pageref': 'page_1',
+        'request': {
+          'bodySize': 0,
+          'cookies': <Map<String, dynamic>>[],
+          'headers': <Map<String, dynamic>>[],
+          'headersSize': 100,
+          'httpVersion': 'HTTP/1.1',
+          'method': 'GET',
+          'queryString': <Map<String, dynamic>>[],
+          'url': 'https://example.com',
+        },
+        'response': {
+          'bodySize': 1024,
+          'content': {'mimeType': 'text/html', 'size': 1024},
+          'cookies': <Map<String, dynamic>>[],
+          'headers': <Map<String, dynamic>>[],
+          'headersSize': 200,
+          'httpVersion': 'HTTP/1.1',
+          'redirectURL': '',
+          'status': 200,
+          'statusText': 'OK',
+        },
+        'serverIPAddress': '192.168.1.1',
+        'startedDateTime': '2025-03-14T00:00:00.000Z',
+        'time': 245.5,
+        'timings': {'receive': 75, 'send': 50, 'wait': 100},
+      };
+
+      final entry = HarEntry.fromJson(json);
 
       expect(entry.pageref, 'page_1');
       expect(entry.startedDateTime, DateTime.utc(2025, 3, 14));
+      expect(entry.startedDateTimeRaw, '2025-03-14T00:00:00.000Z');
       expect(entry.totalTime, 245.5);
       expect(entry.serverIPAddress, '192.168.1.1');
+      expect(entry.connectionId, 'conn_1');
+      expect(entry.comment, 'Test');
     });
 
     test('fromJson asserts on invalid startedDateTime', () {

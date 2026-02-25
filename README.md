@@ -34,8 +34,9 @@ cookies, and vendor-prefixed fields.
     targets.
 
 * **Typed toString() overrides** — all model classes provide a detailed
-    `toString()` implementation that only includes non-null fields for
-    easier debugging and logging.
+    `toString()` implementation; required fields are always present,
+    while optional null/undefined fields are omitted for cleaner
+    debugging and logging.
 
 ## Getting started
 
