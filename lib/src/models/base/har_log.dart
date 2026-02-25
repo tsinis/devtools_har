@@ -30,7 +30,7 @@ class HarLog<T extends HarEntry> extends HarObject {
   /// Deserialises a [HarLog] from a decoded JSON map.
   ///
   /// Required fields ([version], [creator], [entries]) are guarded
-  /// by [assert]s that fire in debug mode. In release builds missing
+  /// by asserts that fire in debug mode. In release builds missing
   /// keys fall back to safe defaults (`"1.2"` for version, empty
   /// list for entries). The [creator] field must be a valid JSON
   /// object — if it is missing or has the wrong type, the assertion

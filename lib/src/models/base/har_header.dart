@@ -21,7 +21,7 @@ class HarHeader extends HarObject {
 
   /// Deserialises a [HarHeader] from a decoded JSON map.
   ///
-  /// Required fields ([name], [value]) are guarded by [assert]s
+  /// Required fields ([name], [value]) are guarded by asserts
   /// that fire in debug mode. In release builds, missing keys
   /// fall back to empty strings.
   factory HarHeader.fromJson(Json json) => _fromJson(json);

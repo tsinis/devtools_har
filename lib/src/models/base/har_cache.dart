@@ -70,7 +70,7 @@ class HarCache extends HarObject {
 /// `afterRequest` in the HAR 1.2 cache object.
 ///
 /// Required fields ([lastAccess], [eTag], [hitCount]) are validated
-/// with [assert] so that malformed input is caught during
+/// with assert so that malformed input is caught during
 /// development, while release builds degrade gracefully with safe
 /// defaults.
 // Reference: http://www.softwareishard.com/blog/har-12-spec/#cache.

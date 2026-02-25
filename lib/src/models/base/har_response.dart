@@ -38,7 +38,7 @@ class HarResponse<T extends HarCookie> extends HarObject {
 
   /// Deserialises a [HarResponse] from a decoded JSON map.
   ///
-  /// Required fields are guarded by [assert]s in debug mode.
+  /// Required fields are guarded by asserts in debug mode.
   /// In release builds missing or mis-typed values fall back to
   /// safe defaults (`0` for [status], empty string for text fields,
   /// `-1` for sizes, empty lists for arrays).

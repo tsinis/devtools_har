@@ -41,7 +41,7 @@ class HarEntry<T extends HarCookie> extends HarObject {
   /// Deserialises a [HarEntry] from a decoded JSON map.
   ///
   /// Required fields ([startedDateTime], [request], [response],
-  /// [cache], [timings]) are validated with [assert] so that
+  /// [cache], [timings]) are validated with assert so that
   /// malformed input is caught during development, while release
   /// builds degrade gracefully with safe defaults.
   ///

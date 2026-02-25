@@ -38,7 +38,7 @@ class HarRequest<T extends HarCookie> extends HarObject {
 
   /// Deserialises a [HarRequest] from a decoded JSON map.
   ///
-  /// Required fields are validated with [assert] so that malformed
+  /// Required fields are validated with assert so that malformed
   /// input is caught during development while still allowing
   /// graceful degradation in release builds.
   ///
