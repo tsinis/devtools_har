@@ -20,7 +20,7 @@ class HarContent extends HarObject {
     this.text,
     this.encoding,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarContent] from a decoded JSON map.
@@ -124,4 +124,8 @@ class HarContent extends HarObject {
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() =>
+      '''HarContent(${['$kSize: $size', '$kMimeType: $mimeType', if (compression != null) '$kCompression: $compression', if (text != null) '$kText: $text', if (encoding != null) '$kEncoding: $encoding', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }

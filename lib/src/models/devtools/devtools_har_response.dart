@@ -1,6 +1,7 @@
 // ignore_for_file: prefer-class-destructuring
 
 import '../base/har_response.dart';
+import '../har_object.dart';
 import '../har_utils.dart';
 import 'devtools_har_cookie.dart';
 import 'devtools_har_entry.dart';
@@ -34,14 +35,14 @@ class DevToolsHarResponse extends HarResponse<DevToolsHarCookie> {
     required super.status,
     required super.statusText,
     required super.httpVersion,
-    required super.cookies,
-    required super.headers,
     required super.content,
     required super.redirectURL,
     required super.headersSize,
     required super.bodySize,
+    super.cookies,
+    super.headers,
     super.comment,
-    super.custom = const {},
+    super.custom,
     this.transferSize,
     this.error,
   });
@@ -108,4 +109,8 @@ class DevToolsHarResponse extends HarResponse<DevToolsHarCookie> {
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() =>
+      '''DevToolsHarResponse(${['${HarResponse.kStatus}: $status', '${HarResponse.kStatusText}: $statusText', '${HarResponse.kHttpVersion}: $httpVersion', '${HarResponse.kCookies}: $cookies', '${HarResponse.kHeaders}: $headers', '${HarResponse.kContent}: $content', '${HarResponse.kRedirectURL}: $redirectURL', '${HarResponse.kHeadersSize}: $headersSize', '${HarResponse.kBodySize}: $bodySize', if (transferSize != null) '$kTransferSize: $transferSize', if (error != null) '$kError: $error', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }

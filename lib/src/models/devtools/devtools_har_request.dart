@@ -1,6 +1,7 @@
 // ignore_for_file: prefer-class-destructuring
 
 import '../base/har_request.dart';
+import '../har_object.dart';
 import '../har_utils.dart';
 import 'devtools_har_cookie.dart';
 import 'devtools_har_entry.dart';
@@ -26,17 +27,17 @@ import 'devtools_har_entry.dart';
 class DevToolsHarRequest extends HarRequest<DevToolsHarCookie> {
   /// Creates a [DevToolsHarRequest] for DevTools cookie parsing.
   const DevToolsHarRequest({
-    required super.method,
     required super.url,
-    required super.httpVersion,
-    required super.cookies,
-    required super.headers,
-    required super.queryString,
     required super.headersSize,
     required super.bodySize,
+    super.method,
+    super.httpVersion,
+    super.cookies,
+    super.headers,
+    super.queryString,
     super.postData,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [DevToolsHarRequest] from a decoded JSON map.
@@ -67,4 +68,9 @@ class DevToolsHarRequest extends HarRequest<DevToolsHarCookie> {
       custom: HarUtils.collectCustom(json),
     );
   }
+
+  @override
+  String toString() =>
+      // ignore: avoid-default-tostring, it's enum.
+      '''DevToolsHarRequest(${['${HarRequest.kMethod}: $method', '${HarRequest.kUrl}: $url', '${HarRequest.kHttpVersion}: $httpVersion', '${HarRequest.kCookies}: $cookies', '${HarRequest.kHeaders}: $headers', '${HarRequest.kQueryString}: $queryString', if (postData != null) '${HarRequest.kPostData}: $postData', '${HarRequest.kHeadersSize}: $headersSize', '${HarRequest.kBodySize}: $bodySize', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }

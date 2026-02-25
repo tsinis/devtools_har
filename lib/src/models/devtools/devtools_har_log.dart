@@ -2,6 +2,7 @@
 
 import '../base/har_entry.dart';
 import '../base/har_log.dart';
+import '../har_object.dart';
 import '../har_utils.dart';
 import 'devtools_har_entry.dart';
 
@@ -24,18 +25,16 @@ class DevToolsHarLog extends HarLog<DevToolsHarEntry> {
   /// Creates a [DevToolsHarLog] with all [HarLog] fields.
   ///
   /// [entries] should contain [DevToolsHarEntry] instances to
-  /// benefit from typed DevTools fields.
+  /// benefit from typed DevTools fields. Defaults to an empty list.
   const DevToolsHarLog({
     required super.version,
     required super.creator,
-    required super.entries,
+    super.entries = const [],
     super.browser,
     super.pages = const [],
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
-
-  /// Deserialises a [DevToolsHarLog] from a decoded JSON map.
 
   /// Deserialises a [DevToolsHarLog] from a decoded JSON map.
   ///
@@ -64,4 +63,8 @@ class DevToolsHarLog extends HarLog<DevToolsHarEntry> {
       custom: HarUtils.collectCustom(json),
     );
   }
+
+  @override
+  String toString() =>
+      '''DevToolsHarLog(${['${HarLog.kVersion}: $version', '${HarLog.kCreator}: $creator', if (browser != null) '${HarLog.kBrowser}: $browser', if (pages.isNotEmpty) '${HarLog.kPages}: $pages', '${HarLog.kEntries}: $entries', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }

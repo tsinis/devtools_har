@@ -14,7 +14,7 @@ class HarCache extends HarObject {
     this.beforeRequest,
     this.afterRequest,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarCache] from a decoded JSON map.
@@ -59,6 +59,10 @@ class HarCache extends HarObject {
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() =>
+      '''HarCache(${[if (beforeRequest != null) '$kBeforeRequest: $beforeRequest', if (afterRequest != null) '$kAfterRequest: $afterRequest', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }
 
 /// State of a cache entry (before or after the request).
@@ -83,7 +87,7 @@ class HarCacheEntry extends HarObject {
     this.expiresRaw,
     this.lastAccessRaw,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarCacheEntry] from a decoded JSON map.
@@ -127,6 +131,14 @@ class HarCacheEntry extends HarObject {
   /// JSON key for the cache hit count (`"hitCount"`).
   static const kHitCount = 'hitCount';
 
+  /// Public static constant used as a display label in `toString()`.
+  /// This is not a JSON key.
+  static const kExpiresRaw = 'expiresRaw';
+
+  /// Public static constant used as a display label in `toString()`.
+  /// This is not a JSON key.
+  static const kLastAccessRaw = 'lastAccessRaw';
+
   /// Expiration time of the cache entry. `null` when not available.
   final DateTime? expires;
 
@@ -156,4 +168,8 @@ class HarCacheEntry extends HarObject {
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() =>
+      '''HarCacheEntry(${[if (expires != null) '$kExpires: $expires', if (expiresRaw != null) '$kExpiresRaw: $expiresRaw', '$kLastAccess: $lastAccess', if (lastAccessRaw != null) '$kLastAccessRaw: $lastAccessRaw', '$kETag: $eTag', '$kHitCount: $hitCount', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }

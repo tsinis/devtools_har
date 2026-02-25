@@ -1,6 +1,7 @@
 // ignore_for_file: prefer-class-destructuring
 
 import '../base/har_cookie.dart';
+import '../har_object.dart';
 import '../har_utils.dart';
 import 'cookie_same_site.dart';
 
@@ -32,7 +33,7 @@ class DevToolsHarCookie extends HarCookie {
     super.httpOnly,
     super.secure,
     super.comment,
-    super.custom = const {},
+    super.custom,
     this.sameSite,
   });
 
@@ -80,4 +81,9 @@ class DevToolsHarCookie extends HarCookie {
     {...super.toJson(includeNulls: includeNulls), kSameSite: sameSite?.value},
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() =>
+      // ignore: avoid-default-tostring, it's enum.
+      '''DevToolsHarCookie(${['${HarCookie.kName}: $name', '${HarCookie.kValue}: $value', if (path != null) '${HarCookie.kPath}: $path', if (domain != null) '${HarCookie.kDomain}: $domain', if (expires != null) '${HarCookie.kExpires}: $expires', if (expiresRaw != null) '${HarCookie.kExpiresRaw}: $expiresRaw', if (httpOnly != null) '${HarCookie.kHttpOnly}: $httpOnly', if (secure != null) '${HarCookie.kSecure}: $secure', if (sameSite != null) '$kSameSite: $sameSite', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }

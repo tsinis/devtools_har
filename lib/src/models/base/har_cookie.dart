@@ -23,13 +23,12 @@ class HarCookie extends HarObject {
     this.httpOnly,
     this.secure,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarCookie] from a decoded JSON map.
   ///
-  /// Throws a [FormatException] if the required `name` or `value` keys
-  /// are missing or `null`.
+  /// Asserts if the required `name` or `value` keys are missing or `null`.
   /// The [expires] string is parsed via [HarUtils.optionalDateTime].
   factory HarCookie.fromJson(Json json) => _fromJson(json);
 
@@ -84,6 +83,10 @@ class HarCookie extends HarObject {
   /// JSON key for the secure flag (`"secure"`).
   static const kSecure = 'secure';
 
+  /// Public static constant used as a display label in `toString()`.
+  /// This is not a JSON key.
+  static const kExpiresRaw = 'expiresRaw';
+
   /// The name of the cookie.
   ///
   /// Required by the HAR 1.2 spec.
@@ -136,4 +139,8 @@ class HarCookie extends HarObject {
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() =>
+      '''HarCookie(${['$kName: $name', '$kValue: $value', if (path != null) '$kPath: $path', if (domain != null) '$kDomain: $domain', if (expires != null) '$kExpires: $expires', if (expiresRaw != null) '$kExpiresRaw: $expiresRaw', if (httpOnly != null) '$kHttpOnly: $httpOnly', if (secure != null) '$kSecure: $secure', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }

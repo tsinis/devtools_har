@@ -20,7 +20,7 @@ class HarNameVersion extends HarObject {
     required this.name,
     required this.version,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarNameVersion] from a decoded JSON map.
@@ -68,6 +68,10 @@ class HarNameVersion extends HarObject {
     {kName: name, kVersion: version, ...commonJson(includeNulls: includeNulls)},
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() =>
+      '''HarNameVersion(${['$kName: $name', '$kVersion: $version', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }
 
 /// Creator application info (alias for [HarNameVersion]).

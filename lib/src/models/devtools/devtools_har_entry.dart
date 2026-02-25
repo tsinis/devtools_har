@@ -1,6 +1,7 @@
 // ignore_for_file: prefer-class-destructuring, avoid-similar-names
 
 import '../base/har_entry.dart';
+import '../har_object.dart';
 import '../har_utils.dart';
 import 'devtools_har_cookie.dart';
 import 'devtools_har_request.dart';
@@ -28,7 +29,7 @@ class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
     super.connectionId,
     super.startedDateTimeRaw,
     super.comment,
-    super.custom = const {},
+    super.custom,
     this.fromCache,
     this.fromServiceWorker,
     this.initiator,
@@ -152,4 +153,8 @@ class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() =>
+      '''DevToolsHarEntry(${[if (pageref != null) '${HarEntry.kPageref}: $pageref', '${HarEntry.kStartedDateTime}: $startedDateTime', if (startedDateTimeRaw != null) '${HarEntry.kStartedDateTimeRaw}: $startedDateTimeRaw', '${HarEntry.kTime}: $totalTime', '${HarEntry.kRequest}: $request', '${HarEntry.kResponse}: $response', '${HarEntry.kCache}: $cache', '${HarEntry.kTimings}: $timings', if (serverIPAddress != null) '${HarEntry.kServerIPAddress}: $serverIPAddress', if (connectionId != null) '${HarEntry.kConnection}: $connectionId', if (fromCache != null) '$kFromCache: $fromCache', if (fromServiceWorker != null) '$kFromServiceWorker: $fromServiceWorker', if (initiator != null) '$kInitiator: $initiator', if (priority != null) '$kPriority: $priority', if (resourceType != null) '$kResourceType: $resourceType', if (webSocketMessages != null) '$kWebSocketMessages: $webSocketMessages', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }

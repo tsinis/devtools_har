@@ -45,7 +45,7 @@ class HarTimings extends HarObject {
     this.connect,
     this.ssl,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarTimings] from a decoded JSON map.
@@ -69,10 +69,7 @@ class HarTimings extends HarObject {
 
     assert(send >= 0, 'HarTimings: "$kSend" must be non-negative, got $send');
     assert(wait >= 0, 'HarTimings: "$kWait" must be non-negative, got $wait');
-    assert(
-      receive >= 0,
-      'HarTimings: "$kReceive" must be non-negative, got $receive',
-    );
+    assert(receive >= 0, '"$kReceive" must be non-negative got $receive');
 
     return HarTimings(
       blocked: num.tryParse(json[kBlocked]?.toString() ?? '')?.toDouble(),
@@ -206,4 +203,8 @@ class HarTimings extends HarObject {
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() =>
+      '''HarTimings(${[if (blocked != null) '$kBlocked: $blocked', if (dns != null) '$kDns: $dns', if (connect != null) '$kConnect: $connect', '$kSend: $send', '$kWait: $wait', '$kReceive: $receive', if (ssl != null) '$kSsl: $ssl', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }

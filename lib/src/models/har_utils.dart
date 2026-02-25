@@ -4,7 +4,7 @@ typedef Json = Map<String, dynamic>;
 /// Utility functions for HAR JSON processing.
 sealed class HarUtils {
   /// Apply null filtering based on [includeNulls].
-  static Json applyNullPolicy(Json json, {required bool includeNulls}) =>
+  static Json applyNullPolicy(Json json, {bool includeNulls = false}) =>
       includeNulls
       ? json
       : Json.fromEntries(json.entries.where((entry) => entry.value != null));

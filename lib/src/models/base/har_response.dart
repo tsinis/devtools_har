@@ -26,15 +26,15 @@ class HarResponse<T extends HarCookie> extends HarObject {
   const HarResponse({
     required this.status,
     required this.statusText,
-    required this.httpVersion,
-    required this.cookies,
-    required this.headers,
     required this.content,
     required this.redirectURL,
     required this.headersSize,
     required this.bodySize,
+    this.headers = const [],
+    this.cookies = const [],
+    this.httpVersion = HarObject.kDefaultHttpVersion,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarResponse] from a decoded JSON map.
@@ -81,7 +81,8 @@ class HarResponse<T extends HarCookie> extends HarObject {
     return HarResponse(
       status: num.tryParse(status?.toString() ?? '')?.toInt() ?? 0,
       statusText: json[kStatusText]?.toString() ?? '',
-      httpVersion: json[kHttpVersion]?.toString() ?? '',
+      httpVersion:
+          json[kHttpVersion]?.toString() ?? HarObject.kDefaultHttpVersion,
       cookies: List<T>.from(cookiesList),
       headers: headers is List
           ? headers.whereType<Json>().map(HarHeader.fromJson).toList()
@@ -188,4 +189,8 @@ class HarResponse<T extends HarCookie> extends HarObject {
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() =>
+      '''HarResponse(${['$kStatus: $status', '$kStatusText: $statusText', '$kHttpVersion: $httpVersion', '$kCookies: $cookies', '$kHeaders: $headers', '$kContent: $content', '$kRedirectURL: $redirectURL', '$kHeadersSize: $headersSize', '$kBodySize: $bodySize', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }

@@ -23,7 +23,7 @@ class HarPage extends HarObject {
     required this.pageTimings,
     this.startedDateTimeRaw,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarPage] from a decoded JSON map.
@@ -34,7 +34,7 @@ class HarPage extends HarObject {
   ///
   /// [startedDateTime] is parsed via [DateTime.tryParse]; if the
   /// value is absent or unparseable it defaults to
-  /// [DateTime.timestamp] (UTC now).
+  /// [DateTime.utc(0)] (Unix epoch).
   factory HarPage.fromJson(Json json) => _fromJson(json);
 
   static HarPage _fromJson(Json json) {
@@ -57,8 +57,7 @@ class HarPage extends HarObject {
 
     return HarPage(
       startedDateTime:
-          DateTime.tryParse(startedDateTimeString ?? '') ??
-          DateTime.timestamp(),
+          DateTime.tryParse(startedDateTimeString ?? '') ?? DateTime.utc(0),
       startedDateTimeRaw: startedDateTimeString,
       id: idRaw?.toString() ?? '',
       title: titleRaw?.toString() ?? '',
@@ -81,6 +80,10 @@ class HarPage extends HarObject {
 
   /// JSON key for the page load timings object (`"pageTimings"`).
   static const kPageTimings = 'pageTimings';
+
+  /// Public static constant used as a display label in `toString()`.
+  /// This is not a JSON key.
+  static const kStartedDateTimeRaw = 'startedDateTimeRaw';
 
   /// Date and time stamp for the beginning of the page load
   /// (ISO 8601 format).
@@ -122,6 +125,10 @@ class HarPage extends HarObject {
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() =>
+      '''HarPage(${['$kStartedDateTime: $startedDateTime', if (startedDateTimeRaw != null) '$kStartedDateTimeRaw: $startedDateTimeRaw', '$kId: $id', '$kTitle: $title', '$kPageTimings: $pageTimings', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }
 
 /// Page-level load timing milestones.
@@ -146,7 +153,7 @@ class HarPageTimings extends HarObject {
     this.onContentLoad,
     this.onLoad,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarPageTimings] from a decoded JSON map.
@@ -199,4 +206,8 @@ class HarPageTimings extends HarObject {
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() =>
+      '''HarPageTimings(${[if (onContentLoad != null) '$kOnContentLoad: $onContentLoad', if (onLoad != null) '$kOnLoad: $onLoad', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }

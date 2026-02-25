@@ -13,4 +13,4 @@ Provide a link to a PR/Commit that you are looking to revert and why.
 
 - [ ] Change has been reverted.
 - [ ] No change in unit/widget test coverage has happened.
-- [ ] A new ticket is created for any follow on work that needs to happen.
+- [ ] A new ticket is created for any follow-on work that needs to happen.

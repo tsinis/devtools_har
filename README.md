@@ -33,6 +33,11 @@ cookies, and vendor-prefixed fields.
     no `dart:io` / `dart:html`. Works on VM, Web, and ahead-of-time
     targets.
 
+* **Typed toString() overrides** — all model classes provide a detailed
+    `toString()` implementation; required fields are always present,
+    while optional null/undefined fields are omitted for cleaner
+    debugging and logging.
+
 ## Getting started
 
 ```yaml
@@ -91,7 +96,6 @@ final entry = HarEntry(
     method: HttpMethod.get,
     url: Uri.parse('https://api.example.com/v1/vehicles'),
     httpVersion: 'HTTP/1.1',
-    cookies: [cookie],
     headers: [],
     queryString: [],
     headersSize: -1,
@@ -135,37 +139,6 @@ assert(jsonEncode(cookie.toJson()).contains('Sun, 15 Jul 2012'));
 ```
 
 ## Architecture
-
-```graph
-devtools_har/
-└─ lib/
-   ├─ devtools_har.dart          # barrel export
-   └─ src/
-      ├─ base/                   # HAR 1.2 spec models
-      │  ├─ har_log.dart
-      │  ├─ har_entry.dart
-      │  ├─ har_request.dart
-      │  ├─ har_response.dart
-      │  ├─ har_cookie.dart
-      │  ├─ har_header.dart
-      │  ├─ har_query_param.dart
-      │  ├─ har_post_data.dart
-      │  ├─ har_content.dart
-      │  ├─ har_cache.dart
-      │  ├─ har_timings.dart
-      │  ├─ har_page.dart
-      │  ├─ har_page_timings.dart
-      │  └─ http_method.dart
-      ├─ devtools/               # Browser DevTools extensions
-      │  ├─ devtools_har_log.dart
-      │  ├─ devtools_har_entry.dart
-      │  ├─ devtools_har_request.dart
-      │  ├─ devtools_har_response.dart
-      │  ├─ devtools_har_cookie.dart
-      │  └─ devtools_har_timings.dart
-      ├─ har_object.dart         # shared base (comment, custom)
-      └─ har_utils.dart          # parsing & serialization helpers
-```
 
 The base models handle everything defined by the HAR 1.2 specification.
 The `devtools/` layer extends each model with `_`-prefixed fields that

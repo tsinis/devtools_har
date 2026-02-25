@@ -12,7 +12,7 @@ class HarQueryParam extends HarObject {
     required this.name,
     required this.value,
     super.comment,
-    super.custom = const {},
+    super.custom,
   });
 
   /// Deserialises a [HarQueryParam] from a decoded JSON map.
@@ -61,4 +61,8 @@ class HarQueryParam extends HarObject {
     {kName: name, kValue: value, ...commonJson(includeNulls: includeNulls)},
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
+
+  @override
+  String toString() =>
+      '''HarQueryParam(${['$kName: $name', '$kValue: $value', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }
