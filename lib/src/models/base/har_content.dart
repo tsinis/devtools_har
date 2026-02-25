@@ -6,8 +6,7 @@ import '../har_utils.dart';
 /// Describes the response body and its encoding. The [size] reflects the
 /// uncompressed length; when the payload was compressed on the wire,
 /// [compression] indicates how many bytes were saved.
-///
-/// Reference: http://www.softwareishard.com/blog/har-12-spec/#content.
+// Reference: http://www.softwareishard.com/blog/har-12-spec/#content.
 class HarContent extends HarObject {
   /// Creates a [HarContent] with the given field values.
   ///

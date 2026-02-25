@@ -9,8 +9,7 @@ import 'har_entry.dart' show HarEntry;
 /// Each page groups related [HarEntry] objects via its [id], which
 /// entries reference through their `pageref` field. The [pageTimings]
 /// object describes high-level page load milestones.
-///
-/// Reference: http://www.softwareishard.com/blog/har-12-spec/#pages
+// Reference: http://www.softwareishard.com/blog/har-12-spec/#pages
 class HarPage extends HarObject {
   /// Creates a [HarPage] with the given field values.
   ///
@@ -142,8 +141,7 @@ class HarPage extends HarObject {
 /// Like other HAR timing fields, `-1` means "does not apply to
 /// the current request" and is semantically distinct from `null`
 /// (field absent).
-///
-/// Reference: http://www.softwareishard.com/blog/har-12-spec/#pageTimings
+// Reference: http://www.softwareishard.com/blog/har-12-spec/#pageTimings.
 // ignore: prefer-single-declaration-per-file, they are closely related.
 class HarPageTimings extends HarObject {
   /// Creates a [HarPageTimings] with the given field values.

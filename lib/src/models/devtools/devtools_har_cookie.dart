@@ -8,8 +8,7 @@ import 'cookie_same_site.dart';
 /// A Chrome DevTools extension of [HarCookie] that adds the
 /// [`sameSite`][CookieSameSite] attribute.
 ///
-/// The `sameSite` field is not part of the
-/// [HAR 1.2 specification](http://www.softwareishard.com/blog/har-12-spec/#cookies),
+/// The `sameSite` field is not part of the HAR 1.2 specification
 /// but is commonly present in HAR files exported by Chrome DevTools,
 /// which extends the cookie object with:
 ///

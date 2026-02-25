@@ -6,8 +6,7 @@ import '../har_utils.dart';
 /// Models the "cache" object defined in the HAR 1.2 specification.
 /// Both [beforeRequest] and [afterRequest] are optional and may be
 /// `null` to indicate the information is not available.
-///
-/// Reference: http://www.softwareishard.com/blog/har-12-spec/#cache
+// Reference: http://www.softwareishard.com/blog/har-12-spec/#cache
 class HarCache extends HarObject {
   /// Creates a [HarCache] container for cache metadata.
   const HarCache({
@@ -74,8 +73,7 @@ class HarCache extends HarObject {
 /// with [assert] so that malformed input is caught during
 /// development, while release builds degrade gracefully with safe
 /// defaults.
-///
-/// Reference: http://www.softwareishard.com/blog/har-12-spec/#cache
+// Reference: http://www.softwareishard.com/blog/har-12-spec/#cache.
 // ignore: prefer-single-declaration-per-file, they are closely related.
 class HarCacheEntry extends HarObject {
   /// Creates a [HarCacheEntry] describing one cache state snapshot.

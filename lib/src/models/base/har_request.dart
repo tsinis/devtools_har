@@ -18,8 +18,7 @@ import 'http_method.dart';
 /// The class is generic over the cookie type [T] so that sub-classes
 /// (e.g. a DevTools variant) can substitute a richer cookie model
 /// without duplicating parsing logic.
-///
-/// Reference: http://www.softwareishard.com/blog/har-12-spec/#request
+// Reference: http://www.softwareishard.com/blog/har-12-spec/#request
 class HarRequest<T extends HarCookie> extends HarObject {
   /// Creates a [HarRequest] for a HAR 1.2 request, applying defaults for
   /// spec-required fields when they are omitted.
@@ -50,8 +49,7 @@ class HarRequest<T extends HarCookie> extends HarObject {
   /// Numeric sizes ([headersSize], [bodySize]) are parsed to [int]
   /// via `num.tryParse` because byte counts are inherently integral.
   /// They default to `-1` ("not available") when missing or invalid.
-  ///
-  /// Reference: http://www.softwareishard.com/blog/har-12-spec/#request
+  // Reference: http://www.softwareishard.com/blog/har-12-spec/#request
   static HarRequest<T> fromJson<T extends HarCookie>(Json json) =>
       _fromJson<T>(json);
 

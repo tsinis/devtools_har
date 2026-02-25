@@ -10,8 +10,7 @@ import '../har_utils.dart';
 /// The `creator` field is required on every HAR log and identifies
 /// the tool that produced the file. The `browser` field is optional
 /// and identifies the browser that generated the traffic.
-///
-/// Reference: http://www.softwareishard.com/blog/har-12-spec/#creator
+// Reference: http://www.softwareishard.com/blog/har-12-spec/#creator
 class HarNameVersion extends HarObject {
   /// Creates a [HarNameVersion] with the given field values.
   ///

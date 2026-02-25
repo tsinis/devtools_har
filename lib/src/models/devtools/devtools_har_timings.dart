@@ -27,8 +27,7 @@ import '../har_utils.dart';
 ///
 /// Note: these values are sub-components of [blocked] — they should
 /// not be added to the [time] sum separately.
-///
-/// Reference: http://www.softwareishard.com/blog/har-12-spec/#timings
+// Reference: http://www.softwareishard.com/blog/har-12-spec/#timings
 class DevToolsHarTimings extends HarTimings {
   /// Creates a [DevToolsHarTimings] with all [HarTimings] fields
   /// plus the optional [blockedQueueing] and [blockedProxy]

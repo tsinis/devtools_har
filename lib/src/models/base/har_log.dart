@@ -10,8 +10,7 @@ import 'har_page.dart';
 ///
 /// This is the root of all exported data. Every conforming HAR file
 /// contains exactly one `log` object.
-///
-/// Reference: http://www.softwareishard.com/blog/har-12-spec/#log
+// Reference: http://www.softwareishard.com/blog/har-12-spec/#log
 class HarLog<T extends HarEntry> extends HarObject {
   /// Creates a [HarLog] with the given field values.
   ///

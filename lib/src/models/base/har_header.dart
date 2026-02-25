@@ -7,8 +7,7 @@ import '../har_utils.dart';
 ///
 /// Used in both `<request>` and `<response>` objects to represent
 /// individual HTTP headers.
-///
-/// Reference: http://www.softwareishard.com/blog/har-12-spec/#headers
+// Reference: http://www.softwareishard.com/blog/har-12-spec/#headers
 class HarHeader extends HarObject {
   /// Creates a [HarHeader] with the given field values.
   ///
