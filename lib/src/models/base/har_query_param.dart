@@ -1,5 +1,5 @@
+import '../../helpers/har_utils.dart';
 import '../har_object.dart';
-import '../har_utils.dart';
 
 /// A single query-string parameter from a request URL.
 // Reference: http://www.softwareishard.com/blog/har-12-spec/#queryString

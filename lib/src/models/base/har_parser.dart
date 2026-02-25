@@ -1,6 +1,6 @@
 import 'dart:convert' show JsonCodec;
 
-import '../har_utils.dart';
+import '../../helpers/har_utils.dart';
 import 'har_root.dart';
 
 /// Simple parser that works with HAR 1.2 files.

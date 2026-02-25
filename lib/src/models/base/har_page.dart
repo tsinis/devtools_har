@@ -1,5 +1,5 @@
+import '../../helpers/har_utils.dart';
 import '../har_object.dart';
-import '../har_utils.dart';
 import 'har_entry.dart' show HarEntry;
 
 /// An exported page and its load timings.

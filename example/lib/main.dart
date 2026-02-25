@@ -43,7 +43,7 @@ void main(List<String> args) {
     response: const HarResponse(
       status: 200,
       statusText: 'OK',
-      content: HarContent(size: 0, mimeType: HarContent.kFallbackMimeType),
+      content: HarContent(size: 0),
       redirectURL: '',
       headersSize: -1,
       bodySize: 0,

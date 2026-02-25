@@ -1,5 +1,5 @@
+import '../../helpers/har_utils.dart';
 import '../har_object.dart';
-import '../har_utils.dart';
 import 'har_cookie.dart';
 import 'har_header.dart';
 import 'har_post_data.dart';

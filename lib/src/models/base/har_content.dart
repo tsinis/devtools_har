@@ -1,5 +1,5 @@
+import '../../helpers/har_utils.dart';
 import '../har_object.dart';
-import '../har_utils.dart';
 
 /// Details about response content (embedded in the `response` object).
 ///
@@ -10,11 +10,10 @@ import '../har_utils.dart';
 class HarContent extends HarObject {
   /// Creates a [HarContent] with the given field values.
   ///
-  /// [size] and [mimeType] are required by the HAR 1.2 spec.
-  /// All other parameters are optional.
+  /// [size] is required by the HAR 1.2 spec. All other parameters are optional.
   const HarContent({
     required this.size,
-    required this.mimeType,
+    this.mimeType = kFallbackMimeType,
     this.compression,
     this.text,
     this.encoding,

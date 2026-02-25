@@ -1,5 +1,5 @@
+import '../../helpers/har_utils.dart';
 import '../har_object.dart';
-import '../har_utils.dart';
 import 'har_log.dart';
 
 /// Root object — contains a single [HarLog].

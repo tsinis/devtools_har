@@ -1,5 +1,5 @@
+import '../../helpers/har_utils.dart';
 import '../har_object.dart';
-import '../har_utils.dart';
 
 /// Common "name / version / comment" structure shared by the
 /// `creator` and `browser` objects in the HAR log.

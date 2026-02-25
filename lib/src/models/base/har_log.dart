@@ -1,5 +1,5 @@
+import '../../helpers/har_utils.dart';
 import '../har_object.dart';
-import '../har_utils.dart';
 import 'har_entry.dart';
 import 'har_name_version.dart';
 import 'har_page.dart';

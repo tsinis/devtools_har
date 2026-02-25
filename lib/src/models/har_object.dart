@@ -1,4 +1,4 @@
-import 'har_utils.dart';
+import '../helpers/har_utils.dart';
 
 /// Base class for all HAR objects that expose `comment` and custom fields.
 abstract class HarObject {
