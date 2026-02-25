@@ -1,4 +1,6 @@
 # devtools_har
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har?ref=badge_shield)
+
 
 HAR 1.2 and browser DevTools-extended typed models for Dart.
 Full coverage of log, entries, requests, responses, timings, cache,
@@ -168,3 +170,7 @@ print(entry.custom['_myToolAnnotation']);
 * [Chromium DevTools Protocol — Network domain][cdp-network]
 
 [cdp-network]: https://chromedevtools.github.io/devtools-protocol/1-3/Network/
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har?ref=badge_large)
