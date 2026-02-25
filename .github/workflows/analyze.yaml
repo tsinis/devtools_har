@@ -56,3 +56,10 @@ jobs:
       - name: 🏜️ Publish - dry run
         if: ${{ github.event_name == 'pull_request' }}
         run: dart pub publish --dry-run
+
+      - name: 🧮 Check PANA score
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          sudo apt-get install webp
+          dart pub global activate pana
+          dart pub global run pana . --no-warning --exit-code-threshold 0
