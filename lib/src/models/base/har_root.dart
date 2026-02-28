@@ -12,7 +12,7 @@ import 'har_log.dart';
 /// ```
 class HarRoot<T extends HarLog> extends HarObject {
   /// Creates a [HarRoot] wrapping a single [HarLog].
-  const HarRoot({required this.log, super.comment, super.custom = const {}});
+  const HarRoot({required this.log, super.comment, super.custom});
 
   /// Deserialises a [HarRoot] from a decoded JSON map.
   factory HarRoot.fromJson(Json json) => _fromJson<T>(json);

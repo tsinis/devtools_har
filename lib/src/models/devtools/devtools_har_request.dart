@@ -52,22 +52,26 @@ class DevToolsHarRequest extends HarRequest<DevToolsHarCookie> {
   });
 
   /// Creates a [DevToolsHarRequest] from an existing [HarRequest],
-  /// copying all base fields and substituting [cookies] with
-  /// [DevToolsHarCookie] instances.
+  /// copying all base fields (including [custom]) and substituting
+  /// [cookies] with [DevToolsHarCookie] instances.
   DevToolsHarRequest.fromHarRequest(
     HarRequest request, {
-    super.cookies = const [],
-    super.custom = const {},
+    List<DevToolsHarCookie>? cookies,
+    Json? custom,
   }) : super(
          url: request.url,
          headersSize: request.headersSize,
          bodySize: request.bodySize,
          method: request.method,
          httpVersion: request.httpVersion,
+         cookies:
+             cookies ??
+             request.cookies.map(DevToolsHarCookie.fromHarCookie).toList(),
          headers: request.headers,
          queryString: request.queryString,
          postData: request.postData,
          comment: request.comment,
+         custom: custom ?? request.custom,
        );
 
   /// Deserialises a [DevToolsHarRequest] from a decoded JSON map.

@@ -45,18 +45,21 @@ class DevToolsHarLog extends HarLog<DevToolsHarEntry> {
   });
 
   /// Creates a [DevToolsHarLog] from an existing [HarLog],
-  /// copying all base fields and substituting [entries] with
-  /// [DevToolsHarEntry] instances.
+  /// copying all base fields (including [custom]) and substituting
+  /// [entries] with [DevToolsHarEntry] instances.
   DevToolsHarLog.fromHarLog(
     HarLog log, {
-    super.entries = const [],
-    super.custom = const {},
+    List<DevToolsHarEntry>? entries,
+    Json? custom,
   }) : super(
          version: log.version,
          creator: log.creator,
          browser: log.browser,
          pages: log.pages,
+         entries:
+             entries ?? log.entries.map(DevToolsHarEntry.fromHarEntry).toList(),
          comment: log.comment,
+         custom: custom ?? log.custom,
        );
 
   /// Deserialises a [DevToolsHarLog] from a decoded JSON map.

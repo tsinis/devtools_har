@@ -66,11 +66,13 @@ class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
   });
 
   /// Creates a [DevToolsHarEntry] from an existing [HarEntry],
-  /// copying all base fields and adding DevTools-specific extras.
+  /// copying all base fields (including [custom]) and adding
+  /// DevTools-specific extras.
   ///
-  /// When [request], [response], or [timings] are not provided,
-  /// the base entry's instances are wrapped via their respective
-  /// `from*` conversion constructors.
+  /// When [request] or [response] are not provided, the base
+  /// entry's instances are wrapped via their respective `from*`
+  /// conversion constructors. [timings] and all other base fields
+  /// are passed through unchanged.
   DevToolsHarEntry.fromHarEntry(
     HarEntry entry, {
     DevToolsHarRequest? request,
@@ -82,7 +84,7 @@ class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
     this.priority,
     this.resourceType,
     this.webSocketMessages,
-    super.custom = const {},
+    Json? custom,
   }) : super(
          startedDateTime: entry.startedDateTime,
          totalTime: entry.totalTime,
@@ -96,6 +98,7 @@ class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
          connectionId: entry.connectionId,
          startedDateTimeRaw: entry.startedDateTimeRaw,
          comment: entry.comment,
+         custom: custom ?? entry.custom,
        );
 
   /// Deserialises a [DevToolsHarEntry] from a decoded JSON map.

@@ -6,7 +6,7 @@ import 'har_root.dart';
 /// Simple parser that works with HAR 1.2 files.
 ///
 /// ```dart
-/// final root = HarParser.parse('{"log": {"version": "1.2", ...'  ');
+/// final root = HarParser.parse('{"log":{"version":"1.2","entries":[]}}');
 /// print(root.log.version); // 1.2
 /// ```
 sealed class HarParser {

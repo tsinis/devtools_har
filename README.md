@@ -3,6 +3,7 @@
 [![Analyze](https://github.com/tsinis/devtools_har/actions/workflows/analyze.yaml/badge.svg)](https://github.com/tsinis/devtools_har/actions/workflows/analyze.yaml)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har.svg?type=shield&issueType=license)](https://app.fossa.com/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har?ref=badge_shield&issueType=license)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har.svg?type=shield&issueType=security)](https://app.fossa.com/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har?ref=badge_shield&issueType=security)
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/tsinis/devtools_har?utm_source=oss&utm_medium=github&utm_campaign=tsinis%2Fdevtools_har&labelColor=171717&color=00B050&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
 
 # devtools_har
 

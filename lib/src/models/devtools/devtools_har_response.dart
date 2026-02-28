@@ -62,13 +62,14 @@ class DevToolsHarResponse extends HarResponse<DevToolsHarCookie> {
   });
 
   /// Creates a [DevToolsHarResponse] from an existing [HarResponse],
-  /// copying all base fields and adding DevTools-specific extras.
+  /// copying all base fields (including [custom]) and adding
+  /// DevTools-specific extras.
   DevToolsHarResponse.fromHarResponse(
     HarResponse response, {
-    super.cookies = const [],
+    List<DevToolsHarCookie>? cookies,
     this.transferSize,
     this.error,
-    super.custom = const {},
+    Json? custom,
   }) : super(
          status: response.status,
          statusText: response.statusText,
@@ -77,8 +78,12 @@ class DevToolsHarResponse extends HarResponse<DevToolsHarCookie> {
          redirectURL: response.redirectURL,
          headersSize: response.headersSize,
          bodySize: response.bodySize,
+         cookies:
+             cookies ??
+             response.cookies.map(DevToolsHarCookie.fromHarCookie).toList(),
          headers: response.headers,
          comment: response.comment,
+         custom: custom ?? response.custom,
        );
 
   /// Deserialises a [DevToolsHarResponse] from a decoded JSON map.

@@ -13,7 +13,7 @@ updates:
       include: "scope"
     labels:
       - "dependencies"
-   # Maintain dependencies for Dart packages in the pub.
+   # Maintain dependencies for Dart pub packages.
   - package-ecosystem: "pub"
     versioning-strategy: increase
     directory: "/example"

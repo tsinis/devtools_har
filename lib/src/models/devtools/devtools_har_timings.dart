@@ -55,13 +55,13 @@ class DevToolsHarTimings extends HarTimings {
   });
 
   /// Creates a [DevToolsHarTimings] from an existing [HarTimings],
-  /// copying all base fields and adding the optional DevTools
-  /// breakdowns.
+  /// copying all base fields (including [custom]) and adding the
+  /// optional DevTools breakdowns.
   DevToolsHarTimings.fromHarTimings(
     HarTimings timings, {
     this.blockedQueueing,
     this.blockedProxy,
-    super.custom = const {},
+    Json? custom,
   }) : super(
          send: timings.send,
          wait: timings.wait,
@@ -71,6 +71,7 @@ class DevToolsHarTimings extends HarTimings {
          connect: timings.connect,
          ssl: timings.ssl,
          comment: timings.comment,
+         custom: custom ?? timings.custom,
        );
 
   /// Deserialises a [DevToolsHarTimings] from a decoded JSON map.
