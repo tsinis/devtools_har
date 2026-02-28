@@ -8,6 +8,11 @@ import 'har_response.dart' show HarResponse;
 ///
 /// Models the cookie object defined in the:
 /// http://www.softwareishard.com/blog/har-12-spec/#cookies.
+///
+/// ```dart
+/// const cookie = HarCookie(name: 'sid', value: 'abc123');
+/// print(cookie.toJson()); // {name: sid, value: abc123}
+/// ```
 class HarCookie extends HarObject {
   /// Creates a [HarCookie] with the given field values.
   ///
@@ -143,4 +148,29 @@ class HarCookie extends HarObject {
   @override
   String toString() =>
       '''HarCookie(${['$kName: $name', '$kValue: $value', if (path != null) '$kPath: $path', if (domain != null) '$kDomain: $domain', if (expires != null) '$kExpires: $expires', if (expiresRaw != null) '$kExpiresRaw: $expiresRaw', if (httpOnly != null) '$kHttpOnly: $httpOnly', if (secure != null) '$kSecure: $secure', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
+
+  /// Creates a copy of this [HarCookie] with the given fields replaced.
+  HarCookie copyWith({
+    String? name,
+    String? value,
+    String? path,
+    String? domain,
+    DateTime? expires,
+    String? expiresRaw,
+    bool? httpOnly,
+    bool? secure,
+    String? comment,
+    Json? custom,
+  }) => HarCookie(
+    name: name ?? this.name,
+    value: value ?? this.value,
+    path: path ?? this.path,
+    domain: domain ?? this.domain,
+    expires: expires ?? this.expires,
+    expiresRaw: expiresRaw ?? this.expiresRaw,
+    httpOnly: httpOnly ?? this.httpOnly,
+    secure: secure ?? this.secure,
+    comment: comment ?? this.comment,
+    custom: custom ?? this.custom,
+  );
 }

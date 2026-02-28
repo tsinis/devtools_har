@@ -29,6 +29,11 @@ import '../har_object.dart';
 ///
 /// The [ssl] time, when defined and not `-1`, is already included in
 /// [connect] and must not be added separately.
+///
+/// ```dart
+/// const timings = HarTimings(send: 10, wait: 200, receive: 50);
+/// print(timings.time); // 260.0
+/// ```
 // Reference: http://www.softwareishard.com/blog/har-12-spec/#timings
 class HarTimings extends HarObject {
   /// Creates a [HarTimings] with the given field values.
@@ -206,4 +211,27 @@ class HarTimings extends HarObject {
   @override
   String toString() =>
       '''HarTimings(${[if (blocked != null) '$kBlocked: $blocked', if (dns != null) '$kDns: $dns', if (connect != null) '$kConnect: $connect', '$kSend: $send', '$kWait: $wait', '$kReceive: $receive', if (ssl != null) '$kSsl: $ssl', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
+
+  /// Creates a copy of this [HarTimings] with the given fields replaced.
+  HarTimings copyWith({
+    double? send,
+    double? wait,
+    double? receive,
+    double? blocked,
+    double? dns,
+    double? connect,
+    double? ssl,
+    String? comment,
+    Json? custom,
+  }) => HarTimings(
+    send: send ?? this.send,
+    wait: wait ?? this.wait,
+    receive: receive ?? this.receive,
+    blocked: blocked ?? this.blocked,
+    dns: dns ?? this.dns,
+    connect: connect ?? this.connect,
+    ssl: ssl ?? this.ssl,
+    comment: comment ?? this.comment,
+    custom: custom ?? this.custom,
+  );
 }

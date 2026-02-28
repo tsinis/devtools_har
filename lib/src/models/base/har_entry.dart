@@ -20,6 +20,22 @@ import 'har_timings.dart';
 /// sub-classes can thread a richer cookie model through both
 /// [request] and [response] without duplicating parsing logic.
 /// For the base HAR 1.2 model, [T] is [HarCookie].
+///
+/// ```dart
+/// final entry = HarEntry(
+///   startedDateTime: DateTime.utc(2025),
+///   totalTime: 260,
+///   request: HarRequest(url: Uri(), headersSize: -1, bodySize: -1),
+///   response: HarResponse(
+///     status: 200, statusText: 'OK',
+///     content: const HarContent(size: 0),
+///     redirectURL: '', headersSize: -1, bodySize: -1,
+///   ),
+///   cache: const HarCache(),
+///   timings: const HarTimings(send: 10, wait: 200, receive: 50),
+/// );
+/// print(entry.totalTime); // 260.0
+/// ```
 // Reference: http://www.softwareishard.com/blog/har-12-spec/#entries
 class HarEntry<T extends HarCookie> extends HarObject {
   /// Creates a [HarEntry] describing one request/response exchange.
@@ -207,4 +223,33 @@ class HarEntry<T extends HarCookie> extends HarObject {
   @override
   String toString() =>
       '''HarEntry(${[if (pageref != null) '$kPageref: $pageref', '$kStartedDateTime: $startedDateTime', if (startedDateTimeRaw != null) '$kStartedDateTimeRaw: $startedDateTimeRaw', '$kTime: $totalTime', '$kRequest: $request', '$kResponse: $response', '$kCache: $cache', '$kTimings: $timings', if (serverIPAddress != null) '$kServerIPAddress: $serverIPAddress', if (connectionId != null) '$kConnection: $connectionId', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
+
+  /// Creates a copy of this [HarEntry] with the given fields replaced.
+  HarEntry<T> copyWith({
+    DateTime? startedDateTime,
+    String? startedDateTimeRaw,
+    double? totalTime,
+    HarRequest<T>? request,
+    HarResponse<T>? response,
+    HarCache? cache,
+    HarTimings? timings,
+    String? pageref,
+    String? serverIPAddress,
+    String? connectionId,
+    String? comment,
+    Json? custom,
+  }) => HarEntry<T>(
+    startedDateTime: startedDateTime ?? this.startedDateTime,
+    startedDateTimeRaw: startedDateTimeRaw ?? this.startedDateTimeRaw,
+    totalTime: totalTime ?? this.totalTime,
+    request: request ?? this.request,
+    response: response ?? this.response,
+    cache: cache ?? this.cache,
+    timings: timings ?? this.timings,
+    pageref: pageref ?? this.pageref,
+    serverIPAddress: serverIPAddress ?? this.serverIPAddress,
+    connectionId: connectionId ?? this.connectionId,
+    comment: comment ?? this.comment,
+    custom: custom ?? this.custom,
+  );
 }

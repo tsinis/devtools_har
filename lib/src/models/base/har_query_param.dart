@@ -2,6 +2,11 @@ import '../../helpers/har_utils.dart';
 import '../har_object.dart';
 
 /// A single query-string parameter from a request URL.
+///
+/// ```dart
+/// const param = HarQueryParam(name: 'page', value: '2');
+/// print(param.toJson()); // {name: page, value: 2}
+/// ```
 // Reference: http://www.softwareishard.com/blog/har-12-spec/#queryString
 class HarQueryParam extends HarObject {
   /// Creates a [HarQueryParam] with the given field values.
@@ -64,4 +69,17 @@ class HarQueryParam extends HarObject {
   @override
   String toString() =>
       '''HarQueryParam(${['$kName: $name', '$kValue: $value', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
+
+  /// Creates a copy of this [HarQueryParam] with the given fields replaced.
+  HarQueryParam copyWith({
+    String? name,
+    String? value,
+    String? comment,
+    Json? custom,
+  }) => HarQueryParam(
+    name: name ?? this.name,
+    value: value ?? this.value,
+    comment: comment ?? this.comment,
+    custom: custom ?? this.custom,
+  );
 }

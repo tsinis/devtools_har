@@ -4,6 +4,16 @@ import '../har_object.dart';
 import 'devtools_har_log.dart';
 
 /// Root object that may contain DevTools extras.
+///
+/// ```dart
+/// const root = DevToolsHarRoot(
+///   log: DevToolsHarLog(
+///     version: '1.2',
+///     creator: HarCreator(name: 'Chrome', version: '120'),
+///   ),
+/// );
+/// print(root.log.version); // 1.2
+/// ```
 class DevToolsHarRoot extends HarRoot<DevToolsHarLog> {
   /// Creates a [DevToolsHarRoot] wrapping a DevTools HAR log.
   const DevToolsHarRoot({required super.log, super.comment, super.custom});
@@ -29,4 +39,15 @@ class DevToolsHarRoot extends HarRoot<DevToolsHarLog> {
   @override
   String toString() =>
       '''DevToolsHarRoot(${['${HarRoot.kLog}: $log', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
+
+  @override
+  DevToolsHarRoot copyWith({
+    DevToolsHarLog? log,
+    String? comment,
+    Json? custom,
+  }) => DevToolsHarRoot(
+    log: log ?? this.log,
+    comment: comment ?? this.comment,
+    custom: custom ?? this.custom,
+  );
 }

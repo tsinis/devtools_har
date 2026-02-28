@@ -4,6 +4,12 @@ import 'extensions/map_null_pruning_extension.dart';
 typedef Json = Map<String, dynamic>;
 
 /// Utility functions for HAR JSON processing.
+///
+/// ```dart
+/// final json = <String, dynamic>{'key': 'value', 'other': null};
+/// final pruned = HarUtils.applyNullPolicy(json);
+/// print(pruned); // {key: value}
+/// ```
 sealed class HarUtils {
   /// Apply null filtering based on [includeNulls].
   static Json applyNullPolicy(Json json, {bool includeNulls = false}) =>

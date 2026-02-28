@@ -9,6 +9,16 @@ import 'har_entry.dart' show HarEntry;
 /// Each page groups related [HarEntry] objects via its [id], which
 /// entries reference through their `pageref` field. The [pageTimings]
 /// object describes high-level page load milestones.
+///
+/// ```dart
+/// final page = HarPage(
+///   startedDateTime: DateTime.utc(2025),
+///   id: 'page_1',
+///   title: 'Home',
+///   pageTimings: const HarPageTimings(onLoad: 3200),
+/// );
+/// print(page.id); // page_1
+/// ```
 // Reference: http://www.softwareishard.com/blog/har-12-spec/#pages
 class HarPage extends HarObject {
   /// Creates a [HarPage] with the given field values.
@@ -128,6 +138,25 @@ class HarPage extends HarObject {
   @override
   String toString() =>
       '''HarPage(${['$kStartedDateTime: $startedDateTime', if (startedDateTimeRaw != null) '$kStartedDateTimeRaw: $startedDateTimeRaw', '$kId: $id', '$kTitle: $title', '$kPageTimings: $pageTimings', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
+
+  /// Creates a copy of this [HarPage] with the given fields replaced.
+  HarPage copyWith({
+    DateTime? startedDateTime,
+    String? startedDateTimeRaw,
+    String? id,
+    String? title,
+    HarPageTimings? pageTimings,
+    String? comment,
+    Json? custom,
+  }) => HarPage(
+    startedDateTime: startedDateTime ?? this.startedDateTime,
+    startedDateTimeRaw: startedDateTimeRaw ?? this.startedDateTimeRaw,
+    id: id ?? this.id,
+    title: title ?? this.title,
+    pageTimings: pageTimings ?? this.pageTimings,
+    comment: comment ?? this.comment,
+    custom: custom ?? this.custom,
+  );
 }
 
 /// Page-level load timing milestones.
@@ -141,6 +170,11 @@ class HarPage extends HarObject {
 /// Like other HAR timing fields, `-1` means "does not apply to
 /// the current request" and is semantically distinct from `null`
 /// (field absent).
+///
+/// ```dart
+/// const timings = HarPageTimings(onContentLoad: 1200, onLoad: 2600);
+/// print(timings.toJson()); // {onContentLoad: 1200, onLoad: 2600}
+/// ```
 // Reference: http://www.softwareishard.com/blog/har-12-spec/#pageTimings.
 // ignore: prefer-single-declaration-per-file, they are closely related.
 class HarPageTimings extends HarObject {
@@ -208,4 +242,17 @@ class HarPageTimings extends HarObject {
   @override
   String toString() =>
       '''HarPageTimings(${[if (onContentLoad != null) '$kOnContentLoad: $onContentLoad', if (onLoad != null) '$kOnLoad: $onLoad', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
+
+  /// Creates a copy of this [HarPageTimings] with the given fields replaced.
+  HarPageTimings copyWith({
+    double? onContentLoad,
+    double? onLoad,
+    String? comment,
+    Json? custom,
+  }) => HarPageTimings(
+    onContentLoad: onContentLoad ?? this.onContentLoad,
+    onLoad: onLoad ?? this.onLoad,
+    comment: comment ?? this.comment,
+    custom: custom ?? this.custom,
+  );
 }

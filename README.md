@@ -3,6 +3,7 @@
 [![Analyze](https://github.com/tsinis/devtools_har/actions/workflows/analyze.yaml/badge.svg)](https://github.com/tsinis/devtools_har/actions/workflows/analyze.yaml)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har.svg?type=shield&issueType=license)](https://app.fossa.com/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har?ref=badge_shield&issueType=license)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har.svg?type=shield&issueType=security)](https://app.fossa.com/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har?ref=badge_shield&issueType=security)
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/tsinis/devtools_har?utm_source=oss&utm_medium=github&utm_campaign=tsinis%2Fdevtools_har&labelColor=171717&color=00B050&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
 
 # devtools_har
 
@@ -37,7 +38,7 @@ HAR 1.2 and browser DevTools-extended typed models for Dart. Full coverage of lo
     no `dart:io` / `dart:html`. Works on VM, Web, and ahead-of-time
     targets.
 
-* **High code coverage** — The code in this package has almost 100% code coverage, providing confidence in its reliability and stability.
+* **High code coverage** — The code in this package has almost 100% code coverage with hundreds of tests, providing confidence in its reliability and stability.
 
 * **Typed toString() overrides** — all model classes provide a detailed
     `toString()` implementation; required fields are always present,
@@ -46,7 +47,7 @@ HAR 1.2 and browser DevTools-extended typed models for Dart. Full coverage of lo
 
 * **Comprehensive documentation** — This package provides full documentation for public members, usually with examples, ensuring clarity and ease of use.
 
-* **Lightweight** — This package keeps under 300 KB, ensuring it fits within the pub cache limit. This leads to quick, low-bandwidth downloads and faster caching, minimizing resource impact.
+* **Lightweight** — This package keeps under 50 KB, ensuring it fits within the pub cache limit. This leads to quick, low-bandwidth downloads and faster caching, minimizing resource impact.
 
 * **BSD-3-Clause License** — This package and sources are released under the BSD-3-Clause license, a permissive license that is also used by the Dart and Flutter SDKs. It allows users to use, modify, and distribute the code with minimal restrictions.
 

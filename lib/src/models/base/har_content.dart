@@ -6,6 +6,11 @@ import '../har_object.dart';
 /// Describes the response body and its encoding. The [size] reflects the
 /// uncompressed length; when the payload was compressed on the wire,
 /// [compression] indicates how many bytes were saved.
+///
+/// ```dart
+/// const content = HarContent(size: 1024, mimeType: 'text/html');
+/// print(content.toJson()); // {mimeType: text/html, size: 1024}
+/// ```
 // Reference: http://www.softwareishard.com/blog/har-12-spec/#content.
 class HarContent extends HarObject {
   /// Creates a [HarContent] with the given field values.
@@ -126,4 +131,23 @@ class HarContent extends HarObject {
   @override
   String toString() =>
       '''HarContent(${['$kSize: $size', '$kMimeType: $mimeType', if (compression != null) '$kCompression: $compression', if (text != null) '$kText: $text', if (encoding != null) '$kEncoding: $encoding', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
+
+  /// Creates a copy of this [HarContent] with the given fields replaced.
+  HarContent copyWith({
+    int? size,
+    String? mimeType,
+    int? compression,
+    String? text,
+    String? encoding,
+    String? comment,
+    Json? custom,
+  }) => HarContent(
+    size: size ?? this.size,
+    mimeType: mimeType ?? this.mimeType,
+    compression: compression ?? this.compression,
+    text: text ?? this.text,
+    encoding: encoding ?? this.encoding,
+    comment: comment ?? this.comment,
+    custom: custom ?? this.custom,
+  );
 }

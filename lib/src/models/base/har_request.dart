@@ -18,6 +18,15 @@ import 'http_method.dart';
 /// The class is generic over the cookie type [T] so that sub-classes
 /// (e.g. a DevTools variant) can substitute a richer cookie model
 /// without duplicating parsing logic.
+///
+/// ```dart
+/// final request = HarRequest(
+///   url: Uri.parse('https://example.com'),
+///   headersSize: 120,
+///   bodySize: 0,
+/// );
+/// print(request.method); // HttpMethod.get
+/// ```
 // Reference: http://www.softwareishard.com/blog/har-12-spec/#request
 class HarRequest<T extends HarCookie> extends HarObject {
   /// Creates a [HarRequest] for a HAR 1.2 request, applying defaults for
@@ -72,6 +81,9 @@ class HarRequest<T extends HarCookie> extends HarObject {
       url: Uri.tryParse(urlRaw?.toString() ?? '') ?? Uri(),
       httpVersion:
           json[kHttpVersion]?.toString() ?? HarObject.kDefaultHttpVersion,
+      // List<T>.from performs an eager per-element runtime type check.
+      // Needed because the Iterable is typed as HarCookie, not T — generic
+      // variance prevents .of() or .toList() from compiling here.
       cookies: List<T>.from(cookiesList),
       headers: headers is List
           ? headers.whereType<Json>().map(HarHeader.fromJson).toList()
@@ -197,4 +209,31 @@ class HarRequest<T extends HarCookie> extends HarObject {
   String toString() =>
       // ignore: avoid-default-tostring, it's enum.
       '''HarRequest(${['$kMethod: $method', '$kUrl: $url', '$kHttpVersion: $httpVersion', '$kCookies: $cookies', '$kHeaders: $headers', '$kQueryString: $queryString', if (postData != null) '$kPostData: $postData', '$kHeadersSize: $headersSize', '$kBodySize: $bodySize', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
+
+  /// Creates a copy of this [HarRequest] with the given fields replaced.
+  HarRequest<T> copyWith({
+    HttpMethod? method,
+    Uri? url,
+    String? httpVersion,
+    List<T>? cookies,
+    List<HarHeader>? headers,
+    List<HarQueryParam>? queryString,
+    HarPostData? postData,
+    int? headersSize,
+    int? bodySize,
+    String? comment,
+    Json? custom,
+  }) => HarRequest<T>(
+    method: method ?? this.method,
+    url: url ?? this.url,
+    httpVersion: httpVersion ?? this.httpVersion,
+    cookies: cookies ?? this.cookies,
+    headers: headers ?? this.headers,
+    queryString: queryString ?? this.queryString,
+    postData: postData ?? this.postData,
+    headersSize: headersSize ?? this.headersSize,
+    bodySize: bodySize ?? this.bodySize,
+    comment: comment ?? this.comment,
+    custom: custom ?? this.custom,
+  );
 }

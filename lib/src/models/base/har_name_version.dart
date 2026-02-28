@@ -10,6 +10,11 @@ import '../har_object.dart';
 /// The `creator` field is required on every HAR log and identifies
 /// the tool that produced the file. The `browser` field is optional
 /// and identifies the browser that generated the traffic.
+///
+/// ```dart
+/// const creator = HarNameVersion(name: 'MyTool', version: '1.0');
+/// print(creator.toJson()); // {name: MyTool, version: 1.0}
+/// ```
 // Reference: http://www.softwareishard.com/blog/har-12-spec/#creator
 class HarNameVersion extends HarObject {
   /// Creates a [HarNameVersion] with the given field values.
@@ -71,6 +76,19 @@ class HarNameVersion extends HarObject {
   @override
   String toString() =>
       '''HarNameVersion(${['$kName: $name', '$kVersion: $version', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
+
+  /// Creates a copy of this [HarNameVersion] with the given fields replaced.
+  HarNameVersion copyWith({
+    String? name,
+    String? version,
+    String? comment,
+    Json? custom,
+  }) => HarNameVersion(
+    name: name ?? this.name,
+    version: version ?? this.version,
+    comment: comment ?? this.comment,
+    custom: custom ?? this.custom,
+  );
 }
 
 /// Creator application info (alias for [HarNameVersion]).
