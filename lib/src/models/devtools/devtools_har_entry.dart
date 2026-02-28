@@ -1,7 +1,8 @@
-// ignore_for_file: prefer-class-destructuring, avoid-similar-names
+// ignore_for_file: avoid-similar-names
 
 import '../../helpers/har_utils.dart';
 import '../base/har_entry.dart';
+import '../base/har_timings.dart';
 import '../har_object.dart';
 import 'devtools_har_cookie.dart';
 import 'devtools_har_request.dart';
@@ -38,6 +39,39 @@ class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
     this.webSocketMessages,
   });
 
+  /// Creates a [DevToolsHarEntry] from an existing [HarEntry],
+  /// copying all base fields and adding DevTools-specific extras.
+  ///
+  /// When [request], [response], or [timings] are not provided,
+  /// the base entry's instances are wrapped via their respective
+  /// `from*` conversion constructors.
+  DevToolsHarEntry.fromHarEntry(
+    HarEntry entry, {
+    DevToolsHarRequest? request,
+    DevToolsHarResponse? response,
+    HarTimings? timings,
+    this.fromCache,
+    this.fromServiceWorker,
+    this.initiator,
+    this.priority,
+    this.resourceType,
+    this.webSocketMessages,
+    super.custom = const {},
+  }) : super(
+         startedDateTime: entry.startedDateTime,
+         totalTime: entry.totalTime,
+         request: request ?? DevToolsHarRequest.fromHarRequest(entry.request),
+         response:
+             response ?? DevToolsHarResponse.fromHarResponse(entry.response),
+         cache: entry.cache,
+         timings: timings ?? entry.timings,
+         pageref: entry.pageref,
+         serverIPAddress: entry.serverIPAddress,
+         connectionId: entry.connectionId,
+         startedDateTimeRaw: entry.startedDateTimeRaw,
+         comment: entry.comment,
+       );
+
   /// Deserialises a [DevToolsHarEntry] from a decoded JSON map.
   ///
   /// Delegates all HAR 1.2 fields to [HarEntry.fromJson], then
@@ -50,14 +84,12 @@ class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
     final requestRaw = json[HarEntry.kRequest];
     final request = requestRaw is Json
         ? DevToolsHarRequest.fromJson(requestRaw)
-        // ignore: avoid-type-casts, they are interchangeable in this case.
-        : harEntry.request as DevToolsHarRequest;
+        : DevToolsHarRequest.fromHarRequest(harEntry.request);
 
     final responseRaw = json[HarEntry.kResponse];
     final response = responseRaw is Json
         ? DevToolsHarResponse.fromJson(responseRaw)
-        // ignore: avoid-type-casts, they are interchangeable in this case.
-        : harEntry.response as DevToolsHarResponse;
+        : DevToolsHarResponse.fromHarResponse(harEntry.response);
 
     final timingsRaw = json[HarEntry.kTimings];
     final timings = timingsRaw is Json
@@ -71,18 +103,11 @@ class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
     );
     final webSocketMessagesRaw = json[kWebSocketMessages];
 
-    return DevToolsHarEntry(
-      pageref: harEntry.pageref,
-      startedDateTime: harEntry.startedDateTime,
-      startedDateTimeRaw: harEntry.startedDateTimeRaw,
-      totalTime: harEntry.totalTime,
+    return DevToolsHarEntry.fromHarEntry(
+      harEntry,
       request: request,
       response: response,
-      cache: harEntry.cache,
       timings: timings,
-      serverIPAddress: harEntry.serverIPAddress,
-      connectionId: harEntry.connectionId,
-      comment: harEntry.comment,
       custom: HarUtils.collectCustom(json, const {
         kFromCache,
         kFromServiceWorker,

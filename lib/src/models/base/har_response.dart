@@ -57,7 +57,7 @@ class HarResponse<T extends HarCookie> extends HarObject {
     assert(
       json[kStatus] is int,
       'HarResponse: "$kStatus" must be an int',
-    ); // TODO! Typed.
+    );
     assert(
       json[kStatusText] != null,
       'HarResponse: "$kStatusText" is required',

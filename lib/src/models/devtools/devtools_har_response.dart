@@ -1,5 +1,3 @@
-// ignore_for_file: prefer-class-destructuring
-
 import '../../helpers/har_utils.dart';
 import '../base/har_response.dart';
 import '../har_object.dart';
@@ -47,6 +45,26 @@ class DevToolsHarResponse extends HarResponse<DevToolsHarCookie> {
     this.error,
   });
 
+  /// Creates a [DevToolsHarResponse] from an existing [HarResponse],
+  /// copying all base fields and adding DevTools-specific extras.
+  DevToolsHarResponse.fromHarResponse(
+    HarResponse response, {
+    super.cookies = const [],
+    this.transferSize,
+    this.error,
+    super.custom = const {},
+  }) : super(
+         status: response.status,
+         statusText: response.statusText,
+         httpVersion: response.httpVersion,
+         content: response.content,
+         redirectURL: response.redirectURL,
+         headersSize: response.headersSize,
+         bodySize: response.bodySize,
+         headers: response.headers,
+         comment: response.comment,
+       );
+
   /// Deserialises a [DevToolsHarResponse] from a decoded JSON map.
   ///
   /// Delegates all HAR 1.2 fields to [HarResponse.fromJson], then
@@ -56,25 +74,16 @@ class DevToolsHarResponse extends HarResponse<DevToolsHarCookie> {
   factory DevToolsHarResponse.fromJson(Json json) => _fromJson(json);
 
   static DevToolsHarResponse _fromJson(Json json) {
-    final harResponse = HarResponse.fromJson(json);
     final cookiesRaw = json[HarResponse.kCookies];
     final cookiesList = cookiesRaw is List
-        ? cookiesRaw.whereType<Json>().map(DevToolsHarCookie.fromJson)
+        ? cookiesRaw.whereType<Json>().map(DevToolsHarCookie.fromJson).toList()
         : const <DevToolsHarCookie>[];
 
     final transferSize = json[kTransferSize];
 
-    return DevToolsHarResponse(
-      status: harResponse.status,
-      statusText: harResponse.statusText,
-      httpVersion: harResponse.httpVersion,
-      cookies: List<DevToolsHarCookie>.from(cookiesList),
-      headers: harResponse.headers,
-      content: harResponse.content,
-      redirectURL: harResponse.redirectURL,
-      headersSize: harResponse.headersSize,
-      bodySize: harResponse.bodySize,
-      comment: harResponse.comment,
+    return DevToolsHarResponse.fromHarResponse(
+      HarResponse.fromJson(json),
+      cookies: cookiesList,
       custom: HarUtils.collectCustom(json, const {kTransferSize, kError}),
       transferSize: num.tryParse(transferSize?.toString() ?? '')?.toInt(),
       error: json[kError]?.toString(),

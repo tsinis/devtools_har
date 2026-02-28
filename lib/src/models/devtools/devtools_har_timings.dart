@@ -1,5 +1,3 @@
-// ignore_for_file: prefer-class-destructuring
-
 import '../../helpers/har_utils.dart';
 import '../base/har_timings.dart';
 import '../har_object.dart';
@@ -46,6 +44,25 @@ class DevToolsHarTimings extends HarTimings {
     this.blockedProxy,
   });
 
+  /// Creates a [DevToolsHarTimings] from an existing [HarTimings],
+  /// copying all base fields and adding the optional DevTools
+  /// breakdowns.
+  DevToolsHarTimings.fromHarTimings(
+    HarTimings timings, {
+    this.blockedQueueing,
+    this.blockedProxy,
+    super.custom = const {},
+  }) : super(
+         send: timings.send,
+         wait: timings.wait,
+         receive: timings.receive,
+         blocked: timings.blocked,
+         dns: timings.dns,
+         connect: timings.connect,
+         ssl: timings.ssl,
+         comment: timings.comment,
+       );
+
   /// Deserialises a [DevToolsHarTimings] from a decoded JSON map.
   ///
   /// Delegates all HAR 1.2 fields to [HarTimings.fromJson] semantics
@@ -57,19 +74,11 @@ class DevToolsHarTimings extends HarTimings {
   factory DevToolsHarTimings.fromJson(Json json) => _fromJson(json);
 
   static DevToolsHarTimings _fromJson(Json json) {
-    final harTimings = HarTimings.fromJson(json);
     final blockedProxy = json[kBlockedProxy]?.toString();
     final blockedQueueing = json[kBlockedQueueing]?.toString();
 
-    return DevToolsHarTimings(
-      blocked: harTimings.blocked,
-      dns: harTimings.dns,
-      connect: harTimings.connect,
-      send: harTimings.send,
-      wait: harTimings.wait,
-      receive: harTimings.receive,
-      ssl: harTimings.ssl,
-      comment: harTimings.comment,
+    return DevToolsHarTimings.fromHarTimings(
+      HarTimings.fromJson(json),
       custom: HarUtils.collectCustom(json, const {
         kBlockedQueueing,
         kBlockedProxy,

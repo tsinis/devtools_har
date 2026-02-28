@@ -1,5 +1,3 @@
-// ignore_for_file: prefer-class-destructuring
-
 import '../../helpers/har_utils.dart';
 import '../base/har_cookie.dart';
 import '../har_object.dart';
@@ -36,6 +34,24 @@ class DevToolsHarCookie extends HarCookie {
     this.sameSite,
   });
 
+  /// Creates a [DevToolsHarCookie] from an existing [HarCookie],
+  /// copying all base fields and adding the optional [sameSite].
+  DevToolsHarCookie.fromHarCookie(
+    HarCookie cookie, {
+    this.sameSite, // Dart 3.8 formatting.
+  }) : super(
+         name: cookie.name,
+         value: cookie.value,
+         path: cookie.path,
+         domain: cookie.domain,
+         expires: cookie.expires,
+         expiresRaw: cookie.expiresRaw,
+         httpOnly: cookie.httpOnly,
+         secure: cookie.secure,
+         comment: cookie.comment,
+         custom: cookie.custom,
+       );
+
   /// Deserialises a [DevToolsHarCookie] from a decoded JSON map.
   ///
   /// Delegates all HAR 1.2 fields to [HarCookie.fromJson] semantics
@@ -47,23 +63,11 @@ class DevToolsHarCookie extends HarCookie {
   /// treated as `null`.
   factory DevToolsHarCookie.fromJson(Json json) => _fromJson(json);
 
-  static DevToolsHarCookie _fromJson(Json json) {
-    final harCookie = HarCookie.fromJson(json);
-
-    return DevToolsHarCookie(
-      name: harCookie.name,
-      value: harCookie.value,
-      path: harCookie.path,
-      domain: harCookie.domain,
-      expires: harCookie.expires,
-      expiresRaw: harCookie.expiresRaw,
-      httpOnly: harCookie.httpOnly,
-      secure: harCookie.secure,
-      comment: harCookie.comment,
-      custom: harCookie.custom,
-      sameSite: CookieSameSite.tryParse(json[kSameSite]),
-    );
-  }
+  static DevToolsHarCookie _fromJson(Json json) =>
+      DevToolsHarCookie.fromHarCookie(
+        HarCookie.fromJson(json),
+        sameSite: CookieSameSite.tryParse(json[kSameSite]),
+      );
 
   /// JSON key for the SameSite attribute (`"sameSite"`).
   static const kSameSite = 'sameSite';

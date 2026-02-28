@@ -4,8 +4,6 @@ import 'devtools_har_root.dart';
 
 /// Simple parser that auto‐detects DevTools extras.
 sealed class DevToolsHarParser {
-  const DevToolsHarParser._();
-
   /// Parse a HAR (either core or DevTools‐extended) from a JSON string.
   static DevToolsHarRoot parse(
     String jsonStr, {

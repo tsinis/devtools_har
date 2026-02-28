@@ -1,5 +1,3 @@
-// ignore_for_file: prefer-class-destructuring
-
 import '../../helpers/har_utils.dart';
 import '../base/har_entry.dart';
 import '../base/har_log.dart';
@@ -36,6 +34,21 @@ class DevToolsHarLog extends HarLog<DevToolsHarEntry> {
     super.custom,
   });
 
+  /// Creates a [DevToolsHarLog] from an existing [HarLog],
+  /// copying all base fields and substituting [entries] with
+  /// [DevToolsHarEntry] instances.
+  DevToolsHarLog.fromHarLog(
+    HarLog log, {
+    super.entries = const [],
+    super.custom = const {},
+  }) : super(
+         version: log.version,
+         creator: log.creator,
+         browser: log.browser,
+         pages: log.pages,
+         comment: log.comment,
+       );
+
   /// Deserialises a [DevToolsHarLog] from a decoded JSON map.
   ///
   /// Delegates all shared parsing logic to [HarLog]'s field
@@ -47,19 +60,14 @@ class DevToolsHarLog extends HarLog<DevToolsHarEntry> {
   factory DevToolsHarLog.fromJson(Json json) => _fromJson(json);
 
   static DevToolsHarLog _fromJson(Json json) {
-    final harLog = HarLog.fromJson(json);
     final entriesRaw = json[HarLog.kEntries];
     final entriesList = entriesRaw is List
-        ? entriesRaw.whereType<Json>().map(DevToolsHarEntry.fromJson)
+        ? entriesRaw.whereType<Json>().map(DevToolsHarEntry.fromJson).toList()
         : const <DevToolsHarEntry>[];
 
-    return DevToolsHarLog(
-      version: harLog.version,
-      creator: harLog.creator,
-      browser: harLog.browser,
-      pages: harLog.pages,
-      entries: List<DevToolsHarEntry>.from(entriesList),
-      comment: harLog.comment,
+    return DevToolsHarLog.fromHarLog(
+      HarLog.fromJson(json),
+      entries: entriesList,
       custom: HarUtils.collectCustom(json),
     );
   }
