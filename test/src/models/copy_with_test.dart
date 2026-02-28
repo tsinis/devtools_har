@@ -1,4 +1,4 @@
-// ignore_for_file: avoid-long-functions, prefer-class-destructuring
+// ignore_for_file: avoid-long-functions, prefer-class-destructuring, no-equal-arguments
 
 import 'package:devtools_har/devtools_har.dart';
 import 'package:test/test.dart';
@@ -164,7 +164,7 @@ void main() {
     });
   });
 
-  group('copyWith — base composite classes', () {
+  group('copyWith - base composite classes', () {
     group('HarCookie', () {
       final original = HarCookie(
         name: 'sid',
@@ -307,7 +307,7 @@ void main() {
     });
   });
 
-  group('copyWith — base top-level generic classes', () {
+  group('copyWith - base top-level generic classes', () {
     group('HarRequest', () {
       final original = HarRequest(
         url: Uri.parse('https://example.com'),
@@ -427,7 +427,10 @@ void main() {
     group('HarRoot', () {
       const original = HarRoot(
         log: HarLog(
-          creator: HarCreator(name: 'App', version: '1.0'),
+          creator: HarCreator(
+            name: 'App',
+            version: '1.0', // Dart 3.8 formatting.
+          ),
         ),
       );
 
@@ -445,7 +448,7 @@ void main() {
     });
   });
 
-  group('copyWith — DevTools classes', () {
+  group('copyWith - DevTools classes', () {
     group('DevToolsHarCookie', () {
       const original = DevToolsHarCookie(
         name: 'sid',

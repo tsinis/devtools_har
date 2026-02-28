@@ -34,7 +34,7 @@ enum CookieSameSite {
   /// Returns `null` if [value] is `null` or does not match any known
   /// variant (case-insensitive).
   static CookieSameSite? tryParse(Object? value) {
-    if (value == null) return null; // TODO: Refactor with extension.
+    if (value == null) return null;
 
     final lower = value.toString().toLowerCase();
     for (final cookie in values) {
