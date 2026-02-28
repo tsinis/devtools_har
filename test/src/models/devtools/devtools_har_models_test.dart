@@ -52,7 +52,9 @@ void main() {
         initiator: const {'type': 'script', 'url': 'https://example.com'},
         priority: 'High',
         resourceType: 'document',
-        webSocketMessages: const [{'data': 'hello', 'type': 'send'}],
+        webSocketMessages: const [
+          {'data': 'hello', 'type': 'send'},
+        ],
       );
 
       expect(devEntry.fromCache, 'disk');
@@ -64,9 +66,7 @@ void main() {
     });
 
     test('uses provided request and response when given', () {
-      final devRequest = DevToolsHarRequest.fromHarRequest(
-        baseEntry.request,
-      );
+      final devRequest = DevToolsHarRequest.fromHarRequest(baseEntry.request);
       final devResponse = DevToolsHarResponse.fromHarResponse(
         baseEntry.response,
         transferSize: 512,

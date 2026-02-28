@@ -6,6 +6,11 @@ import '../har_object.dart';
 /// Models the "cache" object defined in the HAR 1.2 specification.
 /// Both [beforeRequest] and [afterRequest] are optional and may be
 /// `null` to indicate the information is not available.
+///
+/// ```dart
+/// const cache = HarCache(); // no cache info
+/// print(cache.toJson()); // {}
+/// ```
 // Reference: http://www.softwareishard.com/blog/har-12-spec/#cache
 class HarCache extends HarObject {
   /// Creates a [HarCache] container for cache metadata.
@@ -62,6 +67,19 @@ class HarCache extends HarObject {
   @override
   String toString() =>
       '''HarCache(${[if (beforeRequest != null) '$kBeforeRequest: $beforeRequest', if (afterRequest != null) '$kAfterRequest: $afterRequest', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
+
+  /// Creates a copy of this [HarCache] with the given fields replaced.
+  HarCache copyWith({
+    HarCacheEntry? beforeRequest,
+    HarCacheEntry? afterRequest,
+    String? comment,
+    Json? custom,
+  }) => HarCache(
+    beforeRequest: beforeRequest ?? this.beforeRequest,
+    afterRequest: afterRequest ?? this.afterRequest,
+    comment: comment ?? this.comment,
+    custom: custom ?? this.custom,
+  );
 }
 
 /// State of a cache entry (before or after the request).
@@ -73,6 +91,15 @@ class HarCache extends HarObject {
 /// with assert so that malformed input is caught during
 /// development, while release builds degrade gracefully with safe
 /// defaults.
+///
+/// ```dart
+/// final entry = HarCacheEntry(
+///   lastAccess: DateTime.utc(2025),
+///   eTag: '"abc"',
+///   hitCount: 3,
+/// );
+/// print(entry.hitCount); // 3
+/// ```
 // Reference: http://www.softwareishard.com/blog/har-12-spec/#cache.
 // ignore: prefer-single-declaration-per-file, they are closely related.
 class HarCacheEntry extends HarObject {
@@ -170,4 +197,25 @@ class HarCacheEntry extends HarObject {
   @override
   String toString() =>
       '''HarCacheEntry(${[if (expires != null) '$kExpires: $expires', if (expiresRaw != null) '$kExpiresRaw: $expiresRaw', '$kLastAccess: $lastAccess', if (lastAccessRaw != null) '$kLastAccessRaw: $lastAccessRaw', '$kETag: $eTag', '$kHitCount: $hitCount', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
+
+  /// Creates a copy of this [HarCacheEntry] with the given fields replaced.
+  HarCacheEntry copyWith({
+    DateTime? lastAccess,
+    String? lastAccessRaw,
+    String? eTag,
+    int? hitCount,
+    DateTime? expires,
+    String? expiresRaw,
+    String? comment,
+    Json? custom,
+  }) => HarCacheEntry(
+    lastAccess: lastAccess ?? this.lastAccess,
+    lastAccessRaw: lastAccessRaw ?? this.lastAccessRaw,
+    eTag: eTag ?? this.eTag,
+    hitCount: hitCount ?? this.hitCount,
+    expires: expires ?? this.expires,
+    expiresRaw: expiresRaw ?? this.expiresRaw,
+    comment: comment ?? this.comment,
+    custom: custom ?? this.custom,
+  );
 }

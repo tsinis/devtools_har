@@ -9,6 +9,14 @@ import '../har_object.dart';
 /// use [text] for raw body payloads and [params] for
 /// `application/x-www-form-urlencoded` or `multipart/form-data`
 /// parameters. In practice, Chrome and Firefox often emit both.
+///
+/// ```dart
+/// const postData = HarPostData(
+///   mimeType: 'application/json',
+///   text: '{"key": "value"}',
+/// );
+/// print(postData.toJson()); // {mimeType: application/json, ...}
+/// ```
 // Reference: http://www.softwareishard.com/blog/har-12-spec/#postData
 class HarPostData extends HarObject {
   /// Creates a [HarPostData] with the given field values.
@@ -111,14 +119,35 @@ class HarPostData extends HarObject {
   @override
   String toString() =>
       '''HarPostData(${['$kMimeType: $mimeType', if (params.isNotEmpty) '$kParams: $params', if (text != null) '$kText: $text', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
+
+  /// Creates a copy of this [HarPostData] with the given fields replaced.
+  HarPostData copyWith({
+    String? mimeType,
+    List<HarParam>? params,
+    String? text,
+    String? comment,
+    Json? custom,
+  }) => HarPostData(
+    mimeType: mimeType ?? this.mimeType,
+    params: params ?? this.params,
+    text: text ?? this.text,
+    comment: comment ?? this.comment,
+    custom: custom ?? this.custom,
+  );
 }
 
 /// A single posted parameter (embedded in a [HarPostData] object).
 ///
-/// Models one entry in the `params` array defined in the HAR 1.2 specification.
+/// Models one entry in the `params` array defined in the HAR 1.2
+/// specification.
 ///
 /// For `multipart/form-data` uploads the [fileName] and [contentType]
 /// fields describe the uploaded file.
+///
+/// ```dart
+/// const param = HarParam(name: 'username', value: 'admin');
+/// print(param.toJson()); // {name: username, value: admin}
+/// ```
 // Reference: http://www.softwareishard.com/blog/har-12-spec/#params.
 // ignore: prefer-single-declaration-per-file, they are closely related.
 class HarParam extends HarObject {
@@ -201,4 +230,21 @@ class HarParam extends HarObject {
   @override
   String toString() =>
       '''HarParam(${['$kName: $name', if (value != null) '$kValue: $value', if (fileName != null) '$kFileName: $fileName', if (contentType != null) '$kContentType: $contentType', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
+
+  /// Creates a copy of this [HarParam] with the given fields replaced.
+  HarParam copyWith({
+    String? name,
+    String? value,
+    String? fileName,
+    String? contentType,
+    String? comment,
+    Json? custom,
+  }) => HarParam(
+    name: name ?? this.name,
+    value: value ?? this.value,
+    fileName: fileName ?? this.fileName,
+    contentType: contentType ?? this.contentType,
+    comment: comment ?? this.comment,
+    custom: custom ?? this.custom,
+  );
 }

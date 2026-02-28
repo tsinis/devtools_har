@@ -1,6 +1,12 @@
 import '../helpers/har_utils.dart';
 
 /// Base class for all HAR objects that expose `comment` and custom fields.
+///
+/// ```dart
+/// // Typically used through a concrete subclass such as HarHeader:
+/// const header = HarHeader(name: 'Content-Type', value: 'text/html');
+/// print(header.comment); // null
+/// ```
 abstract class HarObject {
   /// Creates a base HAR object with an optional comment and custom fields.
   const HarObject({this.comment, this.custom = const {}});

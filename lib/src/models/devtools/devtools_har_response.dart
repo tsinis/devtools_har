@@ -1,4 +1,6 @@
 import '../../helpers/har_utils.dart';
+import '../base/har_content.dart';
+import '../base/har_header.dart';
 import '../base/har_response.dart';
 import '../har_object.dart';
 import 'devtools_har_cookie.dart';
@@ -27,6 +29,20 @@ import 'devtools_har_entry.dart';
 ///
 /// * [HarResponse] — the base HAR 1.2 response model.
 /// * [DevToolsHarEntry] — entry model with Chrome-specific fields.
+///
+/// ```dart
+/// const response = DevToolsHarResponse(
+///   status: 200,
+///   statusText: 'OK',
+///   httpVersion: 'h2',
+///   content: HarContent(size: 1024),
+///   redirectURL: '',
+///   headersSize: 100,
+///   bodySize: 1024,
+///   transferSize: 512,
+/// );
+/// print(response.transferSize); // 512
+/// ```
 class DevToolsHarResponse extends HarResponse<DevToolsHarCookie> {
   /// Creates a [DevToolsHarResponse] with DevTools-specific fields.
   const DevToolsHarResponse({
@@ -122,4 +138,35 @@ class DevToolsHarResponse extends HarResponse<DevToolsHarCookie> {
   @override
   String toString() =>
       '''DevToolsHarResponse(${['${HarResponse.kStatus}: $status', '${HarResponse.kStatusText}: $statusText', '${HarResponse.kHttpVersion}: $httpVersion', '${HarResponse.kCookies}: $cookies', '${HarResponse.kHeaders}: $headers', '${HarResponse.kContent}: $content', '${HarResponse.kRedirectURL}: $redirectURL', '${HarResponse.kHeadersSize}: $headersSize', '${HarResponse.kBodySize}: $bodySize', if (transferSize != null) '$kTransferSize: $transferSize', if (error != null) '$kError: $error', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
+
+  @override
+  DevToolsHarResponse copyWith({
+    int? status,
+    String? statusText,
+    String? httpVersion,
+    List<DevToolsHarCookie>? cookies,
+    List<HarHeader>? headers,
+    HarContent? content,
+    String? redirectURL,
+    int? headersSize,
+    int? bodySize,
+    int? transferSize,
+    String? error,
+    String? comment,
+    Json? custom,
+  }) => DevToolsHarResponse(
+    status: status ?? this.status,
+    statusText: statusText ?? this.statusText,
+    httpVersion: httpVersion ?? this.httpVersion,
+    cookies: cookies ?? this.cookies,
+    headers: headers ?? this.headers,
+    content: content ?? this.content,
+    redirectURL: redirectURL ?? this.redirectURL,
+    headersSize: headersSize ?? this.headersSize,
+    bodySize: bodySize ?? this.bodySize,
+    transferSize: transferSize ?? this.transferSize,
+    error: error ?? this.error,
+    comment: comment ?? this.comment,
+    custom: custom ?? this.custom,
+  );
 }

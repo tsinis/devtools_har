@@ -19,6 +19,18 @@ import 'har_header.dart';
 /// count but still appear in the [headers] list.
 ///
 /// [bodySize] should be `0` for `304 Not Modified` responses.
+///
+/// ```dart
+/// const response = HarResponse(
+///   status: 200,
+///   statusText: 'OK',
+///   content: HarContent(size: 1024),
+///   redirectURL: '',
+///   headersSize: 100,
+///   bodySize: 1024,
+/// );
+/// print(response.status); // 200
+/// ```
 // Reference: http://www.softwareishard.com/blog/har-12-spec/#response
 class HarResponse<T extends HarCookie> extends HarObject {
   /// Creates a [HarResponse] with required HAR 1.2 response fields.
@@ -54,10 +66,7 @@ class HarResponse<T extends HarCookie> extends HarObject {
 
   // ignore: avoid-high-cyclomatic-complexity, a lot of fields to parse/validate.
   static HarResponse<T> _fromJson<T extends HarCookie>(Json json) {
-    assert(
-      json[kStatus] is int,
-      'HarResponse: "$kStatus" must be an int',
-    );
+    assert(json[kStatus] is int, 'HarResponse: "$kStatus" must be an int');
     assert(
       json[kStatusText] != null,
       'HarResponse: "$kStatusText" is required',
@@ -82,6 +91,9 @@ class HarResponse<T extends HarCookie> extends HarObject {
       statusText: json[kStatusText]?.toString() ?? '',
       httpVersion:
           json[kHttpVersion]?.toString() ?? HarObject.kDefaultHttpVersion,
+      // List<T>.from performs an eager per-element runtime type check.
+      // Needed because the Iterable is typed as HarCookie, not T — generic
+      // variance prevents .of() or .toList() from compiling here.
       cookies: List<T>.from(cookiesList),
       headers: headers is List
           ? headers.whereType<Json>().map(HarHeader.fromJson).toList()
@@ -192,4 +204,31 @@ class HarResponse<T extends HarCookie> extends HarObject {
   @override
   String toString() =>
       '''HarResponse(${['$kStatus: $status', '$kStatusText: $statusText', '$kHttpVersion: $httpVersion', '$kCookies: $cookies', '$kHeaders: $headers', '$kContent: $content', '$kRedirectURL: $redirectURL', '$kHeadersSize: $headersSize', '$kBodySize: $bodySize', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
+
+  /// Creates a copy of this [HarResponse] with the given fields replaced.
+  HarResponse<T> copyWith({
+    int? status,
+    String? statusText,
+    String? httpVersion,
+    List<T>? cookies,
+    List<HarHeader>? headers,
+    HarContent? content,
+    String? redirectURL,
+    int? headersSize,
+    int? bodySize,
+    String? comment,
+    Json? custom,
+  }) => HarResponse<T>(
+    status: status ?? this.status,
+    statusText: statusText ?? this.statusText,
+    httpVersion: httpVersion ?? this.httpVersion,
+    cookies: cookies ?? this.cookies,
+    headers: headers ?? this.headers,
+    content: content ?? this.content,
+    redirectURL: redirectURL ?? this.redirectURL,
+    headersSize: headersSize ?? this.headersSize,
+    bodySize: bodySize ?? this.bodySize,
+    comment: comment ?? this.comment,
+    custom: custom ?? this.custom,
+  );
 }

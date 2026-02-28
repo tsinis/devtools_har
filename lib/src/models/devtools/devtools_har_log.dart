@@ -1,6 +1,8 @@
 import '../../helpers/har_utils.dart';
 import '../base/har_entry.dart';
 import '../base/har_log.dart';
+import '../base/har_name_version.dart';
+import '../base/har_page.dart';
 import '../har_object.dart';
 import 'devtools_har_entry.dart';
 
@@ -19,6 +21,14 @@ import 'devtools_har_entry.dart';
 ///
 /// * [HarLog] — the base HAR 1.2 log model.
 /// * [DevToolsHarEntry] — entry model with Chrome-specific fields.
+///
+/// ```dart
+/// const log = DevToolsHarLog(
+///   version: '1.2',
+///   creator: HarCreator(name: 'Chrome', version: '120'),
+/// );
+/// print(log.entries.length); // 0
+/// ```
 class DevToolsHarLog extends HarLog<DevToolsHarEntry> {
   /// Creates a [DevToolsHarLog] with all [HarLog] fields.
   ///
@@ -75,4 +85,23 @@ class DevToolsHarLog extends HarLog<DevToolsHarEntry> {
   @override
   String toString() =>
       '''DevToolsHarLog(${['${HarLog.kVersion}: $version', '${HarLog.kCreator}: $creator', if (browser != null) '${HarLog.kBrowser}: $browser', if (pages.isNotEmpty) '${HarLog.kPages}: $pages', '${HarLog.kEntries}: $entries', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
+
+  @override
+  DevToolsHarLog copyWith({
+    String? version,
+    HarCreator? creator,
+    HarBrowser? browser,
+    List<HarPage>? pages,
+    List<DevToolsHarEntry>? entries,
+    String? comment,
+    Json? custom,
+  }) => DevToolsHarLog(
+    version: version ?? this.version,
+    creator: creator ?? this.creator,
+    browser: browser ?? this.browser,
+    pages: pages ?? this.pages,
+    entries: entries ?? this.entries,
+    comment: comment ?? this.comment,
+    custom: custom ?? this.custom,
+  );
 }

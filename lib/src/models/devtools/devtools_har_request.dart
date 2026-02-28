@@ -1,5 +1,9 @@
 import '../../helpers/har_utils.dart';
+import '../base/har_header.dart';
+import '../base/har_post_data.dart';
+import '../base/har_query_param.dart';
 import '../base/har_request.dart';
+import '../base/http_method.dart';
 import '../har_object.dart';
 import 'devtools_har_cookie.dart';
 import 'devtools_har_entry.dart';
@@ -22,6 +26,15 @@ import 'devtools_har_entry.dart';
 /// * [HarRequest] — the base HAR 1.2 request model.
 /// * [DevToolsHarEntry] — entry model with Chrome-specific fields.
 /// * [DevToolsHarCookie] — cookie model with `sameSite`.
+///
+/// ```dart
+/// final request = DevToolsHarRequest(
+///   url: Uri.parse('https://example.com'),
+///   headersSize: 120,
+///   bodySize: 0,
+/// );
+/// print(request.method); // HttpMethod.get
+/// ```
 class DevToolsHarRequest extends HarRequest<DevToolsHarCookie> {
   /// Creates a [DevToolsHarRequest] for DevTools cookie parsing.
   const DevToolsHarRequest({
@@ -81,4 +94,31 @@ class DevToolsHarRequest extends HarRequest<DevToolsHarCookie> {
   String toString() =>
       // ignore: avoid-default-tostring, it's enum.
       '''DevToolsHarRequest(${['${HarRequest.kMethod}: $method', '${HarRequest.kUrl}: $url', '${HarRequest.kHttpVersion}: $httpVersion', '${HarRequest.kCookies}: $cookies', '${HarRequest.kHeaders}: $headers', '${HarRequest.kQueryString}: $queryString', if (postData != null) '${HarRequest.kPostData}: $postData', '${HarRequest.kHeadersSize}: $headersSize', '${HarRequest.kBodySize}: $bodySize', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
+
+  @override
+  DevToolsHarRequest copyWith({
+    HttpMethod? method,
+    Uri? url,
+    String? httpVersion,
+    List<DevToolsHarCookie>? cookies,
+    List<HarHeader>? headers,
+    List<HarQueryParam>? queryString,
+    HarPostData? postData,
+    int? headersSize,
+    int? bodySize,
+    String? comment,
+    Json? custom,
+  }) => DevToolsHarRequest(
+    method: method ?? this.method,
+    url: url ?? this.url,
+    httpVersion: httpVersion ?? this.httpVersion,
+    cookies: cookies ?? this.cookies,
+    headers: headers ?? this.headers,
+    queryString: queryString ?? this.queryString,
+    postData: postData ?? this.postData,
+    headersSize: headersSize ?? this.headersSize,
+    bodySize: bodySize ?? this.bodySize,
+    comment: comment ?? this.comment,
+    custom: custom ?? this.custom,
+  );
 }

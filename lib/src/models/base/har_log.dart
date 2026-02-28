@@ -10,6 +10,13 @@ import 'har_page.dart';
 ///
 /// This is the root of all exported data. Every conforming HAR file
 /// contains exactly one `log` object.
+///
+/// ```dart
+/// const log = HarLog(
+///   creator: HarCreator(name: 'My App', version: '1.0'),
+/// );
+/// print(log.version); // 1.2
+/// ```
 // Reference: http://www.softwareishard.com/blog/har-12-spec/#log
 class HarLog<T extends HarEntry> extends HarObject {
   /// Creates a [HarLog] with the given field values.
@@ -69,6 +76,9 @@ class HarLog<T extends HarEntry> extends HarObject {
       pages: pagesRaw is List
           ? pagesRaw.whereType<Json>().map(HarPage.fromJson).toList()
           : const [],
+      // List<T>.from performs an eager per-element runtime type check.
+      // Needed because the Iterable is typed as HarEntry, not T — generic
+      // variance prevents .of() or .toList() from compiling here.
       entries: List<T>.from(entriesList),
       comment: json[HarObject.kComment]?.toString(),
       custom: HarUtils.collectCustom(json),
@@ -150,4 +160,23 @@ class HarLog<T extends HarEntry> extends HarObject {
   @override
   String toString() =>
       '''HarLog(${['$kVersion: $version', '$kCreator: $creator', if (browser != null) '$kBrowser: $browser', if (pages.isNotEmpty) '$kPages: $pages', '$kEntries: $entries', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
+
+  /// Creates a copy of this [HarLog] with the given fields replaced.
+  HarLog<T> copyWith({
+    String? version,
+    HarCreator? creator,
+    HarBrowser? browser,
+    List<HarPage>? pages,
+    List<T>? entries,
+    String? comment,
+    Json? custom,
+  }) => HarLog<T>(
+    version: version ?? this.version,
+    creator: creator ?? this.creator,
+    browser: browser ?? this.browser,
+    pages: pages ?? this.pages,
+    entries: entries ?? this.entries,
+    comment: comment ?? this.comment,
+    custom: custom ?? this.custom,
+  );
 }

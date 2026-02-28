@@ -7,6 +7,11 @@ import '../har_object.dart';
 ///
 /// Used in both `<request>` and `<response>` objects to represent
 /// individual HTTP headers.
+///
+/// ```dart
+/// const header = HarHeader(name: 'Content-Type', value: 'text/html');
+/// print(header.toJson()); // {name: Content-Type, value: text/html}
+/// ```
 // Reference: http://www.softwareishard.com/blog/har-12-spec/#headers
 class HarHeader extends HarObject {
   /// Creates a [HarHeader] with the given field values.
@@ -66,4 +71,17 @@ class HarHeader extends HarObject {
   @override
   String toString() =>
       '''HarHeader(${['$kName: $name', '$kValue: $value', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
+
+  /// Creates a copy of this [HarHeader] with the given fields replaced.
+  HarHeader copyWith({
+    String? name,
+    String? value,
+    String? comment,
+    Json? custom,
+  }) => HarHeader(
+    name: name ?? this.name,
+    value: value ?? this.value,
+    comment: comment ?? this.comment,
+    custom: custom ?? this.custom,
+  );
 }

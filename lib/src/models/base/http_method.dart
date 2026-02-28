@@ -8,6 +8,12 @@ import 'har_request.dart';
 ///
 /// Used by [HarRequest] for the `method` field, which the HAR spec
 /// stores as an uppercase string (e.g. `"GET"`, `"POST"`).
+///
+/// ```dart
+/// const method = HttpMethod.post;
+/// print(method.toJson()); // POST
+/// print(HttpMethod.tryParse('get')); // HttpMethod.get
+/// ```
 // Reference: http://www.softwareishard.com/blog/har-12-spec/#request
 enum HttpMethod {
   /// Establishes a tunnel to the server (used for HTTPS proxying).

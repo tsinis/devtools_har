@@ -1,7 +1,10 @@
 // ignore_for_file: avoid-similar-names
 
 import '../../helpers/har_utils.dart';
+import '../base/har_cache.dart';
 import '../base/har_entry.dart';
+import '../base/har_request.dart';
+import '../base/har_response.dart';
 import '../base/har_timings.dart';
 import '../har_object.dart';
 import 'devtools_har_cookie.dart';
@@ -16,6 +19,29 @@ import 'devtools_har_timings.dart';
 /// [fromCache], [fromServiceWorker], and [webSocketMessages].
 ///
 /// Reference: https://chromedevtools.github.io/devtools-protocol/1-3/Network/
+///
+/// ```dart
+/// final entry = DevToolsHarEntry(
+///   startedDateTime: DateTime.utc(2025),
+///   totalTime: 260,
+///   request: DevToolsHarRequest(
+///     url: Uri(),
+///     headersSize: -1,
+///     bodySize: -1,
+///   ),
+///   response: const DevToolsHarResponse(
+///     status: 200, statusText: 'OK', httpVersion: 'h2',
+///     content: HarContent(size: 0),
+///     redirectURL: '', headersSize: -1, bodySize: -1,
+///   ),
+///   cache: const HarCache(),
+///   timings: const DevToolsHarTimings(
+///     send: 10, wait: 200, receive: 50,
+///   ),
+///   resourceType: 'document',
+/// );
+/// print(entry.resourceType); // document
+/// ```
 class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
   /// Creates a [DevToolsHarEntry] with DevTools-specific fields.
   const DevToolsHarEntry({
@@ -182,4 +208,45 @@ class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
   @override
   String toString() =>
       '''DevToolsHarEntry(${[if (pageref != null) '${HarEntry.kPageref}: $pageref', '${HarEntry.kStartedDateTime}: $startedDateTime', if (startedDateTimeRaw != null) '${HarEntry.kStartedDateTimeRaw}: $startedDateTimeRaw', '${HarEntry.kTime}: $totalTime', '${HarEntry.kRequest}: $request', '${HarEntry.kResponse}: $response', '${HarEntry.kCache}: $cache', '${HarEntry.kTimings}: $timings', if (serverIPAddress != null) '${HarEntry.kServerIPAddress}: $serverIPAddress', if (connectionId != null) '${HarEntry.kConnection}: $connectionId', if (fromCache != null) '$kFromCache: $fromCache', if (fromServiceWorker != null) '$kFromServiceWorker: $fromServiceWorker', if (initiator != null) '$kInitiator: $initiator', if (priority != null) '$kPriority: $priority', if (resourceType != null) '$kResourceType: $resourceType', if (webSocketMessages != null) '$kWebSocketMessages: $webSocketMessages', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
+
+  @override
+  DevToolsHarEntry copyWith({
+    DateTime? startedDateTime,
+    String? startedDateTimeRaw,
+    double? totalTime,
+    HarRequest<DevToolsHarCookie>? request,
+    HarResponse<DevToolsHarCookie>? response,
+    HarCache? cache,
+    HarTimings? timings,
+    String? pageref,
+    String? serverIPAddress,
+    String? connectionId,
+    String? fromCache,
+    bool? fromServiceWorker,
+    Json? initiator,
+    String? priority,
+    String? resourceType,
+    List<Json>? webSocketMessages,
+    String? comment,
+    Json? custom,
+  }) => DevToolsHarEntry(
+    startedDateTime: startedDateTime ?? this.startedDateTime,
+    startedDateTimeRaw: startedDateTimeRaw ?? this.startedDateTimeRaw,
+    totalTime: totalTime ?? this.totalTime,
+    request: request ?? this.request,
+    response: response ?? this.response,
+    cache: cache ?? this.cache,
+    timings: timings ?? this.timings,
+    pageref: pageref ?? this.pageref,
+    serverIPAddress: serverIPAddress ?? this.serverIPAddress,
+    connectionId: connectionId ?? this.connectionId,
+    fromCache: fromCache ?? this.fromCache,
+    fromServiceWorker: fromServiceWorker ?? this.fromServiceWorker,
+    initiator: initiator ?? this.initiator,
+    priority: priority ?? this.priority,
+    resourceType: resourceType ?? this.resourceType,
+    webSocketMessages: webSocketMessages ?? this.webSocketMessages,
+    comment: comment ?? this.comment,
+    custom: custom ?? this.custom,
+  );
 }

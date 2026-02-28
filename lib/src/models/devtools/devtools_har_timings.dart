@@ -25,6 +25,16 @@ import '../har_object.dart';
 ///
 /// Note: these values are sub-components of [blocked] — they should
 /// not be added to the [time] sum separately.
+///
+/// ```dart
+/// const timings = DevToolsHarTimings(
+///   send: 10,
+///   wait: 200,
+///   receive: 50,
+///   blockedQueueing: 5.2,
+/// );
+/// print(timings.blockedQueueing); // 5.2
+/// ```
 // Reference: http://www.softwareishard.com/blog/har-12-spec/#timings
 class DevToolsHarTimings extends HarTimings {
   /// Creates a [DevToolsHarTimings] with all [HarTimings] fields
@@ -125,4 +135,31 @@ class DevToolsHarTimings extends HarTimings {
   @override
   String toString() =>
       '''DevToolsHarTimings(${[if (blocked != null) '${HarTimings.kBlocked}: $blocked', if (dns != null) '${HarTimings.kDns}: $dns', if (connect != null) '${HarTimings.kConnect}: $connect', '${HarTimings.kSend}: $send', '${HarTimings.kWait}: $wait', '${HarTimings.kReceive}: $receive', if (ssl != null) '${HarTimings.kSsl}: $ssl', if (blockedQueueing != null) '$kBlockedQueueing: $blockedQueueing', if (blockedProxy != null) '$kBlockedProxy: $blockedProxy', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
+
+  @override
+  DevToolsHarTimings copyWith({
+    double? send,
+    double? wait,
+    double? receive,
+    double? blocked,
+    double? dns,
+    double? connect,
+    double? ssl,
+    double? blockedQueueing,
+    double? blockedProxy,
+    String? comment,
+    Json? custom,
+  }) => DevToolsHarTimings(
+    send: send ?? this.send,
+    wait: wait ?? this.wait,
+    receive: receive ?? this.receive,
+    blocked: blocked ?? this.blocked,
+    dns: dns ?? this.dns,
+    connect: connect ?? this.connect,
+    ssl: ssl ?? this.ssl,
+    blockedQueueing: blockedQueueing ?? this.blockedQueueing,
+    blockedProxy: blockedProxy ?? this.blockedProxy,
+    comment: comment ?? this.comment,
+    custom: custom ?? this.custom,
+  );
 }

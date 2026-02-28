@@ -3,6 +3,11 @@ import '../../helpers/har_utils.dart';
 import 'devtools_har_root.dart';
 
 /// Simple parser that auto‐detects DevTools extras.
+///
+/// ```dart
+/// final root = DevToolsHarParser.parse('{"log": {"version": "1.2", ...'  ');
+/// print(root.log.entries.first.resourceType); // document
+/// ```
 sealed class DevToolsHarParser {
   /// Parse a HAR (either core or DevTools‐extended) from a JSON string.
   static DevToolsHarRoot parse(
