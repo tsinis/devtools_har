@@ -2,6 +2,8 @@
 [![Codecov](https://codecov.io/gh/tsinis/devtools_har/graph/badge.svg?token=oGAg37uXqJ)](https://codecov.io/gh/tsinis/devtools_har)
 [![Analyze](https://github.com/tsinis/devtools_har/actions/workflows/analyze.yaml/badge.svg)](https://github.com/tsinis/devtools_har/actions/workflows/analyze.yaml)
 ![AI PR Reviews](https://img.shields.io/coderabbit/prs/github/tsinis/devtools_har?utm_source=oss&utm_medium=github&utm_campaign=tsinis%2Fdevtools_har&labelColor=171717&color=00B050&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
+[![Dart Code Metrics](https://img.shields.io/badge/passing-dcm?style=flat&logo=dart&logoColor=lightskyblue&label=dcm&color=dark-green)](https://dcm.dev)
+[![Pub points](https://img.shields.io/pub/points/devtools_har)](https://pub.dev/packages/devtools_har/score)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har.svg?type=shield&issueType=license)](https://app.fossa.com/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har?ref=badge_shield&issueType=license)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har.svg?type=shield&issueType=security)](https://app.fossa.com/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har?ref=badge_shield&issueType=security)
 
