@@ -98,7 +98,9 @@ class HarEntry<T extends HarCookie> extends HarObject {
       pageref: json[kPageref]?.toString(),
       startedDateTime: parsedDateTime ?? DateTime.utc(0),
       startedDateTimeRaw: startedDateTimeString,
-      totalTime: num.tryParse(json[kTime]?.toString() ?? '')?.toDouble() ?? 0,
+      totalTime:
+          HarUtils.toDuration(num.tryParse(json[kTime]?.toString() ?? '')) ??
+          Duration.zero,
       request: request is Json
           ? HarRequest.fromJson(request)
           : HarRequest(url: Uri(), headersSize: -1, bodySize: -1),
@@ -115,7 +117,11 @@ class HarEntry<T extends HarCookie> extends HarObject {
       cache: cache is Json ? HarCache.fromJson(cache) : const HarCache(),
       timings: timings is Json
           ? HarTimings.fromJson(timings)
-          : const HarTimings(send: 0, wait: 0, receive: 0),
+          : const HarTimings(
+              send: Duration.zero,
+              wait: Duration.zero,
+              receive: Duration.zero,
+            ),
       serverIPAddress: json[kServerIPAddress]?.toString(),
       connectionId: json[kConnection]?.toString(),
       comment: json[HarObject.kComment]?.toString(),
@@ -168,14 +174,11 @@ class HarEntry<T extends HarCookie> extends HarObject {
   /// Original `startedDateTime` string, preserved for round-tripping.
   final String? startedDateTimeRaw;
 
-  /// Total elapsed time of the request in milliseconds.
+  /// Total elapsed time of the request.
   ///
   /// Per the spec, this is the sum of all timings in the [timings]
   /// object, excluding `-1` values.
-  ///
-  /// Typed as [double] to preserve sub-millisecond precision that
-  /// some exporters (e.g. Chrome DevTools) emit.
-  final double totalTime;
+  final Duration totalTime;
 
   /// Detailed info about the performed request.
   final HarRequest<T> request;
@@ -213,7 +216,7 @@ class HarEntry<T extends HarCookie> extends HarObject {
       kResponse: response.toJson(includeNulls: includeNulls),
       kServerIPAddress: serverIPAddress,
       kStartedDateTime: startedDateTimeRaw ?? startedDateTime.toIso8601String(),
-      kTime: HarUtils.normalizeNumber(totalTime),
+      kTime: HarUtils.fromDuration(totalTime),
       kTimings: timings.toJson(includeNulls: includeNulls),
       ...commonJson(includeNulls: includeNulls),
     },
@@ -228,7 +231,7 @@ class HarEntry<T extends HarCookie> extends HarObject {
   HarEntry<T> copyWith({
     DateTime? startedDateTime,
     String? startedDateTimeRaw,
-    double? totalTime,
+    Duration? totalTime,
     HarRequest<T>? request,
     HarResponse<T>? response,
     HarCache? cache,

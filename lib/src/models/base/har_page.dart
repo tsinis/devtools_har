@@ -195,10 +195,10 @@ class HarPageTimings extends HarObject {
   factory HarPageTimings.fromJson(Json json) => _fromJson(json);
 
   static HarPageTimings _fromJson(Json json) => HarPageTimings(
-    onContentLoad: num.tryParse(
-      json[kOnContentLoad]?.toString() ?? '', // Dart 3.8 formatting.
-    )?.toDouble(),
-    onLoad: num.tryParse(json[kOnLoad]?.toString() ?? '')?.toDouble(),
+    onContentLoad: HarUtils.toDuration(
+      num.tryParse(json[kOnContentLoad]?.toString() ?? ''),
+    ),
+    onLoad: HarUtils.toDuration(num.tryParse(json[kOnLoad]?.toString() ?? '')),
     comment: json[HarObject.kComment]?.toString(),
     custom: HarUtils.collectCustom(json),
   );
@@ -210,19 +210,19 @@ class HarPageTimings extends HarObject {
   /// JSON key for the load event time (`"onLoad"`).
   static const kOnLoad = 'onLoad';
 
-  /// Milliseconds from [HarPage.startedDateTime] until the page
+  /// Time from [HarPage.startedDateTime] until the page
   /// content is loaded (DOMContentLoaded event).
   ///
   /// `null` if absent; `-1` if the timing does not apply.
   // ignore: prefer-correct-callback-field-name, follows specifications naming.
-  final double? onContentLoad;
+  final Duration? onContentLoad;
 
-  /// Milliseconds from [HarPage.startedDateTime] until the page is
+  /// Time from [HarPage.startedDateTime] until the page is
   /// fully loaded (load event).
   ///
   /// `null` if absent; `-1` if the timing does not apply.
   // ignore: prefer-correct-callback-field-name, follows specifications naming.
-  final double? onLoad;
+  final Duration? onLoad;
 
   /// Serialises this page timings object back to a JSON-compatible
   /// map.
@@ -232,8 +232,8 @@ class HarPageTimings extends HarObject {
   @override
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
     {
-      kOnContentLoad: HarUtils.normalizeNumber(onContentLoad),
-      kOnLoad: HarUtils.normalizeNumber(onLoad),
+      kOnContentLoad: HarUtils.fromDuration(onContentLoad),
+      kOnLoad: HarUtils.fromDuration(onLoad),
       ...commonJson(includeNulls: includeNulls),
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
@@ -245,8 +245,8 @@ class HarPageTimings extends HarObject {
 
   /// Creates a copy of this [HarPageTimings] with the given fields replaced.
   HarPageTimings copyWith({
-    double? onContentLoad,
-    double? onLoad,
+    Duration? onContentLoad,
+    Duration? onLoad,
     String? comment,
     Json? custom,
   }) => HarPageTimings(

@@ -20,13 +20,17 @@ import 'package:devtools_har/src/models/devtools/devtools_har_log.dart';
 import 'package:devtools_har/src/models/devtools/devtools_har_request.dart';
 import 'package:devtools_har/src/models/devtools/devtools_har_response.dart';
 import 'package:devtools_har/src/models/devtools/devtools_har_timings.dart';
+import 'package:devtools_har/src/models/devtools/devtools_initiator.dart';
+import 'package:devtools_har/src/models/devtools/devtools_priority.dart';
+import 'package:devtools_har/src/models/devtools/devtools_resource_type.dart';
+import 'package:devtools_har/src/models/devtools/devtools_websocket_message.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('DevToolsHarEntry.fromHarEntry', () {
     final baseEntry = HarEntry(
       startedDateTime: DateTime.utc(2025, 3, 14),
-      totalTime: 245.5,
+      totalTime: const Duration(milliseconds: 245, microseconds: 500),
       request: HarRequest(
         url: Uri.parse('https://example.com'),
         headersSize: 100,
@@ -43,7 +47,11 @@ void main() {
         cookies: [HarCookie(name: 'lang', value: 'en')],
       ),
       cache: const HarCache(),
-      timings: const HarTimings(send: 50, wait: 100, receive: 75),
+      timings: const HarTimings(
+        send: Duration(milliseconds: 50),
+        wait: Duration(milliseconds: 100),
+        receive: Duration(milliseconds: 75),
+      ),
       custom: const {'_entryExtra': 'data'},
     );
 
@@ -77,19 +85,25 @@ void main() {
         baseEntry,
         fromCache: 'disk',
         fromServiceWorker: true,
-        initiator: const {'type': 'script', 'url': 'https://example.com'},
-        priority: 'High',
-        resourceType: 'document',
+        initiator:
+            const DevToolsInitiator(type: 'script', url: 'https://example.com'),
+        priority: DevToolsPriority.high,
+        resourceType: DevToolsResourceType.document,
         webSocketMessages: const [
-          {'data': 'hello', 'type': 'send'},
+          DevToolsWebSocketMessage(
+            data: 'hello',
+            type: 'send',
+            time: Duration.zero,
+            opcode: 1,
+          ),
         ],
       );
 
       expect(devEntry.fromCache, 'disk');
       expect(devEntry.fromServiceWorker, isTrue);
-      expect(devEntry.initiator?['type'], 'script');
-      expect(devEntry.priority, 'High');
-      expect(devEntry.resourceType, 'document');
+      expect(devEntry.initiator?.type, 'script');
+      expect(devEntry.priority, DevToolsPriority.high);
+      expect(devEntry.resourceType, DevToolsResourceType.document);
       expect(devEntry.webSocketMessages, hasLength(1));
     });
 
@@ -245,25 +259,25 @@ void main() {
   group('DevToolsHarTimings.fromHarTimings', () {
     test('preserves custom from base by default', () {
       const base = HarTimings(
-        send: 10,
-        wait: 200,
-        receive: 50,
+        send: Duration(milliseconds: 10),
+        wait: Duration(milliseconds: 200),
+        receive: Duration(milliseconds: 50),
         custom: {'_timingExtra': 42},
       );
 
       final converted = DevToolsHarTimings.fromHarTimings(base);
 
-      expect(converted.send, 10);
-      expect(converted.wait, 200);
-      expect(converted.receive, 50);
+      expect(converted.send, const Duration(milliseconds: 10));
+      expect(converted.wait, const Duration(milliseconds: 200));
+      expect(converted.receive, const Duration(milliseconds: 50));
       expect(converted.custom, {'_timingExtra': 42});
     });
 
     test('uses provided custom when given', () {
       const base = HarTimings(
-        send: 10,
-        wait: 200,
-        receive: 50,
+        send: Duration(milliseconds: 10),
+        wait: Duration(milliseconds: 200),
+        receive: Duration(milliseconds: 50),
         custom: {'_old': 1},
       );
 
@@ -283,7 +297,7 @@ void main() {
         entries: [
           HarEntry(
             startedDateTime: DateTime.utc(2025),
-            totalTime: 100,
+            totalTime: const Duration(milliseconds: 100),
             request: HarRequest(
               url: Uri.parse('https://example.com'),
               headersSize: -1,
@@ -298,7 +312,11 @@ void main() {
               bodySize: -1,
             ),
             cache: const HarCache(),
-            timings: const HarTimings(send: 10, wait: 50, receive: 40),
+            timings: const HarTimings(
+              send: Duration(milliseconds: 10),
+              wait: Duration(milliseconds: 50),
+              receive: Duration(milliseconds: 40),
+            ),
           ),
         ],
         custom: const {'_logExtra': 'meta'},
@@ -321,7 +339,7 @@ void main() {
         entries: [
           HarEntry(
             startedDateTime: DateTime.utc(2025),
-            totalTime: 100,
+            totalTime: const Duration(milliseconds: 100),
             request: HarRequest(url: Uri(), headersSize: -1, bodySize: -1),
             response: const HarResponse(
               status: 200,
@@ -332,7 +350,11 @@ void main() {
               bodySize: -1,
             ),
             cache: const HarCache(),
-            timings: const HarTimings(send: 0, wait: 0, receive: 0),
+            timings: const HarTimings(
+              send: Duration.zero,
+              wait: Duration.zero,
+              receive: Duration.zero,
+            ),
           ),
         ],
       );

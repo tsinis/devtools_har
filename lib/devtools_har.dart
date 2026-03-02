@@ -28,4 +28,8 @@ export 'src/models/devtools/devtools_har_request.dart';
 export 'src/models/devtools/devtools_har_response.dart';
 export 'src/models/devtools/devtools_har_root.dart';
 export 'src/models/devtools/devtools_har_timings.dart';
+export 'src/models/devtools/devtools_initiator.dart';
+export 'src/models/devtools/devtools_priority.dart';
+export 'src/models/devtools/devtools_resource_type.dart';
+export 'src/models/devtools/devtools_websocket_message.dart';
 export 'src/models/har_object.dart';

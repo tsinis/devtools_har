@@ -15,33 +15,37 @@ void main() {
   group('HarTimings', () {
     test('time getter calculates total correctly with all values', () {
       const timings = HarTimings(
-        blocked: 10,
-        dns: 5,
-        connect: 20,
-        send: 50,
-        wait: 100,
-        receive: 75,
+        blocked: Duration(milliseconds: 10),
+        dns: Duration(milliseconds: 5),
+        connect: Duration(milliseconds: 20),
+        send: Duration(milliseconds: 50),
+        wait: Duration(milliseconds: 100),
+        receive: Duration(milliseconds: 75),
       );
 
-      expect(timings.time, 260.0);
+      expect(timings.time.inMilliseconds, 260);
     });
 
     test('time getter ignores -1 values', () {
       const timings = HarTimings(
-        blocked: -1,
-        dns: 5,
-        send: 50,
-        wait: 100,
-        receive: 75,
+        blocked: Duration(milliseconds: -1),
+        dns: Duration(milliseconds: 5),
+        send: Duration(milliseconds: 50),
+        wait: Duration(milliseconds: 100),
+        receive: Duration(milliseconds: 75),
       );
 
-      expect(timings.time, 230.0);
+      expect(timings.time.inMilliseconds, 230);
     });
 
     test('time getter ignores null values', () {
-      const timings = HarTimings(send: 50, wait: 100, receive: 75);
+      const timings = HarTimings(
+        send: Duration(milliseconds: 50),
+        wait: Duration(milliseconds: 100),
+        receive: Duration(milliseconds: 75),
+      );
 
-      expect(timings.time, 225.0);
+      expect(timings.time.inMilliseconds, 225);
     });
 
     test('fromJson deserializes all fields correctly', () {
@@ -56,13 +60,13 @@ void main() {
       };
 
       final timings = HarTimings.fromJson(json);
-      expect(timings.blocked, 10.0);
-      expect(timings.dns, 5.5);
-      expect(timings.connect, 20.3);
-      expect(timings.send, 50.5);
-      expect(timings.wait, 100.2);
-      expect(timings.receive, 75.8);
-      expect(timings.ssl, 15.0);
+      expect(timings.blocked, const Duration(milliseconds: 10));
+      expect(timings.dns, const Duration(milliseconds: 5, microseconds: 500));
+      expect(timings.connect, const Duration(milliseconds: 20, microseconds: 300));
+      expect(timings.send, const Duration(milliseconds: 50, microseconds: 500));
+      expect(timings.wait, const Duration(milliseconds: 100, microseconds: 200));
+      expect(timings.receive, const Duration(milliseconds: 75, microseconds: 800));
+      expect(timings.ssl, const Duration(milliseconds: 15));
     });
 
     test('fromJson deserializes string numbers correctly', () {
@@ -74,10 +78,10 @@ void main() {
       };
 
       final timings = HarTimings.fromJson(json);
-      expect(timings.blocked, 10.0);
-      expect(timings.send, 50.5);
-      expect(timings.wait, 100.2);
-      expect(timings.receive, 75.8);
+      expect(timings.blocked, const Duration(milliseconds: 10));
+      expect(timings.send, const Duration(milliseconds: 50, microseconds: 500));
+      expect(timings.wait, const Duration(milliseconds: 100, microseconds: 200));
+      expect(timings.receive, const Duration(milliseconds: 75, microseconds: 800));
     });
 
     test('fromJson with missing optional fields uses null', () {
@@ -94,34 +98,38 @@ void main() {
       const json = <String, dynamic>{};
 
       final timings = HarTimings.fromJson(json);
-      expect(timings.send, 0.0);
-      expect(timings.wait, 0.0);
-      expect(timings.receive, 0.0);
+      expect(timings.send, Duration.zero);
+      expect(timings.wait, Duration.zero);
+      expect(timings.receive, Duration.zero);
     });
 
     test('toJson serializes all fields correctly', () {
       const timings = HarTimings(
-        blocked: 10,
-        dns: 5,
-        connect: 20,
-        send: 50,
-        wait: 100,
-        receive: 75,
-        ssl: 15,
+        blocked: Duration(milliseconds: 10),
+        dns: Duration(milliseconds: 5),
+        connect: Duration(milliseconds: 20),
+        send: Duration(milliseconds: 50),
+        wait: Duration(milliseconds: 100),
+        receive: Duration(milliseconds: 75),
+        ssl: Duration(milliseconds: 15),
       );
 
       final json = timings.toJson();
-      expect(json['blocked'], 10.0);
-      expect(json['dns'], 5.0);
-      expect(json['connect'], 20.0);
-      expect(json['send'], 50.0);
-      expect(json['wait'], 100.0);
-      expect(json['receive'], 75.0);
-      expect(json['ssl'], 15.0);
+      expect(json['blocked'], 10);
+      expect(json['dns'], 5);
+      expect(json['connect'], 20);
+      expect(json['send'], 50);
+      expect(json['wait'], 100);
+      expect(json['receive'], 75);
+      expect(json['ssl'], 15);
     });
 
     test('toJson omits null optional fields', () {
-      const timings = HarTimings(send: 50, wait: 100, receive: 75);
+      const timings = HarTimings(
+        send: Duration(milliseconds: 50),
+        wait: Duration(milliseconds: 100),
+        receive: Duration(milliseconds: 75),
+      );
 
       final json = timings.toJson();
       expect(json.containsKey('blocked'), false);
@@ -132,18 +140,18 @@ void main() {
 
     test('toString includes all non-null fields', () {
       const timings = HarTimings(
-        blocked: 10,
-        dns: 5,
-        send: 50,
-        wait: 100,
-        receive: 75,
+        blocked: Duration(milliseconds: 10),
+        dns: Duration(milliseconds: 5),
+        send: Duration(milliseconds: 50),
+        wait: Duration(milliseconds: 100),
+        receive: Duration(milliseconds: 75),
         comment: 'Test timing',
       );
 
       final str = timings.toString();
       expect(str, contains('HarTimings'));
-      expect(str, contains('10.0'));
-      expect(str, contains('5.0'));
+      expect(str, contains('0:00:00.010000'));
+      expect(str, contains('0:00:00.005000'));
       expect(str, contains('Test timing'));
     });
   });
@@ -434,7 +442,7 @@ void main() {
       expect(entry.pageref, 'page_1');
       expect(entry.startedDateTime, DateTime.utc(2025, 3, 14));
       expect(entry.startedDateTimeRaw, '2025-03-14T00:00:00.000Z');
-      expect(entry.totalTime, 245.5);
+      expect(entry.totalTime, const Duration(milliseconds: 245, microseconds: 500));
       expect(entry.serverIPAddress, '192.168.1.1');
       expect(entry.connectionId, 'conn_1');
       expect(entry.comment, 'Test');
@@ -475,7 +483,7 @@ void main() {
       final entry = HarEntry(
         startedDateTime: DateTime.utc(2025, 3, 14),
         startedDateTimeRaw: '2025-03-14T10:00:00.123Z',
-        totalTime: 245.5,
+        totalTime: const Duration(milliseconds: 245, microseconds: 500),
         request: HarRequest(
           url: Uri.parse('https://example.com'),
           headersSize: 100,
@@ -490,7 +498,11 @@ void main() {
           bodySize: 1024,
         ),
         cache: const HarCache(),
-        timings: const HarTimings(send: 50, wait: 100, receive: 75),
+        timings: const HarTimings(
+          send: Duration(milliseconds: 50),
+          wait: Duration(milliseconds: 100),
+          receive: Duration(milliseconds: 75),
+        ),
       );
 
       final json = entry.toJson();
@@ -501,7 +513,7 @@ void main() {
       final entry = HarEntry(
         pageref: 'page_1',
         startedDateTime: DateTime.utc(2025, 3, 14),
-        totalTime: 245.5,
+        totalTime: const Duration(milliseconds: 245, microseconds: 500),
         request: HarRequest(
           url: Uri.parse('https://example.com'),
           headersSize: 100,
@@ -516,7 +528,11 @@ void main() {
           bodySize: 1024,
         ),
         cache: const HarCache(),
-        timings: const HarTimings(send: 50, wait: 100, receive: 75),
+        timings: const HarTimings(
+          send: Duration(milliseconds: 50),
+          wait: Duration(milliseconds: 100),
+          receive: Duration(milliseconds: 75),
+        ),
         serverIPAddress: '192.168.1.1',
         connectionId: 'conn_1',
       );

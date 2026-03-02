@@ -71,27 +71,32 @@ void main() => group('toString() overrides', () {
   });
 
   test('HarTimings', () {
-    const timings = HarTimings(send: 1, wait: 2, receive: 3, dns: 0.5);
+    const timings = HarTimings(
+      send: Duration(milliseconds: 1),
+      wait: Duration(milliseconds: 2),
+      receive: Duration(milliseconds: 3),
+      dns: Duration(microseconds: 500),
+    );
     expect(
       timings.toString(),
-      'HarTimings(dns: 0.5, send: 1.0, wait: 2.0, receive: 3.0)',
+      'HarTimings(dns: 0:00:00.000500, send: 0:00:00.001000, wait: 0:00:00.002000, receive: 0:00:00.003000)',
     );
   });
 
   test('HarPage and HarPageTimings', () {
     final now = DateTime.now();
-    const pageTimings = HarPageTimings(onLoad: 1000);
+    const pageTimings = HarPageTimings(onLoad: Duration(milliseconds: 1000));
     final page = HarPage(
       startedDateTime: now,
       id: 'page1',
       title: 'Page 1',
       pageTimings: pageTimings,
     );
-    expect(pageTimings.toString(), 'HarPageTimings(onLoad: 1000.0)');
+    expect(pageTimings.toString(), 'HarPageTimings(onLoad: 0:00:01.000000)');
     expect(
       page.toString(),
       contains(
-        'HarPage(startedDateTime: $now, id: page1, title: Page 1, pageTimings: HarPageTimings(onLoad: 1000.0))',
+        'HarPage(startedDateTime: $now, id: page1, title: Page 1, pageTimings: HarPageTimings(onLoad: 0:00:01.000000))',
       ),
     );
   });
@@ -142,11 +147,15 @@ void main() => group('toString() overrides', () {
     );
     final entry = HarEntry(
       startedDateTime: now,
-      totalTime: 100,
+      totalTime: const Duration(milliseconds: 100),
       request: request,
       response: response,
       cache: const HarCache(),
-      timings: const HarTimings(send: 0, wait: 0, receive: 0),
+      timings: const HarTimings(
+        send: Duration.zero,
+        wait: Duration.zero,
+        receive: Duration.zero,
+      ),
     );
 
     final string = entry.toString();
@@ -189,14 +198,14 @@ void main() => group('toString() overrides', () {
 
   test('DevToolsHarTimings', () {
     const timings = DevToolsHarTimings(
-      send: 1,
-      wait: 2,
-      receive: 3,
-      blockedQueueing: 0.1,
+      send: Duration(milliseconds: 1),
+      wait: Duration(milliseconds: 2),
+      receive: Duration(milliseconds: 3),
+      blockedQueueing: Duration(microseconds: 100),
     );
     expect(
       timings.toString(),
-      'DevToolsHarTimings(send: 1.0, wait: 2.0, receive: 3.0, _blocked_queueing: 0.1)',
+      'DevToolsHarTimings(send: 0:00:00.001000, wait: 0:00:00.002000, receive: 0:00:00.003000, _blocked_queueing: 0:00:00.000100)',
     );
   });
 
@@ -244,15 +253,19 @@ void main() => group('toString() overrides', () {
     );
     final entry = DevToolsHarEntry(
       startedDateTime: now,
-      totalTime: 100,
+      totalTime: const Duration(milliseconds: 100),
       request: request,
       response: response,
       cache: const HarCache(),
-      timings: const DevToolsHarTimings(send: 0, wait: 0, receive: 0),
-      priority: 'High',
+      timings: const DevToolsHarTimings(
+        send: Duration.zero,
+        wait: Duration.zero,
+        receive: Duration.zero,
+      ),
+      priority: DevToolsPriority.high,
     );
     expect(entry.toString(), contains('DevToolsHarEntry('));
-    expect(entry.toString(), contains('priority: High'));
+    expect(entry.toString(), contains('priority: DevToolsPriority.high'));
   });
 
   test('DevToolsHarLog', () {

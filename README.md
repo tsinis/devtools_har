@@ -96,9 +96,9 @@ final root = DevToolsHarParser.parse(jsonStr);
 
 final entry = root.log.entries.first;
 print(entry.request.url);
-print(entry.timings.wait);
-print(entry.priority);     // e.g. "High"
-print(entry.resourceType); // e.g. "XHR"
+print(entry.timings.wait); // Duration: 0:00:00.042000
+print(entry.priority);     // DevToolsPriority.high
+print(entry.resourceType); // DevToolsResourceType.xhr
 ```
 
 ### Build and serialize
@@ -106,7 +106,7 @@ print(entry.resourceType); // e.g. "XHR"
 ```dart
 final entry = HarEntry(
   startedDateTime: DateTime.now().toUtc(),
-  totalTime: 120,
+  totalTime: const Duration(milliseconds: 120),
   request: HarRequest(
     method: HttpMethod.get,
     url: Uri.parse('https://api.example.com/v1/vehicles'),
@@ -131,7 +131,11 @@ final entry = HarEntry(
     bodySize: 0,
   ),
   cache: const HarCache(),
-  timings: const HarTimings(send: 0, wait: 0, receive: 0),
+  timings: const HarTimings(
+    send: Duration.zero,
+    wait: Duration.zero,
+    receive: Duration.zero,
+  ),
 );
 
 // Compact (omit nulls)

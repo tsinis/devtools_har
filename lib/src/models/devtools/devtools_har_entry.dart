@@ -11,6 +11,10 @@ import 'devtools_har_cookie.dart';
 import 'devtools_har_request.dart';
 import 'devtools_har_response.dart';
 import 'devtools_har_timings.dart';
+import 'devtools_initiator.dart';
+import 'devtools_priority.dart';
+import 'devtools_resource_type.dart';
+import 'devtools_websocket_message.dart';
 
 /// Entry with DevTools-specific `_`-prefixed fields.
 ///
@@ -132,26 +136,34 @@ class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
     );
     final webSocketMessagesRaw = json[kWebSocketMessages];
 
+    final priority = DevToolsPriority.tryParse(json[kPriority]);
+    final resourceType = DevToolsResourceType.tryParse(json[kResourceType]);
+
     return DevToolsHarEntry.fromHarEntry(
       harEntry,
       request: request,
       response: response,
       timings: timings,
-      custom: HarUtils.collectCustom(json, const {
+      custom: HarUtils.collectCustom(json, {
         kFromCache,
         kFromServiceWorker,
         kInitiator,
-        kPriority,
-        kResourceType,
+        if (priority != null) kPriority,
+        if (resourceType != null) kResourceType,
         kWebSocketMessages,
       }),
-      initiator: initiatorRaw is Json ? initiatorRaw : null,
-      priority: json[kPriority]?.toString(),
-      resourceType: json[kResourceType]?.toString(),
+      initiator: initiatorRaw is Json
+          ? DevToolsInitiator.fromJson(initiatorRaw)
+          : null,
+      priority: priority,
+      resourceType: resourceType,
       fromCache: json[kFromCache]?.toString(),
       fromServiceWorker: fromServiceWorkerRaw,
       webSocketMessages: webSocketMessagesRaw is List
-          ? webSocketMessagesRaw.whereType<Json>().toList()
+          ? webSocketMessagesRaw
+              .whereType<Json>()
+              .map(DevToolsWebSocketMessage.fromJson)
+              .toList()
           : null,
     );
   }
@@ -183,27 +195,28 @@ class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
   final bool? fromServiceWorker;
 
   /// Initiator metadata (type, URL, stack trace, line number).
-  final Json? initiator;
+  final DevToolsInitiator? initiator;
 
   /// Chrome resource priority level.
-  final String? priority;
+  final DevToolsPriority? priority;
 
   /// Chrome resource type classification.
-  final String? resourceType;
+  final DevToolsResourceType? resourceType;
 
   /// WebSocket frame messages for `ws://`/`wss://` entries.
-  final List<Json>? webSocketMessages;
+  final List<DevToolsWebSocketMessage>? webSocketMessages;
 
   @override
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
     {
       ...super.toJson(includeNulls: includeNulls),
       kFromCache: fromCache,
-      kInitiator: initiator,
-      kPriority: priority,
-      kResourceType: resourceType,
+      kInitiator: initiator?.toJson(includeNulls: includeNulls),
+      kPriority: priority?.toJson(),
+      kResourceType: resourceType?.toJson(),
       kFromServiceWorker: fromServiceWorker,
-      kWebSocketMessages: webSocketMessages,
+      kWebSocketMessages:
+          webSocketMessages?.map((m) => m.toJson(includeNulls: includeNulls)).toList(),
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
@@ -216,7 +229,7 @@ class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
   DevToolsHarEntry copyWith({
     DateTime? startedDateTime,
     String? startedDateTimeRaw,
-    double? totalTime,
+    Duration? totalTime,
     HarRequest<DevToolsHarCookie>? request,
     HarResponse<DevToolsHarCookie>? response,
     HarCache? cache,
@@ -226,10 +239,10 @@ class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
     String? connectionId,
     String? fromCache,
     bool? fromServiceWorker,
-    Json? initiator,
-    String? priority,
-    String? resourceType,
-    List<Json>? webSocketMessages,
+    DevToolsInitiator? initiator,
+    DevToolsPriority? priority,
+    DevToolsResourceType? resourceType,
+    List<DevToolsWebSocketMessage>? webSocketMessages,
     String? comment,
     Json? custom,
   }) => DevToolsHarEntry(
