@@ -2,6 +2,7 @@
 // ignore_for_file: avoid-unsafe-collection-methods, prefer-moving-to-variable
 // ignore_for_file: no-equal-arguments
 
+// ignore: max-imports, it's a test file that needs to import a lot of models...
 import 'package:devtools_har/src/models/base/har_cache.dart';
 import 'package:devtools_har/src/models/base/har_content.dart';
 import 'package:devtools_har/src/models/base/har_cookie.dart';
@@ -85,8 +86,10 @@ void main() {
         baseEntry,
         fromCache: 'disk',
         fromServiceWorker: true,
-        initiator:
-            const DevToolsInitiator(type: 'script', url: 'https://example.com'),
+        initiator: const DevToolsInitiator(
+          type: 'script',
+          url: 'https://example.com',
+        ),
         priority: DevToolsPriority.high,
         resourceType: DevToolsResourceType.document,
         webSocketMessages: const [

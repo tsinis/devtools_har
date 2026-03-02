@@ -117,7 +117,9 @@ void main() {
       });
 
       test('replaces specified fields', () {
-        final copy = original.copyWith(onLoad: const Duration(milliseconds: 1000));
+        final copy = original.copyWith(
+          onLoad: const Duration(milliseconds: 1000),
+        );
         expect(copy.onContentLoad, const Duration(milliseconds: 500));
         expect(copy.onLoad, const Duration(milliseconds: 1000));
       });
@@ -307,8 +309,9 @@ void main() {
       test('replaces specified fields', () {
         final copy = original.copyWith(
           title: 'About',
-          pageTimings:
-              const HarPageTimings(onLoad: Duration(milliseconds: 1000)),
+          pageTimings: const HarPageTimings(
+            onLoad: Duration(milliseconds: 1000),
+          ),
         );
         expect(copy.title, 'About');
         expect(copy.pageTimings.onLoad, const Duration(milliseconds: 1000));
@@ -591,6 +594,7 @@ void main() {
       });
     });
 
+    // ignore: avoid-long-functions, that's a test...
     group('DevToolsHarEntry', () {
       final original = DevToolsHarEntry(
         startedDateTime: DateTime.utc(2025),

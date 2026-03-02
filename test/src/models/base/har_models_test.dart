@@ -64,10 +64,19 @@ void main() {
       final timings = HarTimings.fromJson(json);
       expect(timings.blocked, const Duration(milliseconds: 10));
       expect(timings.dns, const Duration(milliseconds: 5, microseconds: 500));
-      expect(timings.connect, const Duration(milliseconds: 20, microseconds: 300));
+      expect(
+        timings.connect,
+        const Duration(milliseconds: 20, microseconds: 300),
+      );
       expect(timings.send, const Duration(milliseconds: 50, microseconds: 500));
-      expect(timings.wait, const Duration(milliseconds: 100, microseconds: 200));
-      expect(timings.receive, const Duration(milliseconds: 75, microseconds: 800));
+      expect(
+        timings.wait,
+        const Duration(milliseconds: 100, microseconds: 200),
+      );
+      expect(
+        timings.receive,
+        const Duration(milliseconds: 75, microseconds: 800),
+      );
       expect(timings.ssl, const Duration(milliseconds: 15));
     });
 
@@ -82,8 +91,14 @@ void main() {
       final timings = HarTimings.fromJson(json);
       expect(timings.blocked, const Duration(milliseconds: 10));
       expect(timings.send, const Duration(milliseconds: 50, microseconds: 500));
-      expect(timings.wait, const Duration(milliseconds: 100, microseconds: 200));
-      expect(timings.receive, const Duration(milliseconds: 75, microseconds: 800));
+      expect(
+        timings.wait,
+        const Duration(milliseconds: 100, microseconds: 200),
+      );
+      expect(
+        timings.receive,
+        const Duration(milliseconds: 75, microseconds: 800),
+      );
     });
 
     test('fromJson with missing optional fields uses null', () {
@@ -444,7 +459,10 @@ void main() {
       expect(entry.pageref, 'page_1');
       expect(entry.startedDateTime, DateTime.utc(2025, 3, 14));
       expect(entry.startedDateTimeRaw, '2025-03-14T00:00:00.000Z');
-      expect(entry.totalTime, const Duration(milliseconds: 245, microseconds: 500));
+      expect(
+        entry.totalTime,
+        const Duration(milliseconds: 245, microseconds: 500),
+      );
       expect(entry.serverIPAddress, '192.168.1.1');
       expect(entry.connectionId, 'conn_1');
       expect(entry.comment, 'Test');
@@ -581,4 +599,7 @@ class _HarModelsTest extends HarObject {
   @override
   Json toJson({bool includeNulls = false}) =>
       commonJson(includeNulls: includeNulls);
+
+  @override
+  HarObject copyWith({String? comment, Json? custom}) => const _HarModelsTest();
 }

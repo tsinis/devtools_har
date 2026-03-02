@@ -1,4 +1,4 @@
-// ignore_for_file: lines_longer_than_80_chars, avoid-long-functions
+// ignore_for_file: lines_longer_than_80_chars, avoid-long-functions, no-equal-arguments
 
 import 'package:devtools_har/devtools_har.dart';
 import 'package:test/test.dart';
