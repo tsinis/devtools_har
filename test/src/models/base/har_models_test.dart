@@ -2,8 +2,10 @@
 
 import 'package:devtools_har/src/helpers/har_utils.dart';
 import 'package:devtools_har/src/models/base/har_cache.dart';
+import 'package:devtools_har/src/models/base/har_cache_entry.dart';
 import 'package:devtools_har/src/models/base/har_content.dart';
 import 'package:devtools_har/src/models/base/har_entry.dart';
+import 'package:devtools_har/src/models/base/har_param.dart';
 import 'package:devtools_har/src/models/base/har_post_data.dart';
 import 'package:devtools_har/src/models/base/har_request.dart';
 import 'package:devtools_har/src/models/base/har_response.dart';
