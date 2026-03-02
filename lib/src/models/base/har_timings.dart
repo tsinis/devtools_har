@@ -1,3 +1,4 @@
+import '../../helpers/extensions/har_duration.dart';
 import '../../helpers/har_utils.dart';
 import '../har_object.dart';
 
@@ -64,37 +65,32 @@ class HarTimings extends HarObject {
   /// when missing or unparseable.  Optional fields default to `null`.
   factory HarTimings.fromJson(Json json) => _fromJson(json);
 
-  // ignore: avoid-high-cyclomatic-complexity, a lot of fields to parse.
   static HarTimings _fromJson(Json json) {
-    final sendNum = num.tryParse(json[kSend]?.toString() ?? '') ?? 0;
-    final waitNum = num.tryParse(json[kWait]?.toString() ?? '') ?? 0;
-    final receiveNum = num.tryParse(json[kReceive]?.toString() ?? '') ?? 0;
+    final sendString = json[kSend]?.toString() ?? '';
+    final waitString = json[kWait]?.toString() ?? '';
+    final receiveString = json[kReceive]?.toString() ?? '';
 
     assert(
-      sendNum >= 0,
-      'HarTimings: "$kSend" must be non-negative, got $sendNum',
+      !sendString.startsWith('-'),
+      'HarTimings: "$kSend" must be non-negative, got $sendString',
     );
     assert(
-      waitNum >= 0,
-      'HarTimings: "$kWait" must be non-negative, got $waitNum',
+      !waitString.startsWith('-'),
+      'HarTimings: "$kWait" must be non-negative, got $waitString',
     );
     assert(
-      receiveNum >= 0,
-      'HarTimings: "$kReceive" must be non-negative, got $receiveNum',
+      !receiveString.startsWith('-'),
+      'HarTimings: "$kReceive" must be non-negative, got $receiveString',
     );
 
     return HarTimings(
-      blocked: HarUtils.toDuration(
-        num.tryParse(json[kBlocked]?.toString() ?? ''),
-      ),
-      dns: HarUtils.toDuration(num.tryParse(json[kDns]?.toString() ?? '')),
-      connect: HarUtils.toDuration(
-        num.tryParse(json[kConnect]?.toString() ?? ''),
-      ),
-      send: HarUtils.toDuration(sendNum) ?? Duration.zero,
-      wait: HarUtils.toDuration(waitNum) ?? Duration.zero,
-      receive: HarUtils.toDuration(receiveNum) ?? Duration.zero,
-      ssl: HarUtils.toDuration(num.tryParse(json[kSsl]?.toString() ?? '')),
+      blocked: HarDuration.tryParse(json[kBlocked]?.toString()),
+      dns: HarDuration.tryParse(json[kDns]?.toString()),
+      connect: HarDuration.tryParse(json[kConnect]?.toString()),
+      send: HarDuration.tryParse(sendString) ?? Duration.zero,
+      wait: HarDuration.tryParse(waitString) ?? Duration.zero,
+      receive: HarDuration.tryParse(receiveString) ?? Duration.zero,
+      ssl: HarDuration.tryParse(json[kSsl]?.toString()),
       comment: json[HarObject.kComment]?.toString(),
       custom: HarUtils.collectCustom(json),
     );
@@ -204,13 +200,13 @@ class HarTimings extends HarObject {
   @override
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
     {
-      kBlocked: HarUtils.fromDuration(blocked),
-      kConnect: HarUtils.fromDuration(connect),
-      kDns: HarUtils.fromDuration(dns),
-      kReceive: HarUtils.fromDuration(receive),
-      kSend: HarUtils.fromDuration(send),
-      kSsl: HarUtils.fromDuration(ssl),
-      kWait: HarUtils.fromDuration(wait),
+      kBlocked: blocked.inNormalizedMilliseconds,
+      kConnect: connect.inNormalizedMilliseconds,
+      kDns: dns.inNormalizedMilliseconds,
+      kReceive: receive.inNormalizedMilliseconds,
+      kSend: send.inNormalizedMilliseconds,
+      kSsl: ssl.inNormalizedMilliseconds,
+      kWait: wait.inNormalizedMilliseconds,
       ...commonJson(includeNulls: includeNulls),
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
@@ -221,6 +217,7 @@ class HarTimings extends HarObject {
       '''HarTimings(${[if (blocked != null) '$kBlocked: $blocked', if (dns != null) '$kDns: $dns', if (connect != null) '$kConnect: $connect', '$kSend: $send', '$kWait: $wait', '$kReceive: $receive', if (ssl != null) '$kSsl: $ssl', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 
   /// Creates a copy of this [HarTimings] with the given fields replaced.
+  @override
   HarTimings copyWith({
     Duration? send,
     Duration? wait,

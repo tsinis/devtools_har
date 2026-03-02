@@ -38,28 +38,4 @@ sealed class HarUtils {
   /// Safely parse a nullable [DateTime] from a nullable JSON string.
   static DateTime? optionalDateTime(Object? value) =>
       value == null ? null : DateTime.tryParse(value.toString());
-
-  /// Converts a millisecond [value] to [Duration].
-  ///
-  /// Maps `-1` to `Duration(milliseconds: -1)` per HAR spec.
-  /// Returns `null` for `null` input.
-  static Duration? toDuration(num? value) {
-    if (value == null) return null;
-
-    return Duration(
-      microseconds: (value.toDouble() * Duration.microsecondsPerMillisecond)
-          .round(),
-    );
-  }
-
-  /// Converts a [Duration] back to a millisecond [num].
-  ///
-  /// Preserves integer types when a numeric value is whole.
-  static num? fromDuration(Duration? duration) {
-    if (duration == null) return null;
-
-    return normalizeNumber(
-      duration.inMicroseconds / Duration.microsecondsPerMillisecond,
-    );
-  }
 }

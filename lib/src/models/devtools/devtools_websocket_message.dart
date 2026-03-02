@@ -1,3 +1,4 @@
+import '../../helpers/extensions/har_duration.dart';
 import '../../helpers/har_utils.dart';
 import '../har_object.dart';
 
@@ -33,8 +34,7 @@ class DevToolsWebSocketMessage extends HarObject {
   static DevToolsWebSocketMessage _fromJson(Json json) =>
       DevToolsWebSocketMessage(
         type: json[kType]?.toString() ?? '',
-        time: HarUtils.toDuration(num.tryParse(json[kTime]?.toString() ?? '')) ??
-            Duration.zero,
+        time: HarDuration.tryParse(json[kTime]?.toString()) ?? Duration.zero,
         opcode: num.tryParse(json[kOpcode]?.toString() ?? '')?.toInt() ?? 0,
         data: json[kData]?.toString() ?? '',
         comment: json[HarObject.kComment]?.toString(),
@@ -69,27 +69,22 @@ class DevToolsWebSocketMessage extends HarObject {
   @override
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
     {
-      kType: type,
-      kTime: HarUtils.fromDuration(time),
-      kOpcode: opcode,
       kData: data,
+      kOpcode: opcode,
+      kTime: time.inNormalizedMilliseconds,
+      kType: type,
       ...commonJson(includeNulls: includeNulls),
     },
-    includeNulls: includeNulls,
+    includeNulls: includeNulls, // Dart 3.8 formatting.
   );
 
   @override
   String toString() =>
-      '''DevToolsWebSocketMessage(${[
-        '$kType: $type',
-        '$kTime: $time',
-        '$kOpcode: $opcode',
-        '$kData: $data',
-        if (comment != null) '${HarObject.kComment}: $comment',
-        if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'
-      ].join(', ')})''';
+      '''DevToolsWebSocketMessage(${['$kType: $type', '$kTime: $time', '$kOpcode: $opcode', '$kData: $data', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 
-  /// Creates a copy of this [DevToolsWebSocketMessage] with the given fields replaced.
+  /// Creates a copy of this [DevToolsWebSocketMessage] with the given fields
+  /// replaced.
+  @override
   DevToolsWebSocketMessage copyWith({
     String? type,
     Duration? time,

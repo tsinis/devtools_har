@@ -141,6 +141,7 @@ class HarPage extends HarObject {
       '''HarPage(${['$kStartedDateTime: $startedDateTime', if (startedDateTimeRaw != null) '$kStartedDateTimeRaw: $startedDateTimeRaw', '$kId: $id', '$kTitle: $title', '$kPageTimings: $pageTimings', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 
   /// Creates a copy of this [HarPage] with the given fields replaced.
+  @override
   HarPage copyWith({
     DateTime? startedDateTime,
     String? startedDateTimeRaw,

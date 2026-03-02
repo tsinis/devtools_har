@@ -1,5 +1,6 @@
 // ignore_for_file: no-equal-arguments
 
+import '../../helpers/extensions/har_duration.dart';
 import '../../helpers/har_utils.dart';
 import '../har_object.dart';
 import 'har_cache.dart';
@@ -72,6 +73,7 @@ class HarEntry<T extends HarCookie> extends HarObject {
   static HarEntry<T> fromJson<T extends HarCookie>(Json json) =>
       _fromJson<T>(json);
 
+  // ignore: avoid-long-functions, a lot of fields to parse and validate.
   static HarEntry<T> _fromJson<T extends HarCookie>(Json json) {
     final startedDateTimeRaw = json[kStartedDateTime];
     assert(
@@ -98,9 +100,7 @@ class HarEntry<T extends HarCookie> extends HarObject {
       pageref: json[kPageref]?.toString(),
       startedDateTime: parsedDateTime ?? DateTime.utc(0),
       startedDateTimeRaw: startedDateTimeString,
-      totalTime:
-          HarUtils.toDuration(num.tryParse(json[kTime]?.toString() ?? '')) ??
-          Duration.zero,
+      totalTime: HarDuration.tryParse(json[kTime]?.toString()) ?? Duration.zero,
       request: request is Json
           ? HarRequest.fromJson(request)
           : HarRequest(url: Uri(), headersSize: -1, bodySize: -1),
@@ -216,7 +216,7 @@ class HarEntry<T extends HarCookie> extends HarObject {
       kResponse: response.toJson(includeNulls: includeNulls),
       kServerIPAddress: serverIPAddress,
       kStartedDateTime: startedDateTimeRaw ?? startedDateTime.toIso8601String(),
-      kTime: HarUtils.fromDuration(totalTime),
+      kTime: totalTime.inNormalizedMilliseconds,
       kTimings: timings.toJson(includeNulls: includeNulls),
       ...commonJson(includeNulls: includeNulls),
     },
@@ -228,6 +228,7 @@ class HarEntry<T extends HarCookie> extends HarObject {
       '''HarEntry(${[if (pageref != null) '$kPageref: $pageref', '$kStartedDateTime: $startedDateTime', if (startedDateTimeRaw != null) '$kStartedDateTimeRaw: $startedDateTimeRaw', '$kTime: $totalTime', '$kRequest: $request', '$kResponse: $response', '$kCache: $cache', '$kTimings: $timings', if (serverIPAddress != null) '$kServerIPAddress: $serverIPAddress', if (connectionId != null) '$kConnection: $connectionId', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 
   /// Creates a copy of this [HarEntry] with the given fields replaced.
+  @override
   HarEntry<T> copyWith({
     DateTime? startedDateTime,
     String? startedDateTimeRaw,

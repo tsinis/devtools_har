@@ -73,6 +73,7 @@ class HarHeader extends HarObject {
       '''HarHeader(${['$kName: $name', '$kValue: $value', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 
   /// Creates a copy of this [HarHeader] with the given fields replaced.
+  @override
   HarHeader copyWith({
     String? name,
     String? value,

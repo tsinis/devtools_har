@@ -211,6 +211,7 @@ class HarRequest<T extends HarCookie> extends HarObject {
       '''HarRequest(${['$kMethod: $method', '$kUrl: $url', '$kHttpVersion: $httpVersion', '$kCookies: $cookies', '$kHeaders: $headers', '$kQueryString: $queryString', if (postData != null) '$kPostData: $postData', '$kHeadersSize: $headersSize', '$kBodySize: $bodySize', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 
   /// Creates a copy of this [HarRequest] with the given fields replaced.
+  @override
   HarRequest<T> copyWith({
     HttpMethod? method,
     Uri? url,

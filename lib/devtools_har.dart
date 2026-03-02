@@ -1,6 +1,8 @@
 /// HAR 1.2 and DevTools HAR models.
 library devtools_har;
 
+export 'src/helpers/extensions/enum_iterable_parsing.dart';
+export 'src/helpers/extensions/har_duration.dart';
 export 'src/helpers/extensions/map_null_pruning_extension.dart';
 export 'src/helpers/har_utils.dart';
 export 'src/models/base/har_cache.dart';
@@ -23,6 +25,7 @@ export 'src/models/base/har_root.dart';
 export 'src/models/base/har_timings.dart';
 export 'src/models/base/http_method.dart';
 export 'src/models/devtools/cookie_same_site.dart';
+export 'src/models/devtools/devtools_call_frame.dart';
 export 'src/models/devtools/devtools_har_cookie.dart';
 export 'src/models/devtools/devtools_har_entry.dart';
 export 'src/models/devtools/devtools_har_log.dart';
@@ -30,7 +33,6 @@ export 'src/models/devtools/devtools_har_parser.dart';
 export 'src/models/devtools/devtools_har_request.dart';
 export 'src/models/devtools/devtools_har_response.dart';
 export 'src/models/devtools/devtools_har_root.dart';
-export 'src/models/devtools/devtools_call_frame.dart';
 export 'src/models/devtools/devtools_har_timings.dart';
 export 'src/models/devtools/devtools_initiator.dart';
 export 'src/models/devtools/devtools_priority.dart';

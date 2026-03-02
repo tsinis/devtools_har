@@ -117,6 +117,7 @@ class HarCacheEntry extends HarObject {
       '''HarCacheEntry(${[if (expires != null) '$kExpires: $expires', if (expiresRaw != null) '$kExpiresRaw: $expiresRaw', '$kLastAccess: $lastAccess', if (lastAccessRaw != null) '$kLastAccessRaw: $lastAccessRaw', '$kETag: $eTag', '$kHitCount: $hitCount', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 
   /// Creates a copy of this [HarCacheEntry] with the given fields replaced.
+  @override
   HarCacheEntry copyWith({
     DateTime? lastAccess,
     String? lastAccessRaw,

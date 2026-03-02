@@ -1,5 +1,6 @@
 import '../../helpers/har_utils.dart';
 import '../har_object.dart';
+import 'har_post_data.dart';
 
 /// A single posted parameter (embedded in a [HarPostData] object).
 ///
@@ -96,6 +97,7 @@ class HarParam extends HarObject {
       '''HarParam(${['$kName: $name', if (value != null) '$kValue: $value', if (fileName != null) '$kFileName: $fileName', if (contentType != null) '$kContentType: $contentType', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 
   /// Creates a copy of this [HarParam] with the given fields replaced.
+  @override
   HarParam copyWith({
     String? name,
     String? value,

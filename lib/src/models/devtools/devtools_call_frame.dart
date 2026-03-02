@@ -65,25 +65,36 @@ class DevToolsCallFrame extends HarObject {
   @override
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
     {
+      kColumnNumber: columnNumber,
       kFunctionName: functionName,
+      kLineNumber: lineNumber,
       kScriptId: scriptId,
       kUrl: url,
-      kLineNumber: lineNumber,
-      kColumnNumber: columnNumber,
       ...commonJson(includeNulls: includeNulls),
     },
-    includeNulls: includeNulls,
+    includeNulls: includeNulls, // Dart 3.8 formatting.
+  );
+
+  @override
+  DevToolsCallFrame copyWith({
+    String? functionName,
+    String? scriptId,
+    String? url,
+    int? lineNumber,
+    int? columnNumber,
+    String? comment,
+    Json? custom,
+  }) => DevToolsCallFrame(
+    functionName: functionName ?? this.functionName,
+    scriptId: scriptId ?? this.scriptId,
+    url: url ?? this.url,
+    lineNumber: lineNumber ?? this.lineNumber,
+    columnNumber: columnNumber ?? this.columnNumber,
+    comment: comment ?? this.comment,
+    custom: custom ?? this.custom,
   );
 
   @override
   String toString() =>
-      '''DevToolsCallFrame(${[
-        '$kFunctionName: $functionName',
-        '$kScriptId: $scriptId',
-        '$kUrl: $url',
-        '$kLineNumber: $lineNumber',
-        '$kColumnNumber: $columnNumber',
-        if (comment != null) '${HarObject.kComment}: $comment',
-        if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'
-      ].join(', ')})''';
+      '''DevToolsCallFrame(${['$kFunctionName: $functionName', '$kScriptId: $scriptId', '$kUrl: $url', '$kLineNumber: $lineNumber', '$kColumnNumber: $columnNumber', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }

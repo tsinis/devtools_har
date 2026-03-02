@@ -1,3 +1,5 @@
+import '../../helpers/extensions/enum_iterable_parsing.dart';
+
 /// Chrome resource priority levels.
 ///
 /// Maps to the Chrome DevTools Protocol
@@ -10,17 +12,17 @@
 /// print(DevToolsPriority.tryParse('VeryHigh')); // DevToolsPriority.veryHigh
 /// ```
 enum DevToolsPriority {
-  /// Very high priority.
-  veryHigh('VeryHigh'),
-
   /// High priority.
   high('High'),
+
+  /// Low priority.
+  low('Low'),
 
   /// Medium priority.
   medium('Medium'),
 
-  /// Low priority.
-  low('Low'),
+  /// Very high priority.
+  veryHigh('VeryHigh'),
 
   /// Very low priority.
   veryLow('VeryLow');
@@ -34,16 +36,8 @@ enum DevToolsPriority {
   ///
   /// Returns `null` if [value] is `null` or does not match any known
   /// variant (case-insensitive).
-  static DevToolsPriority? tryParse(Object? value) {
-    if (value == null) return null;
-
-    final lower = value.toString().toLowerCase();
-    for (final priority in values) {
-      if (priority.value.toLowerCase() == lower) return priority;
-    }
-
-    return null;
-  }
+  static DevToolsPriority? tryParse(Object? value) =>
+      values.tryParse(value, valueOf: (prio) => prio.name.toLowerCase());
 
   /// Serialises as the string value matching the CDP convention.
   String toJson() => value;

@@ -1,3 +1,4 @@
+import '../../helpers/extensions/har_duration.dart';
 import '../../helpers/har_utils.dart';
 import '../har_object.dart';
 import 'har_page.dart';
@@ -37,10 +38,8 @@ class HarPageTimings extends HarObject {
   factory HarPageTimings.fromJson(Json json) => _fromJson(json);
 
   static HarPageTimings _fromJson(Json json) => HarPageTimings(
-    onContentLoad: HarUtils.toDuration(
-      num.tryParse(json[kOnContentLoad]?.toString() ?? ''),
-    ),
-    onLoad: HarUtils.toDuration(num.tryParse(json[kOnLoad]?.toString() ?? '')),
+    onContentLoad: HarDuration.tryParse(json[kOnContentLoad]?.toString()),
+    onLoad: HarDuration.tryParse(json[kOnLoad]?.toString()),
     comment: json[HarObject.kComment]?.toString(),
     custom: HarUtils.collectCustom(json),
   );
@@ -74,8 +73,8 @@ class HarPageTimings extends HarObject {
   @override
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
     {
-      kOnContentLoad: HarUtils.fromDuration(onContentLoad),
-      kOnLoad: HarUtils.fromDuration(onLoad),
+      kOnContentLoad: onContentLoad.inNormalizedMilliseconds,
+      kOnLoad: onLoad.inNormalizedMilliseconds,
       ...commonJson(includeNulls: includeNulls),
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
@@ -86,6 +85,7 @@ class HarPageTimings extends HarObject {
       '''HarPageTimings(${[if (onContentLoad != null) '$kOnContentLoad: $onContentLoad', if (onLoad != null) '$kOnLoad: $onLoad', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 
   /// Creates a copy of this [HarPageTimings] with the given fields replaced.
+  @override
   HarPageTimings copyWith({
     Duration? onContentLoad,
     Duration? onLoad,

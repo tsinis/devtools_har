@@ -71,6 +71,7 @@ class HarQueryParam extends HarObject {
       '''HarQueryParam(${['$kName: $name', '$kValue: $value', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 
   /// Creates a copy of this [HarQueryParam] with the given fields replaced.
+  @override
   HarQueryParam copyWith({
     String? name,
     String? value,

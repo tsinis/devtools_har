@@ -29,12 +29,13 @@ class DevToolsInitiator extends HarObject {
 
   static DevToolsInitiator _fromJson(Json json) {
     final stack = json[kStack];
+    final columnNumber = num.tryParse(json[kColumnNumber]?.toString() ?? '');
 
     return DevToolsInitiator(
       type: json[kType]?.toString() ?? '',
       url: json[kUrl]?.toString(),
       lineNumber: num.tryParse(json[kLineNumber]?.toString() ?? '')?.toInt(),
-      columnNumber: num.tryParse(json[kColumnNumber]?.toString() ?? '')?.toInt(),
+      columnNumber: columnNumber?.toInt(),
       stack: stack is Json ? DevToolsStackTrace.fromJson(stack) : null,
       comment: json[HarObject.kComment]?.toString(),
       custom: HarUtils.collectCustom(json),
@@ -75,29 +76,22 @@ class DevToolsInitiator extends HarObject {
   @override
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
     {
+      kColumnNumber: columnNumber,
+      kLineNumber: lineNumber,
+      kStack: stack?.toJson(includeNulls: includeNulls),
       kType: type,
-      if (url != null) kUrl: url,
-      if (lineNumber != null) kLineNumber: lineNumber,
-      if (columnNumber != null) kColumnNumber: columnNumber,
-      if (stack != null) kStack: stack!.toJson(includeNulls: includeNulls),
+      kUrl: url,
       ...commonJson(includeNulls: includeNulls),
     },
-    includeNulls: includeNulls,
+    includeNulls: includeNulls, // Dart 3.8 formatting.
   );
 
   @override
   String toString() =>
-      '''DevToolsInitiator(${[
-        '$kType: $type',
-        if (url != null) '$kUrl: $url',
-        if (lineNumber != null) '$kLineNumber: $lineNumber',
-        if (columnNumber != null) '$kColumnNumber: $columnNumber',
-        if (stack != null) '$kStack: $stack',
-        if (comment != null) '${HarObject.kComment}: $comment',
-        if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'
-      ].join(', ')})''';
+      '''DevToolsInitiator(${['$kType: $type', if (url != null) '$kUrl: $url', if (lineNumber != null) '$kLineNumber: $lineNumber', if (columnNumber != null) '$kColumnNumber: $columnNumber', if (stack != null) '$kStack: $stack', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 
   /// Creates a copy of this [DevToolsInitiator] with the given fields replaced.
+  @override
   DevToolsInitiator copyWith({
     String? type,
     String? url,

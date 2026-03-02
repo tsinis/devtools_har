@@ -150,6 +150,7 @@ class HarCookie extends HarObject {
       '''HarCookie(${['$kName: $name', '$kValue: $value', if (path != null) '$kPath: $path', if (domain != null) '$kDomain: $domain', if (expires != null) '$kExpires: $expires', if (expiresRaw != null) '$kExpiresRaw: $expiresRaw', if (httpOnly != null) '$kHttpOnly: $httpOnly', if (secure != null) '$kSecure: $secure', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 
   /// Creates a copy of this [HarCookie] with the given fields replaced.
+  @override
   HarCookie copyWith({
     String? name,
     String? value,

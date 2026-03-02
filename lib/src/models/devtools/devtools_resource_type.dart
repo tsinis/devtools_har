@@ -1,3 +1,5 @@
+import '../../helpers/extensions/enum_iterable_parsing.dart';
+
 /// Chrome resource type classification.
 ///
 /// Maps to the Chrome DevTools Protocol
@@ -10,62 +12,62 @@
 /// print(DevToolsResourceType.tryParse('Document')); // DevToolsResourceType.document
 /// ```
 enum DevToolsResourceType {
+  /// CSP violation report.
+  cspViolationReport('CSPViolationReport'),
+
   /// Main document.
   document('Document'),
-
-  /// CSS stylesheet.
-  stylesheet('Stylesheet'),
-
-  /// JavaScript file.
-  script('Script'),
-
-  /// Image file.
-  image('Image'),
-
-  /// Media file (video/audio).
-  media('Media'),
-
-  /// Font file.
-  font('Font'),
-
-  /// WebSocket connection.
-  websocket('WebSocket'),
-
-  /// Other resource type.
-  other('Other'),
-
-  /// XHR request.
-  xhr('XHR'),
-
-  /// Fetch request.
-  fetch('Fetch'),
 
   /// EventSource request.
   eventSource('EventSource'),
 
-  /// WebVTT file.
-  webVtt('WebVTT'),
+  /// Fetch request.
+  fetch('Fetch'),
+
+  /// Font file.
+  font('Font'),
+
+  /// Image file.
+  image('Image'),
 
   /// Manifest file.
   manifest('Manifest'),
 
-  /// Signed exchange.
-  signedExchange('SignedExchange'),
+  /// Media file (video/audio).
+  media('Media'),
+
+  /// Other resource type.
+  other('Other'),
 
   /// Ping request.
   ping('Ping'),
 
-  /// CSP violation report.
-  cspViolationReport('CSPViolationReport'),
-
   /// Preflight request.
   preflight('Preflight'),
+
+  /// JavaScript file.
+  script('Script'),
+
+  /// Signed exchange.
+  signedExchange('SignedExchange'),
+
+  /// CSS stylesheet.
+  stylesheet('Stylesheet'),
 
   /// WebBundle.
   webBundle('WebBundle'),
 
   /// WebTransport.
-  webTransport('WebTransport');
+  webTransport('WebTransport'),
+
+  /// WebVTT file.
+  webVtt('WebVTT'),
+
+  /// WebSocket connection.
+  websocket('WebSocket'),
+
+  /// XHR request.
+  xhr('XHR');
 
   const DevToolsResourceType(this.value);
 
@@ -76,16 +78,8 @@ enum DevToolsResourceType {
   ///
   /// Returns `null` if [value] is `null` or does not match any known
   /// variant (case-insensitive).
-  static DevToolsResourceType? tryParse(Object? value) {
-    if (value == null) return null;
-
-    final lower = value.toString().toLowerCase();
-    for (final type in values) {
-      if (type.value.toLowerCase() == lower) return type;
-    }
-
-    return null;
-  }
+  static DevToolsResourceType? tryParse(Object? value) =>
+      values.tryParse(value);
 
   /// Serialises as the string value matching the CDP convention.
   String toJson() => value;

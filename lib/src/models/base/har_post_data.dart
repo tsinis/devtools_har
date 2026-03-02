@@ -122,6 +122,7 @@ class HarPostData extends HarObject {
       '''HarPostData(${['$kMimeType: $mimeType', if (params.isNotEmpty) '$kParams: $params', if (text != null) '$kText: $text', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 
   /// Creates a copy of this [HarPostData] with the given fields replaced.
+  @override
   HarPostData copyWith({
     String? mimeType,
     List<HarParam>? params,

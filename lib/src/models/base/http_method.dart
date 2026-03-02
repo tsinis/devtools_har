@@ -1,3 +1,4 @@
+import '../../helpers/extensions/enum_iterable_parsing.dart';
 import 'har_request.dart';
 
 /// Type-safe HTTP method enumeration.
@@ -47,16 +48,7 @@ enum HttpMethod {
   ///
   /// Accepts any casing (e.g. `"get"`, `"GET"`, `"Get"`) and matches
   /// against the enum member names.
-  static HttpMethod? tryParse(Object? value) {
-    if (value == null) return null;
-
-    final upper = value.toString().toUpperCase();
-    for (final method in values) {
-      if (method.toJson() == upper) return method;
-    }
-
-    return null;
-  }
+  static HttpMethod? tryParse(Object? value) => values.tryParse(value);
 
   /// Serialises as an uppercase string (`GET`, `POST`, …) matching
   /// the HAR spec convention.

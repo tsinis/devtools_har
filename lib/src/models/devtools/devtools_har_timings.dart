@@ -1,3 +1,4 @@
+import '../../helpers/extensions/har_duration.dart';
 import '../../helpers/har_utils.dart';
 import '../base/har_timings.dart';
 import '../har_object.dart';
@@ -94,10 +95,8 @@ class DevToolsHarTimings extends HarTimings {
         kBlockedQueueing,
         kBlockedProxy,
       }),
-      blockedQueueing: HarUtils.toDuration(
-        num.tryParse(blockedQueueing ?? ''),
-      ),
-      blockedProxy: HarUtils.toDuration(num.tryParse(blockedProxy ?? '')),
+      blockedQueueing: HarDuration.tryParse(blockedQueueing),
+      blockedProxy: HarDuration.tryParse(blockedProxy),
     );
   }
 
@@ -129,8 +128,8 @@ class DevToolsHarTimings extends HarTimings {
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
     {
       ...super.toJson(includeNulls: includeNulls),
-      kBlockedQueueing: HarUtils.fromDuration(blockedQueueing),
-      kBlockedProxy: HarUtils.fromDuration(blockedProxy),
+      kBlockedQueueing: blockedQueueing.inNormalizedMilliseconds,
+      kBlockedProxy: blockedProxy.inNormalizedMilliseconds,
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );

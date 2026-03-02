@@ -70,6 +70,7 @@ class HarCache extends HarObject {
       '''HarCache(${[if (beforeRequest != null) '$kBeforeRequest: $beforeRequest', if (afterRequest != null) '$kAfterRequest: $afterRequest', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 
   /// Creates a copy of this [HarCache] with the given fields replaced.
+  @override
   HarCache copyWith({
     HarCacheEntry? beforeRequest,
     HarCacheEntry? afterRequest,

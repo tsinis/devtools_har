@@ -162,6 +162,7 @@ class HarLog<T extends HarEntry> extends HarObject {
       '''HarLog(${['$kVersion: $version', '$kCreator: $creator', if (browser != null) '$kBrowser: $browser', if (pages.isNotEmpty) '$kPages: $pages', '$kEntries: $entries', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 
   /// Creates a copy of this [HarLog] with the given fields replaced.
+  @override
   HarLog<T> copyWith({
     String? version,
     HarCreator? creator,

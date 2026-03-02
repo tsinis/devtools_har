@@ -161,9 +161,9 @@ class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
       fromServiceWorker: fromServiceWorkerRaw,
       webSocketMessages: webSocketMessagesRaw is List
           ? webSocketMessagesRaw
-              .whereType<Json>()
-              .map(DevToolsWebSocketMessage.fromJson)
-              .toList()
+                .whereType<Json>()
+                .map(DevToolsWebSocketMessage.fromJson)
+                .toList()
           : null,
     );
   }
@@ -215,14 +215,16 @@ class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
       kPriority: priority?.toJson(),
       kResourceType: resourceType?.toJson(),
       kFromServiceWorker: fromServiceWorker,
-      kWebSocketMessages:
-          webSocketMessages?.map((m) => m.toJson(includeNulls: includeNulls)).toList(),
+      kWebSocketMessages: webSocketMessages
+          ?.map((i) => i.toJson(includeNulls: includeNulls))
+          .toList(),
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
 
   @override
   String toString() =>
+      // ignore: avoid-default-tostring, those are enums.
       '''DevToolsHarEntry(${[if (pageref != null) '${HarEntry.kPageref}: $pageref', '${HarEntry.kStartedDateTime}: $startedDateTime', if (startedDateTimeRaw != null) '${HarEntry.kStartedDateTimeRaw}: $startedDateTimeRaw', '${HarEntry.kTime}: $totalTime', '${HarEntry.kRequest}: $request', '${HarEntry.kResponse}: $response', '${HarEntry.kCache}: $cache', '${HarEntry.kTimings}: $timings', if (serverIPAddress != null) '${HarEntry.kServerIPAddress}: $serverIPAddress', if (connectionId != null) '${HarEntry.kConnection}: $connectionId', if (fromCache != null) '$kFromCache: $fromCache', if (fromServiceWorker != null) '$kFromServiceWorker: $fromServiceWorker', if (initiator != null) '$kInitiator: $initiator', if (priority != null) '$kPriority: $priority', if (resourceType != null) '$kResourceType: $resourceType', if (webSocketMessages != null) '$kWebSocketMessages: $webSocketMessages', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 
   @override

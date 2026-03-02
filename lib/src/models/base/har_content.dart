@@ -133,6 +133,7 @@ class HarContent extends HarObject {
       '''HarContent(${['$kSize: $size', '$kMimeType: $mimeType', if (compression != null) '$kCompression: $compression', if (text != null) '$kText: $text', if (encoding != null) '$kEncoding: $encoding', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 
   /// Creates a copy of this [HarContent] with the given fields replaced.
+  @override
   HarContent copyWith({
     int? size,
     String? mimeType,

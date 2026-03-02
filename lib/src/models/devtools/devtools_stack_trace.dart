@@ -10,7 +10,7 @@ import 'devtools_call_frame.dart';
 class DevToolsStackTrace extends HarObject {
   /// Creates a [DevToolsStackTrace] with the given field values.
   const DevToolsStackTrace({
-    required this.callFrames,
+    this.callFrames = const [],
     this.description,
     this.parent,
     super.comment,
@@ -25,10 +25,9 @@ class DevToolsStackTrace extends HarObject {
     final parent = json[kParent];
 
     return DevToolsStackTrace(
-      callFrames:
-          frames is List
-              ? frames.whereType<Json>().map(DevToolsCallFrame.fromJson).toList()
-              : const [],
+      callFrames: frames is List
+          ? frames.whereType<Json>().map(DevToolsCallFrame.fromJson).toList()
+          : const [],
       description: json[kDescription]?.toString(),
       parent: parent is Json ? DevToolsStackTrace.fromJson(parent) : null,
       comment: json[HarObject.kComment]?.toString(),
@@ -57,21 +56,33 @@ class DevToolsStackTrace extends HarObject {
   @override
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
     {
-      kCallFrames: callFrames.map((f) => f.toJson(includeNulls: includeNulls)).toList(),
-      if (description != null) kDescription: description,
-      if (parent != null) kParent: parent!.toJson(includeNulls: includeNulls),
+      kCallFrames: callFrames
+          .map((e) => e.toJson(includeNulls: includeNulls))
+          .toList(),
+      kDescription: description,
+      // ignore: avoid-recursive-calls, it's not actually recursive...
+      kParent: parent?.toJson(includeNulls: includeNulls),
       ...commonJson(includeNulls: includeNulls),
     },
-    includeNulls: includeNulls,
+    includeNulls: includeNulls, // Dart 3.8 formatting.
+  );
+
+  @override
+  DevToolsStackTrace copyWith({
+    List<DevToolsCallFrame>? callFrames,
+    String? description,
+    DevToolsStackTrace? parent,
+    String? comment,
+    Json? custom,
+  }) => DevToolsStackTrace(
+    callFrames: callFrames ?? this.callFrames,
+    description: description ?? this.description,
+    parent: parent ?? this.parent,
+    comment: comment ?? this.comment,
+    custom: custom ?? this.custom,
   );
 
   @override
   String toString() =>
-      '''DevToolsStackTrace(${[
-        '$kCallFrames: $callFrames',
-        if (description != null) '$kDescription: $description',
-        if (parent != null) '$kParent: $parent',
-        if (comment != null) '${HarObject.kComment}: $comment',
-        if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'
-      ].join(', ')})''';
+      '''DevToolsStackTrace(${['$kCallFrames: $callFrames', if (description != null) '$kDescription: $description', if (parent != null) '$kParent: $parent', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 }
