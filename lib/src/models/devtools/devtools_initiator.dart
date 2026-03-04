@@ -19,6 +19,7 @@ class DevToolsInitiator extends HarObject {
     this.url,
     this.lineNumber,
     this.columnNumber,
+    this.requestId,
     this.stack,
     super.comment,
     super.custom,
@@ -36,6 +37,7 @@ class DevToolsInitiator extends HarObject {
       url: json[kUrl]?.toString(),
       lineNumber: num.tryParse(json[kLineNumber]?.toString() ?? '')?.toInt(),
       columnNumber: columnNumber?.toInt(),
+      requestId: json[kRequestId]?.toString(),
       stack: stack is Json ? DevToolsStackTrace.fromJson(stack) : null,
       comment: json[HarObject.kComment]?.toString(),
       custom: HarUtils.collectCustom(json),
@@ -54,6 +56,9 @@ class DevToolsInitiator extends HarObject {
   /// JSON key for the initiator column number (`"columnNumber"`).
   static const kColumnNumber = 'columnNumber';
 
+  /// JSON key for the initiator request ID (`"requestId"`).
+  static const kRequestId = 'requestId';
+
   /// JSON key for the initiator stack trace (`"stack"`).
   static const kStack = 'stack';
 
@@ -69,6 +74,9 @@ class DevToolsInitiator extends HarObject {
   /// Initiator column number, if applicable.
   final int? columnNumber;
 
+  /// Request ID that triggered this request (e.g., in preflights).
+  final String? requestId;
+
   /// Initiator stack trace, if applicable.
   final DevToolsStackTrace? stack;
 
@@ -78,6 +86,7 @@ class DevToolsInitiator extends HarObject {
     {
       kColumnNumber: columnNumber,
       kLineNumber: lineNumber,
+      kRequestId: requestId,
       kStack: stack?.toJson(includeNulls: includeNulls),
       kType: type,
       kUrl: url,
@@ -88,7 +97,7 @@ class DevToolsInitiator extends HarObject {
 
   @override
   String toString() =>
-      '''DevToolsInitiator(${['$kType: $type', if (url != null) '$kUrl: $url', if (lineNumber != null) '$kLineNumber: $lineNumber', if (columnNumber != null) '$kColumnNumber: $columnNumber', if (stack != null) '$kStack: $stack', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
+      '''DevToolsInitiator(${['$kType: $type', if (url != null) '$kUrl: $url', if (lineNumber != null) '$kLineNumber: $lineNumber', if (columnNumber != null) '$kColumnNumber: $columnNumber', if (requestId != null) '$kRequestId: $requestId', if (stack != null) '$kStack: $stack', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 
   /// Creates a copy of this [DevToolsInitiator] with the given fields replaced.
   @override
@@ -97,6 +106,7 @@ class DevToolsInitiator extends HarObject {
     String? url,
     int? lineNumber,
     int? columnNumber,
+    String? requestId,
     DevToolsStackTrace? stack,
     String? comment,
     Json? custom,
@@ -105,6 +115,7 @@ class DevToolsInitiator extends HarObject {
     url: url ?? this.url,
     lineNumber: lineNumber ?? this.lineNumber,
     columnNumber: columnNumber ?? this.columnNumber,
+    requestId: requestId ?? this.requestId,
     stack: stack ?? this.stack,
     comment: comment ?? this.comment,
     custom: custom ?? this.custom,

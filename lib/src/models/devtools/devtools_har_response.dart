@@ -25,6 +25,13 @@ import 'devtools_har_entry.dart';
 /// `"net::ERR_CONNECTION_RESET"`. Present only when the request
 /// failed at the network layer.
 ///
+/// ### `_protocol`
+///
+/// The actual network protocol negotiated for the connection,
+/// e.g. `"http/1.1"`, `"h2"`, `"h3"`, or `"quic"`. This may differ
+/// from `httpVersion` which represents the HTTP protocol version,
+/// while `_protocol` represents the transport protocol (ALPN).
+///
 /// See also:
 ///
 /// * [HarResponse] — the base HAR 1.2 response model.
@@ -59,6 +66,7 @@ class DevToolsHarResponse extends HarResponse<DevToolsHarCookie> {
     super.custom,
     this.transferSize,
     this.error,
+    this.protocol,
   });
 
   /// Creates a [DevToolsHarResponse] from an existing [HarResponse],
@@ -68,6 +76,7 @@ class DevToolsHarResponse extends HarResponse<DevToolsHarCookie> {
     HarResponse response, {
     List<DevToolsHarCookie>? cookies,
     this.transferSize,
+    this.protocol,
     this.error,
     Json? custom,
   }) : super(
@@ -105,9 +114,14 @@ class DevToolsHarResponse extends HarResponse<DevToolsHarCookie> {
     return DevToolsHarResponse.fromHarResponse(
       HarResponse.fromJson(json),
       cookies: cookiesList,
-      custom: HarUtils.collectCustom(json, const {kTransferSize, kError}),
+      custom: HarUtils.collectCustom(json, const {
+        kTransferSize,
+        kError,
+        kProtocol,
+      }),
       transferSize: num.tryParse(transferSize?.toString() ?? '')?.toInt(),
       error: json[kError]?.toString(),
+      protocol: json[kProtocol]?.toString(),
     );
   }
 
@@ -116,6 +130,9 @@ class DevToolsHarResponse extends HarResponse<DevToolsHarCookie> {
 
   /// JSON key for the network error string (`"_error"`).
   static const kError = '_error';
+
+  /// JSON key for the negotiated protocol (`"_protocol"`).
+  static const kProtocol = '_protocol';
 
   /// Actual bytes transferred over the network, including headers.
   ///
@@ -130,19 +147,28 @@ class DevToolsHarResponse extends HarResponse<DevToolsHarCookie> {
   /// `null` when the request completed without a network error.
   final String? error;
 
+  /// Actual network protocol negotiated (ALPN),
+  /// e.g. `"http/1.1"`, `"h2"`, `"h3"`, or `"quic"`.
+  ///
+  /// `null` when the field was absent from the HAR source.
+  /// May differ from [httpVersion] as this represents the transport
+  /// protocol while httpVersion represents the HTTP version.
+  final String? protocol;
+
   @override
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
     {
       ...super.toJson(includeNulls: includeNulls),
       kTransferSize: transferSize,
       kError: error,
+      kProtocol: protocol,
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
 
   @override
   String toString() =>
-      '''DevToolsHarResponse(${['${HarResponse.kStatus}: $status', '${HarResponse.kStatusText}: $statusText', '${HarResponse.kHttpVersion}: $httpVersion', '${HarResponse.kCookies}: $cookies', '${HarResponse.kHeaders}: $headers', '${HarResponse.kContent}: $content', '${HarResponse.kRedirectURL}: $redirectURL', '${HarResponse.kHeadersSize}: $headersSize', '${HarResponse.kBodySize}: $bodySize', if (transferSize != null) '$kTransferSize: $transferSize', if (error != null) '$kError: $error', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
+      '''DevToolsHarResponse(${['${HarResponse.kStatus}: $status', '${HarResponse.kStatusText}: $statusText', '${HarResponse.kHttpVersion}: $httpVersion', '${HarResponse.kCookies}: $cookies', '${HarResponse.kHeaders}: $headers', '${HarResponse.kContent}: $content', '${HarResponse.kRedirectURL}: $redirectURL', '${HarResponse.kHeadersSize}: $headersSize', '${HarResponse.kBodySize}: $bodySize', if (transferSize != null) '$kTransferSize: $transferSize', if (error != null) '$kError: $error', if (protocol != null) '$kProtocol: $protocol', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 
   @override
   DevToolsHarResponse copyWith({
@@ -157,6 +183,7 @@ class DevToolsHarResponse extends HarResponse<DevToolsHarCookie> {
     int? bodySize,
     int? transferSize,
     String? error,
+    String? protocol,
     String? comment,
     Json? custom,
   }) => DevToolsHarResponse(
@@ -171,6 +198,7 @@ class DevToolsHarResponse extends HarResponse<DevToolsHarCookie> {
     bodySize: bodySize ?? this.bodySize,
     transferSize: transferSize ?? this.transferSize,
     error: error ?? this.error,
+    protocol: protocol ?? this.protocol,
     comment: comment ?? this.comment,
     custom: custom ?? this.custom,
   );

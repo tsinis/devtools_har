@@ -130,10 +130,10 @@ class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
         : harEntry.timings;
 
     final initiatorRaw = json[kInitiator];
-    final fromServiceWorkerRaw = bool.tryParse(
-      json[kFromServiceWorker]?.toString() ?? '',
-      caseSensitive: false,
-    );
+    final fromServiceRaw = json[kFromServiceWorker];
+    final fromServiceWorker = fromServiceRaw is bool
+        ? fromServiceRaw
+        : bool.tryParse(fromServiceRaw?.toString() ?? '', caseSensitive: false);
     final webSocketMessagesRaw = json[kWebSocketMessages];
 
     final priority = DevToolsPriority.tryParse(json[kPriority]);
@@ -158,7 +158,7 @@ class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
       priority: priority,
       resourceType: resourceType,
       fromCache: json[kFromCache]?.toString(),
-      fromServiceWorker: fromServiceWorkerRaw,
+      fromServiceWorker: fromServiceWorker,
       webSocketMessages: webSocketMessagesRaw is List
           ? webSocketMessagesRaw
                 .whereType<Json>()

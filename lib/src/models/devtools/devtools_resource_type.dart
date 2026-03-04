@@ -21,6 +21,9 @@ enum DevToolsResourceType {
   /// EventSource request.
   eventSource('EventSource'),
 
+  /// FedCM (Federated Credential Management) request.
+  fedCm('FedCM'),
+
   /// Fetch request.
   fetch('Fetch'),
 
@@ -42,6 +45,9 @@ enum DevToolsResourceType {
   /// Ping request.
   ping('Ping'),
 
+  /// Prefetch request.
+  prefetch('Prefetch'),
+
   /// Preflight request.
   preflight('Preflight'),
 
@@ -53,6 +59,9 @@ enum DevToolsResourceType {
 
   /// CSS stylesheet.
   stylesheet('Stylesheet'),
+
+  /// TextTrack resource.
+  textTrack('TextTrack'),
 
   /// WebBundle.
   webBundle('WebBundle'),
