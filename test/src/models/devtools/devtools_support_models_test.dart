@@ -4,6 +4,7 @@
 
 import 'package:devtools_har/src/models/devtools/devtools_call_frame.dart';
 import 'package:devtools_har/src/models/devtools/devtools_initiator.dart';
+import 'package:devtools_har/src/models/devtools/devtools_resource_type.dart';
 import 'package:devtools_har/src/models/devtools/devtools_stack_trace.dart';
 import 'package:devtools_har/src/models/devtools/devtools_websocket_message.dart';
 import 'package:devtools_har/src/models/har_object.dart';
@@ -91,6 +92,7 @@ void main() {
         '_source': 'network',
         'columnNumber': 21,
         'lineNumber': '14.0',
+        'requestId': 'req-123-456',
         'stack': {
           'callFrames': [
             {
@@ -111,6 +113,7 @@ void main() {
       expect(initiator.url, 'https://example.com');
       expect(initiator.lineNumber, 14);
       expect(initiator.columnNumber, 21);
+      expect(initiator.requestId, 'req-123-456');
       final stack = initiator.stack;
       expect(stack, isNotNull);
       expect(stack?.callFrames.single.functionName, 'main');
@@ -121,6 +124,7 @@ void main() {
       final initiator = DevToolsInitiator.fromJson({
         'columnNumber': 'invalid',
         'lineNumber': 'invalid',
+        'requestId': null,
         'stack': ['not-a-map'],
         'type': null,
       });
@@ -129,6 +133,7 @@ void main() {
       expect(initiator.url, isNull);
       expect(initiator.lineNumber, isNull);
       expect(initiator.columnNumber, isNull);
+      expect(initiator.requestId, isNull);
       expect(initiator.stack, isNull);
     });
 
@@ -138,6 +143,7 @@ void main() {
         url: 'https://example.com',
         lineNumber: 3,
         columnNumber: 4,
+        requestId: 'req-789',
         stack: DevToolsStackTrace(),
         comment: 'initiator note',
         custom: {'_tag': 'origin'},
@@ -145,13 +151,17 @@ void main() {
 
       final json = original.toJson();
       final copy = original.copyWith(type: 'script', lineNumber: 10);
-      final fallbackCopy = original.copyWith(url: 'https://example.org');
+      final fallbackCopy = original.copyWith(
+        url: 'https://example.org',
+        requestId: 'req-999',
+      );
       final text = original.toString();
 
       expect(json['type'], 'parser');
       expect(json['url'], 'https://example.com');
       expect(json['lineNumber'], 3);
       expect(json['columnNumber'], 4);
+      expect(json['requestId'], 'req-789');
       final stackJson = json['stack'];
       expect(stackJson, isA<Map<String, dynamic>>());
       if (stackJson case final Map<String, dynamic> stackMap) {
@@ -162,11 +172,14 @@ void main() {
       expect(copy.type, 'script');
       expect(copy.lineNumber, 10);
       expect(copy.columnNumber, 4);
+      expect(copy.requestId, 'req-789');
       expect(fallbackCopy.type, 'parser');
       expect(fallbackCopy.lineNumber, 3);
       expect(fallbackCopy.url, 'https://example.org');
+      expect(fallbackCopy.requestId, 'req-999');
       expect(text, contains('DevToolsInitiator('));
       expect(text, contains('type: parser'));
+      expect(text, contains('requestId: req-789'));
       expect(text, contains('stack: DevToolsStackTrace('));
     });
   });
@@ -326,6 +339,123 @@ void main() {
       expect(text, contains('DevToolsWebSocketMessage('));
       expect(text, contains('type: receive'));
       expect(text, contains('data: payload'));
+    });
+  });
+
+  group('DevToolsResourceType', () {
+    test('tryParse returns correct enum values for all variants', () {
+      expect(
+        DevToolsResourceType.tryParse('CSPViolationReport'),
+        DevToolsResourceType.cspViolationReport,
+      );
+      expect(
+        DevToolsResourceType.tryParse('Document'),
+        DevToolsResourceType.document,
+      );
+      expect(
+        DevToolsResourceType.tryParse('EventSource'),
+        DevToolsResourceType.eventSource,
+      );
+      expect(
+        DevToolsResourceType.tryParse('FedCM'),
+        DevToolsResourceType.fedCm,
+      );
+      expect(
+        DevToolsResourceType.tryParse('Fetch'),
+        DevToolsResourceType.fetch,
+      );
+      expect(DevToolsResourceType.tryParse('Font'), DevToolsResourceType.font);
+      expect(
+        DevToolsResourceType.tryParse('Image'),
+        DevToolsResourceType.image,
+      );
+      expect(
+        DevToolsResourceType.tryParse('Manifest'),
+        DevToolsResourceType.manifest,
+      );
+      expect(
+        DevToolsResourceType.tryParse('Media'),
+        DevToolsResourceType.media,
+      );
+      expect(
+        DevToolsResourceType.tryParse('Other'),
+        DevToolsResourceType.other,
+      );
+      expect(DevToolsResourceType.tryParse('Ping'), DevToolsResourceType.ping);
+      expect(
+        DevToolsResourceType.tryParse('Prefetch'),
+        DevToolsResourceType.prefetch,
+      );
+      expect(
+        DevToolsResourceType.tryParse('Preflight'),
+        DevToolsResourceType.preflight,
+      );
+      expect(
+        DevToolsResourceType.tryParse('Script'),
+        DevToolsResourceType.script,
+      );
+      expect(
+        DevToolsResourceType.tryParse('SignedExchange'),
+        DevToolsResourceType.signedExchange,
+      );
+      expect(
+        DevToolsResourceType.tryParse('Stylesheet'),
+        DevToolsResourceType.stylesheet,
+      );
+      expect(
+        DevToolsResourceType.tryParse('TextTrack'),
+        DevToolsResourceType.textTrack,
+      );
+      expect(
+        DevToolsResourceType.tryParse('WebBundle'),
+        DevToolsResourceType.webBundle,
+      );
+      expect(
+        DevToolsResourceType.tryParse('WebTransport'),
+        DevToolsResourceType.webTransport,
+      );
+      expect(
+        DevToolsResourceType.tryParse('WebVTT'),
+        DevToolsResourceType.webVtt,
+      );
+      expect(
+        DevToolsResourceType.tryParse('WebSocket'),
+        DevToolsResourceType.websocket,
+      );
+      expect(DevToolsResourceType.tryParse('XHR'), DevToolsResourceType.xhr);
+    });
+
+    test('tryParse is case-insensitive', () {
+      expect(
+        DevToolsResourceType.tryParse('fedcm'),
+        DevToolsResourceType.fedCm,
+      );
+      expect(
+        DevToolsResourceType.tryParse('PREFETCH'),
+        DevToolsResourceType.prefetch,
+      );
+      expect(
+        DevToolsResourceType.tryParse('texttrack'),
+        DevToolsResourceType.textTrack,
+      );
+      expect(
+        DevToolsResourceType.tryParse('document'),
+        DevToolsResourceType.document,
+      );
+    });
+
+    test('tryParse returns null for unknown or null values', () {
+      expect(DevToolsResourceType.tryParse('UnknownType'), isNull);
+      expect(DevToolsResourceType.tryParse(null), isNull);
+      expect(DevToolsResourceType.tryParse(''), isNull);
+    });
+
+    test('toJson returns the correct string value', () {
+      expect(DevToolsResourceType.fedCm.toJson(), 'FedCM');
+      expect(DevToolsResourceType.prefetch.toJson(), 'Prefetch');
+      expect(DevToolsResourceType.textTrack.toJson(), 'TextTrack');
+      expect(DevToolsResourceType.document.toJson(), 'Document');
+      expect(DevToolsResourceType.xhr.toJson(), 'XHR');
     });
   });
 }
