@@ -246,6 +246,44 @@ void main() {
       expect(entry.hitCount, 5);
     });
 
+    test('HarCacheEntry.fromJson validates hitCount as non-negative int', () {
+      const jsonInteger = {
+        'eTag': 'etag123',
+        'hitCount': '7',
+        'lastAccess': '2025-03-14T10:00:00.000Z',
+      };
+
+      const jsonFloatInt = {
+        'eTag': 'etag123',
+        'hitCount': '4.0',
+        'lastAccess': '2025-03-14T10:00:00.000Z',
+      };
+
+      const jsonDecimal = {
+        'eTag': 'etag123',
+        'hitCount': '4.5',
+        'lastAccess': '2025-03-14T10:00:00.000Z',
+      };
+
+      const jsonNegative = {
+        'eTag': 'etag123',
+        'hitCount': -2,
+        'lastAccess': '2025-03-14T10:00:00.000Z',
+      };
+
+      const jsonInvalid = {
+        'eTag': 'etag123',
+        'hitCount': 'abc',
+        'lastAccess': '2025-03-14T10:00:00.000Z',
+      };
+
+      expect(HarCacheEntry.fromJson(jsonInteger).hitCount, 7);
+      expect(HarCacheEntry.fromJson(jsonFloatInt).hitCount, 4);
+      expect(HarCacheEntry.fromJson(jsonDecimal).hitCount, 0);
+      expect(HarCacheEntry.fromJson(jsonNegative).hitCount, 0);
+      expect(HarCacheEntry.fromJson(jsonInvalid).hitCount, 0);
+    });
+
     test('HarCacheEntry.fromJson with missing expires', () {
       const json = {
         'eTag': 'etag123',

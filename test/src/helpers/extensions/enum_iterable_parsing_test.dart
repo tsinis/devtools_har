@@ -38,7 +38,7 @@ void main() => group('EnumIterableParsing.tryParse', () {
     );
   });
 
-  group('default valueOf (toString)', () {
+  group('default valueOf (name)', () {
     test('matches exact (case-insensitive)', () {
       expect(_Custom.values.tryParse('LOW'), _Custom.low);
       expect(_Custom.values.tryParse('low'), _Custom.low);
