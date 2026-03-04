@@ -27,7 +27,7 @@ import 'devtools_websocket_message.dart';
 /// ```dart
 /// final entry = DevToolsHarEntry(
 ///   startedDateTime: DateTime.utc(2025),
-///   totalTime: 260,
+///   totalTime: const Duration(milliseconds: 260),
 ///   request: DevToolsHarRequest(
 ///     url: Uri(),
 ///     headersSize: -1,
@@ -40,11 +40,13 @@ import 'devtools_websocket_message.dart';
 ///   ),
 ///   cache: const HarCache(),
 ///   timings: const DevToolsHarTimings(
-///     send: 10, wait: 200, receive: 50,
+///     send: Duration(milliseconds: 10),
+///     wait: Duration(milliseconds: 200),
+///     receive: Duration(milliseconds: 50),
 ///   ),
-///   resourceType: 'document',
+///   resourceType: DevToolsResourceType.document,
 /// );
-/// print(entry.resourceType); // document
+/// print(entry.resourceType); // DevToolsResourceType.document
 /// ```
 class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
   /// Creates a [DevToolsHarEntry] with DevTools-specific fields.

@@ -11,7 +11,7 @@ import '../har_object.dart';
 /// ```dart
 /// const message = DevToolsWebSocketMessage(
 ///   type: 'send',
-///   time: 12345.67,
+///   time: Duration(milliseconds: 12345, microseconds: 670),
 ///   opcode: 1,
 ///   data: 'Hello',
 /// );

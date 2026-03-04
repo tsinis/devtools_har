@@ -25,7 +25,7 @@ import 'har_timings.dart';
 /// ```dart
 /// final entry = HarEntry(
 ///   startedDateTime: DateTime.utc(2025),
-///   totalTime: 260,
+///   totalTime: const Duration(milliseconds: 260),
 ///   request: HarRequest(url: Uri(), headersSize: -1, bodySize: -1),
 ///   response: HarResponse(
 ///     status: 200, statusText: 'OK',
@@ -33,9 +33,13 @@ import 'har_timings.dart';
 ///     redirectURL: '', headersSize: -1, bodySize: -1,
 ///   ),
 ///   cache: const HarCache(),
-///   timings: const HarTimings(send: 10, wait: 200, receive: 50),
+///   timings: const HarTimings(
+///     send: Duration(milliseconds: 10),
+///     wait: Duration(milliseconds: 200),
+///     receive: Duration(milliseconds: 50),
+///   ),
 /// );
-/// print(entry.totalTime); // 260.0
+/// print(entry.totalTime); // 0:00:00.260000
 /// ```
 // Reference: http://www.softwareishard.com/blog/har-12-spec/#entries
 class HarEntry<T extends HarCookie> extends HarObject {
@@ -66,9 +70,9 @@ class HarEntry<T extends HarCookie> extends HarObject {
   /// value is missing or unparseable, an assert fires in debug and
   /// [DateTime.utc] epoch (`0`) is used in release.
   ///
-  /// [totalTime] is typed as [double] because the spec defines it
-  /// as the sum of all timings in milliseconds, and exporters such
-  /// as Chrome DevTools emit sub-millisecond precision.
+  /// [totalTime] is a [Duration] representing the sum of all
+  /// timings in milliseconds, preserving sub-millisecond precision
+  /// when present in the source.
   // Reference: http://www.softwareishard.com/blog/har-12-spec/#entries
   static HarEntry<T> fromJson<T extends HarCookie>(Json json) =>
       _fromJson<T>(json);

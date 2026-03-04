@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-similar-names
+
 import '../../helpers/har_utils.dart';
 import '../har_object.dart';
 
@@ -47,7 +49,17 @@ class HarCacheEntry extends HarObject {
       parsedLastAccess != null,
       '''HarCacheEntry: "$kLastAccess" must be a valid ISO 8601 string: $lastAccessRaw''',
     );
-    final hitCountRaw = num.tryParse(json[kHitCount]?.toString() ?? '');
+    final hitCountRaw = json[kHitCount]?.toString();
+    final parsedHitCountInteger = int.tryParse(hitCountRaw ?? '');
+    final parsedHitCountNumber = num.tryParse(hitCountRaw ?? '');
+    final hitCountFinal =
+        parsedHitCountInteger != null && parsedHitCountInteger >= 0
+        ? parsedHitCountInteger
+        : (parsedHitCountNumber != null &&
+              parsedHitCountNumber >= 0 &&
+              parsedHitCountNumber == parsedHitCountNumber.toInt())
+        ? parsedHitCountNumber.toInt()
+        : 0;
     final expiresRaw = json[kExpires]?.toString();
 
     return HarCacheEntry(
@@ -56,7 +68,7 @@ class HarCacheEntry extends HarObject {
       lastAccess: parsedLastAccess ?? DateTime.utc(0),
       lastAccessRaw: lastAccessString,
       eTag: eTagRaw?.toString() ?? '',
-      hitCount: hitCountRaw?.toInt() ?? 0,
+      hitCount: hitCountFinal,
       comment: json[HarObject.kComment]?.toString(),
       custom: HarUtils.collectCustom(json),
     );
@@ -127,14 +139,21 @@ class HarCacheEntry extends HarObject {
     String? expiresRaw,
     String? comment,
     Json? custom,
-  }) => HarCacheEntry(
-    lastAccess: lastAccess ?? this.lastAccess,
-    lastAccessRaw: lastAccessRaw ?? this.lastAccessRaw,
-    eTag: eTag ?? this.eTag,
-    hitCount: hitCount ?? this.hitCount,
-    expires: expires ?? this.expires,
-    expiresRaw: expiresRaw ?? this.expiresRaw,
-    comment: comment ?? this.comment,
-    custom: custom ?? this.custom,
-  );
+  }) {
+    final nextLastAccess = lastAccess ?? this.lastAccess;
+    final nextExpires = expires ?? this.expires;
+
+    return HarCacheEntry(
+      lastAccess: nextLastAccess,
+      lastAccessRaw: lastAccess == null
+          ? (lastAccessRaw ?? this.lastAccessRaw)
+          : null,
+      eTag: eTag ?? this.eTag,
+      hitCount: hitCount ?? this.hitCount,
+      expires: nextExpires,
+      expiresRaw: expires == null ? (expiresRaw ?? this.expiresRaw) : null,
+      comment: comment ?? this.comment,
+      custom: custom ?? this.custom,
+    );
+  }
 }
