@@ -1,3 +1,4 @@
+import '../../helpers/extensions/enum_iterable_parsing.dart';
 import '../base/har_cookie.dart';
 
 /// The `SameSite` attribute of an HTTP cookie as reported by browser's DevTools
@@ -33,14 +34,5 @@ enum CookieSameSite {
   ///
   /// Returns `null` if [value] is `null` or does not match any known
   /// variant (case-insensitive).
-  static CookieSameSite? tryParse(Object? value) {
-    if (value == null) return null;
-
-    final lower = value.toString().toLowerCase();
-    for (final cookie in values) {
-      if (cookie.value.toLowerCase() == lower) return cookie;
-    }
-
-    return null;
-  }
+  static CookieSameSite? tryParse(Object? value) => values.tryParse(value);
 }

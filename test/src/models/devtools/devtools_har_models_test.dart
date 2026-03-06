@@ -1,7 +1,8 @@
-// ignore_for_file: avoid-long-functions, prefer-class-destructuring
+// ignore_for_file: inference_failure_on_collection_literal,avoid-long-functions
 // ignore_for_file: avoid-unsafe-collection-methods, prefer-moving-to-variable
-// ignore_for_file: no-equal-arguments
+// ignore_for_file: no-equal-arguments, prefer-class-destructuring
 
+// ignore: max-imports, it's a test file that needs to import a lot of models...
 import 'package:devtools_har/src/models/base/har_cache.dart';
 import 'package:devtools_har/src/models/base/har_content.dart';
 import 'package:devtools_har/src/models/base/har_cookie.dart';
@@ -20,13 +21,17 @@ import 'package:devtools_har/src/models/devtools/devtools_har_log.dart';
 import 'package:devtools_har/src/models/devtools/devtools_har_request.dart';
 import 'package:devtools_har/src/models/devtools/devtools_har_response.dart';
 import 'package:devtools_har/src/models/devtools/devtools_har_timings.dart';
+import 'package:devtools_har/src/models/devtools/devtools_initiator.dart';
+import 'package:devtools_har/src/models/devtools/devtools_priority.dart';
+import 'package:devtools_har/src/models/devtools/devtools_resource_type.dart';
+import 'package:devtools_har/src/models/devtools/devtools_websocket_message.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('DevToolsHarEntry.fromHarEntry', () {
     final baseEntry = HarEntry(
       startedDateTime: DateTime.utc(2025, 3, 14),
-      totalTime: 245.5,
+      totalTime: const Duration(milliseconds: 245, microseconds: 500),
       request: HarRequest(
         url: Uri.parse('https://example.com'),
         headersSize: 100,
@@ -43,7 +48,11 @@ void main() {
         cookies: [HarCookie(name: 'lang', value: 'en')],
       ),
       cache: const HarCache(),
-      timings: const HarTimings(send: 50, wait: 100, receive: 75),
+      timings: const HarTimings(
+        send: Duration(milliseconds: 50),
+        wait: Duration(milliseconds: 100),
+        receive: Duration(milliseconds: 75),
+      ),
       custom: const {'_entryExtra': 'data'},
     );
 
@@ -77,19 +86,27 @@ void main() {
         baseEntry,
         fromCache: 'disk',
         fromServiceWorker: true,
-        initiator: const {'type': 'script', 'url': 'https://example.com'},
-        priority: 'High',
-        resourceType: 'document',
+        initiator: const DevToolsInitiator(
+          type: 'script',
+          url: 'https://example.com',
+        ),
+        priority: DevToolsPriority.high,
+        resourceType: DevToolsResourceType.document,
         webSocketMessages: const [
-          {'data': 'hello', 'type': 'send'},
+          DevToolsWebSocketMessage(
+            data: 'hello',
+            type: 'send',
+            time: Duration.zero,
+            opcode: 1,
+          ),
         ],
       );
 
       expect(devEntry.fromCache, 'disk');
       expect(devEntry.fromServiceWorker, isTrue);
-      expect(devEntry.initiator?['type'], 'script');
-      expect(devEntry.priority, 'High');
-      expect(devEntry.resourceType, 'document');
+      expect(devEntry.initiator?.type, 'script');
+      expect(devEntry.priority, DevToolsPriority.high);
+      expect(devEntry.resourceType, DevToolsResourceType.document);
       expect(devEntry.webSocketMessages, hasLength(1));
     });
 
@@ -120,6 +137,115 @@ void main() {
       );
 
       expect(devEntry.fromServiceWorker, isFalse);
+    });
+
+    test('fromJson parses fromServiceWorker as boolean correctly', () {
+      final json = {
+        '_fromServiceWorker': true,
+        'cache': <String, dynamic>{'afterRequest': null, 'beforeRequest': null},
+        'request': {
+          'bodySize': -1,
+          'cookies': const [],
+          'headers': const [],
+          'headersSize': -1,
+          'httpVersion': 'HTTP/1.1',
+          'method': 'GET',
+          'queryString': const [],
+          'url': 'https://example.com',
+        },
+        'response': {
+          'bodySize': -1,
+          'content': <String, dynamic>{'mimeType': '', 'size': 0},
+          'cookies': const [],
+          'headers': const [],
+          'headersSize': -1,
+          'httpVersion': 'HTTP/1.1',
+          'redirectURL': '',
+          'status': 200,
+          'statusText': 'OK',
+        },
+        'startedDateTime': '2025-03-14T10:00:00.000Z',
+        'time': 100,
+        'timings': <String, dynamic>{'receive': 0, 'send': 0, 'wait': 0},
+      };
+
+      final entry = DevToolsHarEntry.fromJson(json);
+
+      expect(entry.fromServiceWorker, isTrue);
+    });
+
+    test('fromJson parses fromServiceWorker as string correctly', () {
+      final json = {
+        '_fromServiceWorker': 'true',
+        'cache': <String, dynamic>{'afterRequest': null, 'beforeRequest': null},
+        'request': {
+          'bodySize': -1,
+          'cookies': const [],
+          'headers': const [],
+          'headersSize': -1,
+          'httpVersion': 'HTTP/1.1',
+          'method': 'GET',
+          'queryString': const [],
+          'url': 'https://example.com',
+        },
+        'response': {
+          'bodySize': -1,
+          'content': <String, dynamic>{'mimeType': '', 'size': 0},
+          'cookies': const [],
+          'headers': const [],
+          'headersSize': -1,
+          'httpVersion': 'HTTP/1.1',
+          'redirectURL': '',
+          'status': 200,
+          'statusText': 'OK',
+        },
+        'startedDateTime': '2025-03-14T10:00:00.000Z',
+        'time': 100,
+        'timings': <String, dynamic>{'receive': 0, 'send': 0, 'wait': 0},
+      };
+
+      final entry = DevToolsHarEntry.fromJson(json);
+
+      expect(entry.fromServiceWorker, isTrue);
+    });
+
+    test('fromJson parses fromServiceWorker false values correctly', () {
+      final jsonBool = {
+        '_fromServiceWorker': false,
+        'cache': <String, dynamic>{'afterRequest': null, 'beforeRequest': null},
+        'request': {
+          'bodySize': -1,
+          'cookies': const [],
+          'headers': const [],
+          'headersSize': -1,
+          'httpVersion': 'HTTP/1.1',
+          'method': 'GET',
+          'queryString': const [],
+          'url': 'https://example.com',
+        },
+        'response': {
+          'bodySize': -1,
+          'content': <String, dynamic>{'mimeType': '', 'size': 0},
+          'cookies': const [],
+          'headers': const [],
+          'headersSize': -1,
+          'httpVersion': 'HTTP/1.1',
+          'redirectURL': '',
+          'status': 200,
+          'statusText': 'OK',
+        },
+        'startedDateTime': '2025-03-14T10:00:00.000Z',
+        'time': 100,
+        'timings': <String, dynamic>{'receive': 0, 'send': 0, 'wait': 0},
+      };
+
+      final jsonString = {...jsonBool, '_fromServiceWorker': 'false'};
+
+      final entryBool = DevToolsHarEntry.fromJson(jsonBool);
+      final entryString = DevToolsHarEntry.fromJson(jsonString);
+
+      expect(entryBool.fromServiceWorker, isFalse);
+      expect(entryString.fromServiceWorker, isFalse);
     });
   });
 
@@ -222,6 +348,85 @@ void main() {
       expect(converted.custom, {'_extra': 'data'});
     });
 
+    test('preserves DevTools-specific fields', () {
+      const base = HarResponse(
+        status: 200,
+        statusText: 'OK',
+        content: HarContent(size: 0),
+        redirectURL: '',
+        headersSize: -1,
+        bodySize: -1,
+      );
+
+      final converted = DevToolsHarResponse.fromHarResponse(
+        base,
+        transferSize: 512,
+        error: 'net::ERR_CONNECTION_RESET',
+        protocol: 'h2',
+      );
+
+      expect(converted.transferSize, 512);
+      expect(converted.error, 'net::ERR_CONNECTION_RESET');
+      expect(converted.protocol, 'h2');
+    });
+
+    test('fromJson parses _protocol field', () {
+      final response = DevToolsHarResponse.fromJson({
+        '_error': 'net::ERR_ABORTED',
+        '_protocol': 'h3',
+        '_transferSize': 512,
+        'bodySize': -1,
+        'content': <String, dynamic>{'mimeType': 'text/html', 'size': 0},
+        'cookies': const [],
+        'headers': const [],
+        'headersSize': -1,
+        'httpVersion': 'HTTP/2',
+        'redirectURL': '',
+        'status': 200,
+        'statusText': 'OK',
+      });
+
+      expect(response.transferSize, 512);
+      expect(response.error, 'net::ERR_ABORTED');
+      expect(response.protocol, 'h3');
+    });
+
+    test('toJson includes _protocol field when present', () {
+      const response = DevToolsHarResponse(
+        status: 200,
+        statusText: 'OK',
+        httpVersion: 'HTTP/2',
+        content: HarContent(size: 0),
+        redirectURL: '',
+        headersSize: -1,
+        bodySize: -1,
+        transferSize: 1024,
+        protocol: 'quic',
+      );
+
+      final json = response.toJson();
+
+      expect(json['_transferSize'], 1024);
+      expect(json['_protocol'], 'quic');
+    });
+
+    test('toString includes _protocol when present', () {
+      const response = DevToolsHarResponse(
+        status: 200,
+        statusText: 'OK',
+        httpVersion: 'HTTP/2',
+        content: HarContent(size: 0),
+        redirectURL: '',
+        headersSize: -1,
+        bodySize: -1,
+        protocol: 'h2',
+      );
+
+      final text = response.toString();
+
+      expect(text, contains('_protocol: h2'));
+    });
+
     test('uses provided cookies when given', () {
       const base = HarResponse(
         status: 200,
@@ -245,25 +450,25 @@ void main() {
   group('DevToolsHarTimings.fromHarTimings', () {
     test('preserves custom from base by default', () {
       const base = HarTimings(
-        send: 10,
-        wait: 200,
-        receive: 50,
+        send: Duration(milliseconds: 10),
+        wait: Duration(milliseconds: 200),
+        receive: Duration(milliseconds: 50),
         custom: {'_timingExtra': 42},
       );
 
       final converted = DevToolsHarTimings.fromHarTimings(base);
 
-      expect(converted.send, 10);
-      expect(converted.wait, 200);
-      expect(converted.receive, 50);
+      expect(converted.send, const Duration(milliseconds: 10));
+      expect(converted.wait, const Duration(milliseconds: 200));
+      expect(converted.receive, const Duration(milliseconds: 50));
       expect(converted.custom, {'_timingExtra': 42});
     });
 
     test('uses provided custom when given', () {
       const base = HarTimings(
-        send: 10,
-        wait: 200,
-        receive: 50,
+        send: Duration(milliseconds: 10),
+        wait: Duration(milliseconds: 200),
+        receive: Duration(milliseconds: 50),
         custom: {'_old': 1},
       );
 
@@ -283,7 +488,7 @@ void main() {
         entries: [
           HarEntry(
             startedDateTime: DateTime.utc(2025),
-            totalTime: 100,
+            totalTime: const Duration(milliseconds: 100),
             request: HarRequest(
               url: Uri.parse('https://example.com'),
               headersSize: -1,
@@ -298,7 +503,11 @@ void main() {
               bodySize: -1,
             ),
             cache: const HarCache(),
-            timings: const HarTimings(send: 10, wait: 50, receive: 40),
+            timings: const HarTimings(
+              send: Duration(milliseconds: 10),
+              wait: Duration(milliseconds: 50),
+              receive: Duration(milliseconds: 40),
+            ),
           ),
         ],
         custom: const {'_logExtra': 'meta'},
@@ -321,7 +530,7 @@ void main() {
         entries: [
           HarEntry(
             startedDateTime: DateTime.utc(2025),
-            totalTime: 100,
+            totalTime: const Duration(milliseconds: 100),
             request: HarRequest(url: Uri(), headersSize: -1, bodySize: -1),
             response: const HarResponse(
               status: 200,
@@ -332,7 +541,11 @@ void main() {
               bodySize: -1,
             ),
             cache: const HarCache(),
-            timings: const HarTimings(send: 0, wait: 0, receive: 0),
+            timings: const HarTimings(
+              send: Duration.zero,
+              wait: Duration.zero,
+              receive: Duration.zero,
+            ),
           ),
         ],
       );

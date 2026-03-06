@@ -8,7 +8,7 @@ import 'dart:io';
 import 'package:devtools_har/devtools_har.dart';
 
 void main(List<String> args) {
-  final path = args.firstOrNull ?? 'network_log.har';
+  final path = args.firstOrNull ?? 'example.har';
   final file = File(path);
 
   if (file.existsSync()) {
@@ -34,7 +34,7 @@ void main(List<String> args) {
 
   final entry = HarEntry(
     startedDateTime: DateTime.now().toUtc(),
-    totalTime: 120,
+    totalTime: const Duration(milliseconds: 120),
     request: HarRequest(
       url: Uri.parse('https://api.example.com/v1/vehicles'),
       headersSize: -1,
@@ -49,7 +49,11 @@ void main(List<String> args) {
       bodySize: 0,
     ),
     cache: const HarCache(),
-    timings: const HarTimings(send: 0, wait: 0, receive: 0),
+    timings: const HarTimings(
+      send: Duration.zero,
+      wait: Duration(milliseconds: 200),
+      receive: Duration(milliseconds: 100),
+    ),
   );
 
   final compact = entry.toJson();

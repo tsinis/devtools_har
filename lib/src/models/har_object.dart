@@ -35,6 +35,9 @@ abstract class HarObject {
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
 
+  /// Creates a copy of this [HarObject] with the given fields replaced.
+  HarObject copyWith({String? comment, Json? custom});
+
   @override
   String toString() =>
       '''HarObject(${[if (comment != null) '$kComment: $comment', if (custom.isNotEmpty) '$kCustom: $custom'].join(', ')})''';

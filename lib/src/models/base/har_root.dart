@@ -53,6 +53,7 @@ class HarRoot<T extends HarLog> extends HarObject {
       '''HarRoot(${['$kLog: $log', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 
   /// Creates a copy of this [HarRoot] with the given fields replaced.
+  @override
   HarRoot<T> copyWith({T? log, String? comment, Json? custom}) => HarRoot<T>(
     log: log ?? this.log,
     comment: comment ?? this.comment,

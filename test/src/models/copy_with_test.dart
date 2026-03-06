@@ -105,18 +105,23 @@ void main() {
     });
 
     group('HarPageTimings', () {
-      const original = HarPageTimings(onContentLoad: 500, onLoad: 3200);
+      const original = HarPageTimings(
+        onContentLoad: Duration(milliseconds: 500),
+        onLoad: Duration(milliseconds: 3200),
+      );
 
       test('returns identical copy when no arguments given', () {
         final copy = original.copyWith();
-        expect(copy.onContentLoad, 500);
-        expect(copy.onLoad, 3200);
+        expect(copy.onContentLoad, const Duration(milliseconds: 500));
+        expect(copy.onLoad, const Duration(milliseconds: 3200));
       });
 
       test('replaces specified fields', () {
-        final copy = original.copyWith(onLoad: 1000);
-        expect(copy.onContentLoad, 500);
-        expect(copy.onLoad, 1000);
+        final copy = original.copyWith(
+          onLoad: const Duration(milliseconds: 1000),
+        );
+        expect(copy.onContentLoad, const Duration(milliseconds: 500));
+        expect(copy.onLoad, const Duration(milliseconds: 1000));
       });
     });
 
@@ -252,33 +257,36 @@ void main() {
 
     group('HarTimings', () {
       const original = HarTimings(
-        send: 10,
-        wait: 200,
-        receive: 50,
-        blocked: 5,
-        dns: 3,
-        connect: 20,
-        ssl: 15,
+        send: Duration(milliseconds: 10),
+        wait: Duration(milliseconds: 200),
+        receive: Duration(milliseconds: 50),
+        blocked: Duration(milliseconds: 5),
+        dns: Duration(milliseconds: 3),
+        connect: Duration(milliseconds: 20),
+        ssl: Duration(milliseconds: 15),
         comment: 'timing',
       );
 
       test('returns identical copy when no arguments given', () {
         final copy = original.copyWith();
-        expect(copy.send, 10.0);
-        expect(copy.wait, 200.0);
-        expect(copy.receive, 50.0);
-        expect(copy.blocked, 5.0);
-        expect(copy.dns, 3.0);
-        expect(copy.connect, 20.0);
-        expect(copy.ssl, 15.0);
+        expect(copy.send, const Duration(milliseconds: 10));
+        expect(copy.wait, const Duration(milliseconds: 200));
+        expect(copy.receive, const Duration(milliseconds: 50));
+        expect(copy.blocked, const Duration(milliseconds: 5));
+        expect(copy.dns, const Duration(milliseconds: 3));
+        expect(copy.connect, const Duration(milliseconds: 20));
+        expect(copy.ssl, const Duration(milliseconds: 15));
         expect(copy.comment, 'timing');
       });
 
       test('replaces specified fields', () {
-        final copy = original.copyWith(wait: 100, ssl: 30);
-        expect(copy.wait, 100.0);
-        expect(copy.ssl, 30.0);
-        expect(copy.send, 10.0);
+        final copy = original.copyWith(
+          wait: const Duration(milliseconds: 100),
+          ssl: const Duration(milliseconds: 30),
+        );
+        expect(copy.wait, const Duration(milliseconds: 100));
+        expect(copy.ssl, const Duration(milliseconds: 30));
+        expect(copy.send, const Duration(milliseconds: 10));
       });
     });
 
@@ -287,7 +295,7 @@ void main() {
         startedDateTime: DateTime.utc(2025),
         id: 'page_1',
         title: 'Home',
-        pageTimings: const HarPageTimings(onLoad: 3200),
+        pageTimings: const HarPageTimings(onLoad: Duration(milliseconds: 3200)),
       );
 
       test('returns identical copy when no arguments given', () {
@@ -295,16 +303,18 @@ void main() {
         expect(copy.startedDateTime, DateTime.utc(2025));
         expect(copy.id, 'page_1');
         expect(copy.title, 'Home');
-        expect(copy.pageTimings.onLoad, 3200);
+        expect(copy.pageTimings.onLoad, const Duration(milliseconds: 3200));
       });
 
       test('replaces specified fields', () {
         final copy = original.copyWith(
           title: 'About',
-          pageTimings: const HarPageTimings(onLoad: 1000),
+          pageTimings: const HarPageTimings(
+            onLoad: Duration(milliseconds: 1000),
+          ),
         );
         expect(copy.title, 'About');
-        expect(copy.pageTimings.onLoad, 1000);
+        expect(copy.pageTimings.onLoad, const Duration(milliseconds: 1000));
         expect(copy.id, 'page_1');
       });
     });
@@ -368,7 +378,7 @@ void main() {
     group('HarEntry', () {
       final original = HarEntry(
         startedDateTime: DateTime.utc(2025),
-        totalTime: 260,
+        totalTime: const Duration(milliseconds: 260),
         request: HarRequest(url: Uri(), headersSize: -1, bodySize: -1),
         response: const HarResponse(
           status: 200,
@@ -379,7 +389,11 @@ void main() {
           bodySize: -1,
         ),
         cache: const HarCache(),
-        timings: const HarTimings(send: 10, wait: 200, receive: 50),
+        timings: const HarTimings(
+          send: Duration(milliseconds: 10),
+          wait: Duration(milliseconds: 200),
+          receive: Duration(milliseconds: 50),
+        ),
         pageref: 'page_1',
         serverIPAddress: '1.2.3.4',
       );
@@ -387,18 +401,18 @@ void main() {
       test('returns identical copy when no arguments given', () {
         final copy = original.copyWith();
         expect(copy.startedDateTime, DateTime.utc(2025));
-        expect(copy.totalTime, 260.0);
+        expect(copy.totalTime, const Duration(milliseconds: 260));
         expect(copy.pageref, 'page_1');
         expect(copy.serverIPAddress, '1.2.3.4');
       });
 
       test('replaces specified fields', () {
         final copy = original.copyWith(
-          totalTime: 500,
+          totalTime: const Duration(milliseconds: 500),
           pageref: 'page_2',
           comment: 'edited',
         );
-        expect(copy.totalTime, 500.0);
+        expect(copy.totalTime, const Duration(milliseconds: 500));
         expect(copy.pageref, 'page_2');
         expect(copy.comment, 'edited');
         expect(copy.serverIPAddress, '1.2.3.4');
@@ -487,28 +501,31 @@ void main() {
 
     group('DevToolsHarTimings', () {
       const original = DevToolsHarTimings(
-        send: 10,
-        wait: 200,
-        receive: 50,
-        blockedQueueing: 5.2,
-        blockedProxy: 1.1,
+        send: Duration(milliseconds: 10),
+        wait: Duration(milliseconds: 200),
+        receive: Duration(milliseconds: 50),
+        blockedQueueing: Duration(microseconds: 5200),
+        blockedProxy: Duration(microseconds: 1100),
       );
 
       test('returns identical copy when no arguments given', () {
         final copy = original.copyWith();
-        expect(copy.send, 10.0);
-        expect(copy.wait, 200.0);
-        expect(copy.receive, 50.0);
-        expect(copy.blockedQueueing, 5.2);
-        expect(copy.blockedProxy, 1.1);
+        expect(copy.send, const Duration(milliseconds: 10));
+        expect(copy.wait, const Duration(milliseconds: 200));
+        expect(copy.receive, const Duration(milliseconds: 50));
+        expect(copy.blockedQueueing, const Duration(microseconds: 5200));
+        expect(copy.blockedProxy, const Duration(microseconds: 1100));
       });
 
       test('replaces specified fields including DevTools extras', () {
-        final copy = original.copyWith(blockedQueueing: 10, wait: 100);
-        expect(copy.blockedQueueing, 10.0);
-        expect(copy.wait, 100.0);
-        expect(copy.send, 10.0);
-        expect(copy.blockedProxy, 1.1);
+        final copy = original.copyWith(
+          blockedQueueing: const Duration(milliseconds: 10),
+          wait: const Duration(milliseconds: 100),
+        );
+        expect(copy.blockedQueueing, const Duration(milliseconds: 10));
+        expect(copy.wait, const Duration(milliseconds: 100));
+        expect(copy.send, const Duration(milliseconds: 10));
+        expect(copy.blockedProxy, const Duration(microseconds: 1100));
       });
 
       test('returns DevToolsHarTimings type', () {
@@ -577,10 +594,11 @@ void main() {
       });
     });
 
+    // ignore: avoid-long-functions, that's a test...
     group('DevToolsHarEntry', () {
       final original = DevToolsHarEntry(
         startedDateTime: DateTime.utc(2025),
-        totalTime: 260,
+        totalTime: const Duration(milliseconds: 260),
         request: DevToolsHarRequest(url: Uri(), headersSize: -1, bodySize: -1),
         response: const DevToolsHarResponse(
           status: 200,
@@ -592,22 +610,31 @@ void main() {
           bodySize: -1,
         ),
         cache: const HarCache(),
-        timings: const DevToolsHarTimings(send: 10, wait: 200, receive: 50),
+        timings: const DevToolsHarTimings(
+          send: Duration(milliseconds: 10),
+          wait: Duration(milliseconds: 200),
+          receive: Duration(milliseconds: 50),
+        ),
         pageref: 'page_1',
-        resourceType: 'document',
-        priority: 'High',
+        resourceType: DevToolsResourceType.document,
+        priority: DevToolsPriority.high,
         fromCache: 'disk',
-        webSocketMessages: [
-          {'data': 'hello', 'type': 'send'},
+        webSocketMessages: const [
+          DevToolsWebSocketMessage(
+            data: 'hello',
+            type: 'send',
+            time: Duration.zero,
+            opcode: 1,
+          ),
         ],
       );
 
       test('returns identical copy when no arguments given', () {
         final copy = original.copyWith();
         expect(copy.startedDateTime, DateTime.utc(2025));
-        expect(copy.totalTime, 260.0);
-        expect(copy.resourceType, 'document');
-        expect(copy.priority, 'High');
+        expect(copy.totalTime, const Duration(milliseconds: 260));
+        expect(copy.resourceType, DevToolsResourceType.document);
+        expect(copy.priority, DevToolsPriority.high);
         expect(copy.fromCache, 'disk');
         expect(copy.pageref, 'page_1');
         expect(copy.webSocketMessages, hasLength(1));
@@ -615,15 +642,15 @@ void main() {
 
       test('replaces specified fields including DevTools extras', () {
         final copy = original.copyWith(
-          resourceType: 'script',
-          priority: 'Low',
+          resourceType: DevToolsResourceType.script,
+          priority: DevToolsPriority.low,
           fromServiceWorker: true,
         );
-        expect(copy.resourceType, 'script');
-        expect(copy.priority, 'Low');
+        expect(copy.resourceType, DevToolsResourceType.script);
+        expect(copy.priority, DevToolsPriority.low);
         expect(copy.fromServiceWorker, true);
         expect(copy.fromCache, 'disk');
-        expect(copy.totalTime, 260.0);
+        expect(copy.totalTime, const Duration(milliseconds: 260));
       });
 
       test('returns DevToolsHarEntry type', () {

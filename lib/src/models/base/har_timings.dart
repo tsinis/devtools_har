@@ -1,3 +1,4 @@
+import '../../helpers/extensions/har_duration.dart';
 import '../../helpers/har_utils.dart';
 import '../har_object.dart';
 
@@ -64,25 +65,32 @@ class HarTimings extends HarObject {
   /// when missing or unparseable.  Optional fields default to `null`.
   factory HarTimings.fromJson(Json json) => _fromJson(json);
 
-  // ignore: avoid-high-cyclomatic-complexity, a lot of fields to parse.
   static HarTimings _fromJson(Json json) {
-    final send = num.tryParse(json[kSend]?.toString() ?? '')?.toDouble() ?? 0;
-    final wait = num.tryParse(json[kWait]?.toString() ?? '')?.toDouble() ?? 0;
-    final receive =
-        num.tryParse(json[kReceive]?.toString() ?? '')?.toDouble() ?? 0;
+    final sendString = json[kSend]?.toString() ?? '';
+    final waitString = json[kWait]?.toString() ?? '';
+    final receiveString = json[kReceive]?.toString() ?? '';
 
-    assert(send >= 0, 'HarTimings: "$kSend" must be non-negative, got $send');
-    assert(wait >= 0, 'HarTimings: "$kWait" must be non-negative, got $wait');
-    assert(receive >= 0, '"$kReceive" must be non-negative got $receive');
+    assert(
+      !sendString.startsWith('-'),
+      'HarTimings: "$kSend" must be non-negative, got $sendString',
+    );
+    assert(
+      !waitString.startsWith('-'),
+      'HarTimings: "$kWait" must be non-negative, got $waitString',
+    );
+    assert(
+      !receiveString.startsWith('-'),
+      'HarTimings: "$kReceive" must be non-negative, got $receiveString',
+    );
 
     return HarTimings(
-      blocked: num.tryParse(json[kBlocked]?.toString() ?? '')?.toDouble(),
-      dns: num.tryParse(json[kDns]?.toString() ?? '')?.toDouble(),
-      connect: num.tryParse(json[kConnect]?.toString() ?? '')?.toDouble(),
-      send: send,
-      wait: wait,
-      receive: receive,
-      ssl: num.tryParse(json[kSsl]?.toString() ?? '')?.toDouble(),
+      blocked: HarDuration.tryParse(json[kBlocked]?.toString()),
+      dns: HarDuration.tryParse(json[kDns]?.toString()),
+      connect: HarDuration.tryParse(json[kConnect]?.toString()),
+      send: HarDuration.tryParse(sendString) ?? Duration.zero,
+      wait: HarDuration.tryParse(waitString) ?? Duration.zero,
+      receive: HarDuration.tryParse(receiveString) ?? Duration.zero,
+      ssl: HarDuration.tryParse(json[kSsl]?.toString()),
       comment: json[HarObject.kComment]?.toString(),
       custom: HarUtils.collectCustom(json),
     );
@@ -115,48 +123,44 @@ class HarTimings extends HarObject {
   /// (`"ssl"`).
   static const kSsl = 'ssl';
 
-  /// Time spent in a queue waiting for a network connection, in
-  /// milliseconds.
+  /// Time spent in a queue waiting for a network connection.
   ///
   /// `null` if the field was absent; `-1` if the timing does not
   /// apply to this request. Use `-1` if the timing cannot be
   /// determined.
-  final double? blocked;
+  final Duration? blocked;
 
-  /// DNS resolution time in milliseconds.
+  /// DNS resolution time.
   ///
   /// `null` if the field was absent; `-1` if the timing does not
   /// apply (e.g. reused connection).
-  final double? dns;
+  final Duration? dns;
 
-  /// Time required to create a TCP connection, in milliseconds.
+  /// Time required to create a TCP connection.
   ///
   /// `null` if the field was absent; `-1` if the timing does not
   /// apply.
   ///
   /// When [ssl] is defined and not `-1` its value is included in
   /// this field (i.e. [connect] covers both TCP and TLS handshake).
-  final double? connect;
+  final Duration? connect;
 
-  /// Time required to send the HTTP request to the server, in
-  /// milliseconds.
+  /// Time required to send the HTTP request to the server.
   ///
   /// Required — must be non-negative.
-  final double send;
+  final Duration send;
 
-  /// Time spent waiting for a response from the server (TTFB), in
-  /// milliseconds.
+  /// Time spent waiting for a response from the server (TTFB).
   ///
   /// Required — must be non-negative.
-  final double wait;
+  final Duration wait;
 
-  /// Time required to read the entire response from the server, in
-  /// milliseconds.
+  /// Time required to read the entire response from the server.
   ///
   /// Required — must be non-negative.
-  final double receive;
+  final Duration receive;
 
-  /// Time required for SSL/TLS negotiation, in milliseconds.
+  /// Time required for SSL/TLS negotiation.
   ///
   /// `null` if the field was absent; `-1` if the timing does not
   /// apply (e.g. non-HTTPS request).
@@ -164,9 +168,9 @@ class HarTimings extends HarObject {
   /// When defined and not `-1`, this value is already included in
   /// [connect] and must not be added separately when summing
   /// timings.
-  final double? ssl;
+  final Duration? ssl;
 
-  /// Total time of the request/response round trip, in milliseconds.
+  /// Total time of the request/response round trip.
   ///
   /// Computed as the sum of all timing phases, excluding `-1` values
   /// (which indicate "not available"). Per the HAR spec:
@@ -175,14 +179,14 @@ class HarTimings extends HarObject {
   ///
   /// The [ssl] time is already included in [connect] and is not added
   /// separately.
-  double get time {
-    final block = blocked ?? -1;
-    final domain = dns ?? -1;
-    final connection = connect ?? -1;
+  Duration get time {
+    final block = blocked ?? const Duration(milliseconds: -1);
+    final domain = dns ?? const Duration(milliseconds: -1);
+    final connection = connect ?? const Duration(milliseconds: -1);
 
-    return (block >= 0 ? block : 0) +
-        (domain >= 0 ? domain : 0) +
-        (connection >= 0 ? connection : 0) +
+    return (block.inMicroseconds >= 0 ? block : Duration.zero) +
+        (domain.inMicroseconds >= 0 ? domain : Duration.zero) +
+        (connection.inMicroseconds >= 0 ? connection : Duration.zero) +
         send +
         wait +
         receive;
@@ -196,13 +200,13 @@ class HarTimings extends HarObject {
   @override
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
     {
-      kBlocked: HarUtils.normalizeNumber(blocked),
-      kConnect: HarUtils.normalizeNumber(connect),
-      kDns: HarUtils.normalizeNumber(dns),
-      kReceive: HarUtils.normalizeNumber(receive),
-      kSend: HarUtils.normalizeNumber(send),
-      kSsl: HarUtils.normalizeNumber(ssl),
-      kWait: HarUtils.normalizeNumber(wait),
+      kBlocked: blocked.inNormalizedMilliseconds,
+      kConnect: connect.inNormalizedMilliseconds,
+      kDns: dns.inNormalizedMilliseconds,
+      kReceive: receive.inNormalizedMilliseconds,
+      kSend: send.inNormalizedMilliseconds,
+      kSsl: ssl.inNormalizedMilliseconds,
+      kWait: wait.inNormalizedMilliseconds,
       ...commonJson(includeNulls: includeNulls),
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
@@ -213,14 +217,15 @@ class HarTimings extends HarObject {
       '''HarTimings(${[if (blocked != null) '$kBlocked: $blocked', if (dns != null) '$kDns: $dns', if (connect != null) '$kConnect: $connect', '$kSend: $send', '$kWait: $wait', '$kReceive: $receive', if (ssl != null) '$kSsl: $ssl', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 
   /// Creates a copy of this [HarTimings] with the given fields replaced.
+  @override
   HarTimings copyWith({
-    double? send,
-    double? wait,
-    double? receive,
-    double? blocked,
-    double? dns,
-    double? connect,
-    double? ssl,
+    Duration? send,
+    Duration? wait,
+    Duration? receive,
+    Duration? blocked,
+    Duration? dns,
+    Duration? connect,
+    Duration? ssl,
     String? comment,
     Json? custom,
   }) => HarTimings(

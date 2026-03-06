@@ -1,0 +1,61 @@
+name: publish
+
+on:
+  push:
+    tags:
+      - "[1-9]+.[0-9]+.[0-9]+*"
+
+jobs:
+  check-version:
+    name: ⏳ Check version
+    if: ${{ github.repository_owner == 'tsinis' && github.triggering_actor == 'tsinis' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: 📚 Git checkout
+        uses: actions/checkout@v6.0.2
+
+      - name: 1️⃣ Set version tag
+        run: echo TAG=${GITHUB_REF#refs/tags/} >> $GITHUB_ENV
+
+      - name: 2️⃣ Get version from pubspec.yaml
+        run: |
+          PUBSPEC_VERSION=$(sed -n '1 s/version: *//p' pubspec.yaml)
+          echo "PUBSPEC=${PUBSPEC_VERSION}" >> $GITHUB_ENV
+
+      - name: 3️⃣ Get version from CHANGELOG.md
+        run: |
+          CHANGELOG_VERSION=$(sed -n '1 s/^## *//p' CHANGELOG.md)
+          echo "CHANGELOG=${CHANGELOG_VERSION}" >> $GITHUB_ENV
+
+      - name: 🆚 Check if versions match
+        run: |
+          echo "Tag version: ${{ env.TAG }}"
+          echo "pubspec.yaml version: ${{ env.PUBSPEC }}"
+          echo "CHANGELOG.md version: ${{ env.CHANGELOG }}"
+
+      - name: ❌ Delete tag if version is not same as tag
+        uses: dev-drprasad/delete-tag-and-release@v1.1
+        if: ${{ env.PUBSPEC != env.CHANGELOG || env.PUBSPEC != env.TAG || env.CHANGELOG != env.TAG }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          delete_release: false
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🚫 Cancel workflow if tag is not the same as version
+        uses: andymckay/cancel-action@0.5
+        if: ${{ env.PUBSPEC != env.CHANGELOG || env.PUBSPEC != env.TAG || env.CHANGELOG != env.TAG }}
+
+      - name: 💤 Sleep for 10 seconds
+        run: sleep 10s
+        shell: bash
+
+  publish:
+    name: 📝 Publish to pub.dev
+    needs: check-version
+    permissions:
+      id-token: write
+    if: ${{ github.repository_owner == 'tsinis' && github.triggering_actor == 'tsinis' }}
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@main
+    with:
+      environment: "pub.dev"

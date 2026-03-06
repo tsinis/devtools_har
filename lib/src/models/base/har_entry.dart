@@ -1,5 +1,6 @@
 // ignore_for_file: no-equal-arguments
 
+import '../../helpers/extensions/har_duration.dart';
 import '../../helpers/har_utils.dart';
 import '../har_object.dart';
 import 'har_cache.dart';
@@ -24,7 +25,7 @@ import 'har_timings.dart';
 /// ```dart
 /// final entry = HarEntry(
 ///   startedDateTime: DateTime.utc(2025),
-///   totalTime: 260,
+///   totalTime: const Duration(milliseconds: 260),
 ///   request: HarRequest(url: Uri(), headersSize: -1, bodySize: -1),
 ///   response: HarResponse(
 ///     status: 200, statusText: 'OK',
@@ -32,9 +33,13 @@ import 'har_timings.dart';
 ///     redirectURL: '', headersSize: -1, bodySize: -1,
 ///   ),
 ///   cache: const HarCache(),
-///   timings: const HarTimings(send: 10, wait: 200, receive: 50),
+///   timings: const HarTimings(
+///     send: Duration(milliseconds: 10),
+///     wait: Duration(milliseconds: 200),
+///     receive: Duration(milliseconds: 50),
+///   ),
 /// );
-/// print(entry.totalTime); // 260.0
+/// print(entry.totalTime); // 0:00:00.260000
 /// ```
 // Reference: http://www.softwareishard.com/blog/har-12-spec/#entries
 class HarEntry<T extends HarCookie> extends HarObject {
@@ -65,13 +70,14 @@ class HarEntry<T extends HarCookie> extends HarObject {
   /// value is missing or unparseable, an assert fires in debug and
   /// [DateTime.utc] epoch (`0`) is used in release.
   ///
-  /// [totalTime] is typed as [double] because the spec defines it
-  /// as the sum of all timings in milliseconds, and exporters such
-  /// as Chrome DevTools emit sub-millisecond precision.
+  /// [totalTime] is a [Duration] representing the sum of all
+  /// timings in milliseconds, preserving sub-millisecond precision
+  /// when present in the source.
   // Reference: http://www.softwareishard.com/blog/har-12-spec/#entries
   static HarEntry<T> fromJson<T extends HarCookie>(Json json) =>
       _fromJson<T>(json);
 
+  // ignore: avoid-long-functions, a lot of fields to parse and validate.
   static HarEntry<T> _fromJson<T extends HarCookie>(Json json) {
     final startedDateTimeRaw = json[kStartedDateTime];
     assert(
@@ -98,7 +104,7 @@ class HarEntry<T extends HarCookie> extends HarObject {
       pageref: json[kPageref]?.toString(),
       startedDateTime: parsedDateTime ?? DateTime.utc(0),
       startedDateTimeRaw: startedDateTimeString,
-      totalTime: num.tryParse(json[kTime]?.toString() ?? '')?.toDouble() ?? 0,
+      totalTime: HarDuration.tryParse(json[kTime]?.toString()) ?? Duration.zero,
       request: request is Json
           ? HarRequest.fromJson(request)
           : HarRequest(url: Uri(), headersSize: -1, bodySize: -1),
@@ -115,7 +121,11 @@ class HarEntry<T extends HarCookie> extends HarObject {
       cache: cache is Json ? HarCache.fromJson(cache) : const HarCache(),
       timings: timings is Json
           ? HarTimings.fromJson(timings)
-          : const HarTimings(send: 0, wait: 0, receive: 0),
+          : const HarTimings(
+              send: Duration.zero,
+              wait: Duration.zero,
+              receive: Duration.zero,
+            ),
       serverIPAddress: json[kServerIPAddress]?.toString(),
       connectionId: json[kConnection]?.toString(),
       comment: json[HarObject.kComment]?.toString(),
@@ -168,14 +178,11 @@ class HarEntry<T extends HarCookie> extends HarObject {
   /// Original `startedDateTime` string, preserved for round-tripping.
   final String? startedDateTimeRaw;
 
-  /// Total elapsed time of the request in milliseconds.
+  /// Total elapsed time of the request.
   ///
   /// Per the spec, this is the sum of all timings in the [timings]
   /// object, excluding `-1` values.
-  ///
-  /// Typed as [double] to preserve sub-millisecond precision that
-  /// some exporters (e.g. Chrome DevTools) emit.
-  final double totalTime;
+  final Duration totalTime;
 
   /// Detailed info about the performed request.
   final HarRequest<T> request;
@@ -213,7 +220,7 @@ class HarEntry<T extends HarCookie> extends HarObject {
       kResponse: response.toJson(includeNulls: includeNulls),
       kServerIPAddress: serverIPAddress,
       kStartedDateTime: startedDateTimeRaw ?? startedDateTime.toIso8601String(),
-      kTime: HarUtils.normalizeNumber(totalTime),
+      kTime: totalTime.inNormalizedMilliseconds,
       kTimings: timings.toJson(includeNulls: includeNulls),
       ...commonJson(includeNulls: includeNulls),
     },
@@ -225,10 +232,11 @@ class HarEntry<T extends HarCookie> extends HarObject {
       '''HarEntry(${[if (pageref != null) '$kPageref: $pageref', '$kStartedDateTime: $startedDateTime', if (startedDateTimeRaw != null) '$kStartedDateTimeRaw: $startedDateTimeRaw', '$kTime: $totalTime', '$kRequest: $request', '$kResponse: $response', '$kCache: $cache', '$kTimings: $timings', if (serverIPAddress != null) '$kServerIPAddress: $serverIPAddress', if (connectionId != null) '$kConnection: $connectionId', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 
   /// Creates a copy of this [HarEntry] with the given fields replaced.
+  @override
   HarEntry<T> copyWith({
     DateTime? startedDateTime,
     String? startedDateTimeRaw,
-    double? totalTime,
+    Duration? totalTime,
     HarRequest<T>? request,
     HarResponse<T>? response,
     HarCache? cache,
@@ -240,7 +248,9 @@ class HarEntry<T extends HarCookie> extends HarObject {
     Json? custom,
   }) => HarEntry<T>(
     startedDateTime: startedDateTime ?? this.startedDateTime,
-    startedDateTimeRaw: startedDateTimeRaw ?? this.startedDateTimeRaw,
+    startedDateTimeRaw: startedDateTime == null
+        ? (startedDateTimeRaw ?? this.startedDateTimeRaw)
+        : null,
     totalTime: totalTime ?? this.totalTime,
     request: request ?? this.request,
     response: response ?? this.response,

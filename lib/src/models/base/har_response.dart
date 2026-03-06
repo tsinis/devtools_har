@@ -206,6 +206,7 @@ class HarResponse<T extends HarCookie> extends HarObject {
       '''HarResponse(${['$kStatus: $status', '$kStatusText: $statusText', '$kHttpVersion: $httpVersion', '$kCookies: $cookies', '$kHeaders: $headers', '$kContent: $content', '$kRedirectURL: $redirectURL', '$kHeadersSize: $headersSize', '$kBodySize: $bodySize', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 
   /// Creates a copy of this [HarResponse] with the given fields replaced.
+  @override
   HarResponse<T> copyWith({
     int? status,
     String? statusText,

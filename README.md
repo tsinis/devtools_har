@@ -1,9 +1,10 @@
-[![License: BSD3](https://img.shields.io/badge/License-BSD3-green.svg)](https://opensource.org/licenses/bsd-3-clause)
+[![Pub package](https://img.shields.io/pub/v/devtools_har.svg)](https://pub.dev/packages/devtools_har)
 [![Codecov](https://codecov.io/gh/tsinis/devtools_har/graph/badge.svg?token=oGAg37uXqJ)](https://codecov.io/gh/tsinis/devtools_har)
 [![Analyze](https://github.com/tsinis/devtools_har/actions/workflows/analyze.yaml/badge.svg)](https://github.com/tsinis/devtools_har/actions/workflows/analyze.yaml)
 ![AI PR Reviews](https://img.shields.io/coderabbit/prs/github/tsinis/devtools_har?utm_source=oss&utm_medium=github&utm_campaign=tsinis%2Fdevtools_har&labelColor=171717&color=00B050&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
 [![Dart Code Metrics](https://img.shields.io/badge/passing-dcm?style=flat&logo=dart&logoColor=lightskyblue&label=dcm&color=dark-green)](https://dcm.dev)
 [![Pub points](https://img.shields.io/pub/points/devtools_har)](https://pub.dev/packages/devtools_har/score)
+[![License: BSD3](https://img.shields.io/badge/License-BSD3-green.svg)](https://opensource.org/licenses/bsd-3-clause)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har.svg?type=shield&issueType=license)](https://app.fossa.com/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har?ref=badge_shield&issueType=license)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har.svg?type=shield&issueType=security)](https://app.fossa.com/projects/git%2Bgithub.com%2Ftsinis%2Fdevtools_har?ref=badge_shield&issueType=security)
 
@@ -96,9 +97,9 @@ final root = DevToolsHarParser.parse(jsonStr);
 
 final entry = root.log.entries.first;
 print(entry.request.url);
-print(entry.timings.wait);
-print(entry.priority);     // e.g. "High"
-print(entry.resourceType); // e.g. "XHR"
+print(entry.timings.wait); // Duration: 0:00:00.042000
+print(entry.priority);     // DevToolsPriority.high
+print(entry.resourceType); // DevToolsResourceType.xhr
 ```
 
 ### Build and serialize
@@ -106,7 +107,7 @@ print(entry.resourceType); // e.g. "XHR"
 ```dart
 final entry = HarEntry(
   startedDateTime: DateTime.now().toUtc(),
-  totalTime: 120,
+  totalTime: const Duration(milliseconds: 120),
   request: HarRequest(
     method: HttpMethod.get,
     url: Uri.parse('https://api.example.com/v1/vehicles'),
@@ -131,7 +132,11 @@ final entry = HarEntry(
     bodySize: 0,
   ),
   cache: const HarCache(),
-  timings: const HarTimings(send: 0, wait: 0, receive: 0),
+  timings: const HarTimings(
+    send: Duration.zero,
+    wait: Duration.zero,
+    receive: Duration.zero,
+  ),
 );
 
 // Compact (omit nulls)

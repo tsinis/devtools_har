@@ -11,6 +11,10 @@ import 'devtools_har_cookie.dart';
 import 'devtools_har_request.dart';
 import 'devtools_har_response.dart';
 import 'devtools_har_timings.dart';
+import 'devtools_initiator.dart';
+import 'devtools_priority.dart';
+import 'devtools_resource_type.dart';
+import 'devtools_websocket_message.dart';
 
 /// Entry with DevTools-specific `_`-prefixed fields.
 ///
@@ -23,7 +27,7 @@ import 'devtools_har_timings.dart';
 /// ```dart
 /// final entry = DevToolsHarEntry(
 ///   startedDateTime: DateTime.utc(2025),
-///   totalTime: 260,
+///   totalTime: const Duration(milliseconds: 260),
 ///   request: DevToolsHarRequest(
 ///     url: Uri(),
 ///     headersSize: -1,
@@ -36,11 +40,13 @@ import 'devtools_har_timings.dart';
 ///   ),
 ///   cache: const HarCache(),
 ///   timings: const DevToolsHarTimings(
-///     send: 10, wait: 200, receive: 50,
+///     send: Duration(milliseconds: 10),
+///     wait: Duration(milliseconds: 200),
+///     receive: Duration(milliseconds: 50),
 ///   ),
-///   resourceType: 'document',
+///   resourceType: DevToolsResourceType.document,
 /// );
-/// print(entry.resourceType); // document
+/// print(entry.resourceType); // DevToolsResourceType.document
 /// ```
 class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
   /// Creates a [DevToolsHarEntry] with DevTools-specific fields.
@@ -126,32 +132,40 @@ class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
         : harEntry.timings;
 
     final initiatorRaw = json[kInitiator];
-    final fromServiceWorkerRaw = bool.tryParse(
-      json[kFromServiceWorker]?.toString() ?? '',
-      caseSensitive: false,
-    );
+    final fromServiceRaw = json[kFromServiceWorker];
+    final fromServiceWorker = fromServiceRaw is bool
+        ? fromServiceRaw
+        : bool.tryParse(fromServiceRaw?.toString() ?? '', caseSensitive: false);
     final webSocketMessagesRaw = json[kWebSocketMessages];
+
+    final priority = DevToolsPriority.tryParse(json[kPriority]);
+    final resourceType = DevToolsResourceType.tryParse(json[kResourceType]);
 
     return DevToolsHarEntry.fromHarEntry(
       harEntry,
       request: request,
       response: response,
       timings: timings,
-      custom: HarUtils.collectCustom(json, const {
+      custom: HarUtils.collectCustom(json, {
         kFromCache,
         kFromServiceWorker,
         kInitiator,
-        kPriority,
-        kResourceType,
+        if (priority != null) kPriority,
+        if (resourceType != null) kResourceType,
         kWebSocketMessages,
       }),
-      initiator: initiatorRaw is Json ? initiatorRaw : null,
-      priority: json[kPriority]?.toString(),
-      resourceType: json[kResourceType]?.toString(),
+      initiator: initiatorRaw is Json
+          ? DevToolsInitiator.fromJson(initiatorRaw)
+          : null,
+      priority: priority,
+      resourceType: resourceType,
       fromCache: json[kFromCache]?.toString(),
-      fromServiceWorker: fromServiceWorkerRaw,
+      fromServiceWorker: fromServiceWorker,
       webSocketMessages: webSocketMessagesRaw is List
-          ? webSocketMessagesRaw.whereType<Json>().toList()
+          ? webSocketMessagesRaw
+                .whereType<Json>()
+                .map(DevToolsWebSocketMessage.fromJson)
+                .toList()
           : null,
     );
   }
@@ -183,40 +197,43 @@ class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
   final bool? fromServiceWorker;
 
   /// Initiator metadata (type, URL, stack trace, line number).
-  final Json? initiator;
+  final DevToolsInitiator? initiator;
 
   /// Chrome resource priority level.
-  final String? priority;
+  final DevToolsPriority? priority;
 
   /// Chrome resource type classification.
-  final String? resourceType;
+  final DevToolsResourceType? resourceType;
 
   /// WebSocket frame messages for `ws://`/`wss://` entries.
-  final List<Json>? webSocketMessages;
+  final List<DevToolsWebSocketMessage>? webSocketMessages;
 
   @override
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
     {
       ...super.toJson(includeNulls: includeNulls),
       kFromCache: fromCache,
-      kInitiator: initiator,
-      kPriority: priority,
-      kResourceType: resourceType,
+      kInitiator: initiator?.toJson(includeNulls: includeNulls),
+      kPriority: priority?.toJson(),
+      kResourceType: resourceType?.toJson(),
       kFromServiceWorker: fromServiceWorker,
-      kWebSocketMessages: webSocketMessages,
+      kWebSocketMessages: webSocketMessages
+          ?.map((i) => i.toJson(includeNulls: includeNulls))
+          .toList(),
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
 
   @override
   String toString() =>
+      // ignore: avoid-default-tostring, those are enums.
       '''DevToolsHarEntry(${[if (pageref != null) '${HarEntry.kPageref}: $pageref', '${HarEntry.kStartedDateTime}: $startedDateTime', if (startedDateTimeRaw != null) '${HarEntry.kStartedDateTimeRaw}: $startedDateTimeRaw', '${HarEntry.kTime}: $totalTime', '${HarEntry.kRequest}: $request', '${HarEntry.kResponse}: $response', '${HarEntry.kCache}: $cache', '${HarEntry.kTimings}: $timings', if (serverIPAddress != null) '${HarEntry.kServerIPAddress}: $serverIPAddress', if (connectionId != null) '${HarEntry.kConnection}: $connectionId', if (fromCache != null) '$kFromCache: $fromCache', if (fromServiceWorker != null) '$kFromServiceWorker: $fromServiceWorker', if (initiator != null) '$kInitiator: $initiator', if (priority != null) '$kPriority: $priority', if (resourceType != null) '$kResourceType: $resourceType', if (webSocketMessages != null) '$kWebSocketMessages: $webSocketMessages', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 
   @override
   DevToolsHarEntry copyWith({
     DateTime? startedDateTime,
     String? startedDateTimeRaw,
-    double? totalTime,
+    Duration? totalTime,
     HarRequest<DevToolsHarCookie>? request,
     HarResponse<DevToolsHarCookie>? response,
     HarCache? cache,
@@ -226,15 +243,17 @@ class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
     String? connectionId,
     String? fromCache,
     bool? fromServiceWorker,
-    Json? initiator,
-    String? priority,
-    String? resourceType,
-    List<Json>? webSocketMessages,
+    DevToolsInitiator? initiator,
+    DevToolsPriority? priority,
+    DevToolsResourceType? resourceType,
+    List<DevToolsWebSocketMessage>? webSocketMessages,
     String? comment,
     Json? custom,
   }) => DevToolsHarEntry(
     startedDateTime: startedDateTime ?? this.startedDateTime,
-    startedDateTimeRaw: startedDateTimeRaw ?? this.startedDateTimeRaw,
+    startedDateTimeRaw: startedDateTime == null
+        ? (startedDateTimeRaw ?? this.startedDateTimeRaw)
+        : null,
     totalTime: totalTime ?? this.totalTime,
     request: request ?? this.request,
     response: response ?? this.response,

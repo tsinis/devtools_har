@@ -78,6 +78,7 @@ class HarNameVersion extends HarObject {
       '''HarNameVersion(${['$kName: $name', '$kVersion: $version', if (comment != null) '${HarObject.kComment}: $comment', if (custom.isNotEmpty) '${HarObject.kCustom}: $custom'].join(', ')})''';
 
   /// Creates a copy of this [HarNameVersion] with the given fields replaced.
+  @override
   HarNameVersion copyWith({
     String? name,
     String? version,

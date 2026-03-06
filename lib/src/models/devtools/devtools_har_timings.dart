@@ -1,3 +1,4 @@
+import '../../helpers/extensions/har_duration.dart';
 import '../../helpers/har_utils.dart';
 import '../base/har_timings.dart';
 import '../har_object.dart';
@@ -94,8 +95,8 @@ class DevToolsHarTimings extends HarTimings {
         kBlockedQueueing,
         kBlockedProxy,
       }),
-      blockedQueueing: num.tryParse(blockedQueueing ?? '')?.toDouble(),
-      blockedProxy: num.tryParse(blockedProxy ?? '')?.toDouble(),
+      blockedQueueing: HarDuration.tryParse(blockedQueueing),
+      blockedProxy: HarDuration.tryParse(blockedProxy),
     );
   }
 
@@ -107,28 +108,28 @@ class DevToolsHarTimings extends HarTimings {
   /// (`"_blocked_proxy"`).
   static const kBlockedProxy = '_blocked_proxy';
 
-  /// Time spent waiting in Chrome's request queue, in milliseconds.
+  /// Time spent waiting in Chrome's request queue.
   ///
   /// This is a sub-component of [blocked] — common causes include
   /// the HTTP/1.x six-connection-per-origin limit and yielding to
   /// higher-priority requests.
   ///
   /// `null` if absent; `-1` if not applicable.
-  final double? blockedQueueing;
+  final Duration? blockedQueueing;
 
-  /// Time spent negotiating with a proxy server, in milliseconds.
+  /// Time spent negotiating with a proxy server.
   ///
   /// This is a sub-component of [blocked].
   ///
   /// `null` if absent; `-1` if not applicable.
-  final double? blockedProxy;
+  final Duration? blockedProxy;
 
   @override
   Json toJson({bool includeNulls = false}) => HarUtils.applyNullPolicy(
     {
       ...super.toJson(includeNulls: includeNulls),
-      kBlockedQueueing: HarUtils.normalizeNumber(blockedQueueing),
-      kBlockedProxy: HarUtils.normalizeNumber(blockedProxy),
+      kBlockedQueueing: blockedQueueing.inNormalizedMilliseconds,
+      kBlockedProxy: blockedProxy.inNormalizedMilliseconds,
     },
     includeNulls: includeNulls, // Dart 3.8 formatting.
   );
@@ -139,15 +140,15 @@ class DevToolsHarTimings extends HarTimings {
 
   @override
   DevToolsHarTimings copyWith({
-    double? send,
-    double? wait,
-    double? receive,
-    double? blocked,
-    double? dns,
-    double? connect,
-    double? ssl,
-    double? blockedQueueing,
-    double? blockedProxy,
+    Duration? send,
+    Duration? wait,
+    Duration? receive,
+    Duration? blocked,
+    Duration? dns,
+    Duration? connect,
+    Duration? ssl,
+    Duration? blockedQueueing,
+    Duration? blockedProxy,
     String? comment,
     Json? custom,
   }) => DevToolsHarTimings(
