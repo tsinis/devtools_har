@@ -11,6 +11,10 @@ topics:
  - http
  - archive-http
 
+screenshots:
+  - description: 'Code quality'
+    path: doc/quality.webp
+
 environment:
   sdk: ^3.10.0
 
