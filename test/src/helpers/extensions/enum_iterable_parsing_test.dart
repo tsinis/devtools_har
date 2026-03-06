@@ -5,6 +5,15 @@ import 'package:test/test.dart';
 
 enum _EnumIterableParsingTest { bar, baz, foo }
 
+class _NameCarrier {
+  const _NameCarrier(this.value);
+
+  final String value;
+
+  @override
+  String toString() => value;
+}
+
 enum _Custom {
   high,
   low;
@@ -59,7 +68,7 @@ void main() => group('EnumIterableParsing.tryParse', () {
       'coerces non-string input via toString()',
       () => expect(
         _EnumIterableParsingTest.values.tryParse(
-          _EnumIterableParsingTest.foo.name,
+          _NameCarrier(_EnumIterableParsingTest.foo.name),
         ),
         _EnumIterableParsingTest.foo,
       ),

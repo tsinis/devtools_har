@@ -50,6 +50,7 @@ class HarCacheEntry extends HarObject {
       '''HarCacheEntry: "$kLastAccess" must be a valid ISO 8601 string: $lastAccessRaw''',
     );
     final hitCountRaw = json[kHitCount]?.toString();
+    assert(hitCountRaw != null, 'HarCacheEntry: "$kHitCount" is required');
     final parsedHitCountInteger = int.tryParse(hitCountRaw ?? '');
     final parsedHitCountNumber = num.tryParse(hitCountRaw ?? '');
     final hitCountFinal =

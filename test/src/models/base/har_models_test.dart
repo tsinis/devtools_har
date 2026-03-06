@@ -639,5 +639,8 @@ class _HarModelsTest extends HarObject {
       commonJson(includeNulls: includeNulls);
 
   @override
-  HarObject copyWith({String? comment, Json? custom}) => const _HarModelsTest();
+  _HarModelsTest copyWith({String? comment, Json? custom}) => _HarModelsTest(
+    comment: comment ?? this.comment,
+    custom: custom ?? this.custom,
+  );
 }

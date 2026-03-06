@@ -35,11 +35,22 @@ class DevToolsWebSocketMessage extends HarObject {
       DevToolsWebSocketMessage(
         type: json[kType]?.toString() ?? '',
         time: HarDuration.tryParse(json[kTime]?.toString()) ?? Duration.zero,
-        opcode: num.tryParse(json[kOpcode]?.toString() ?? '')?.toInt() ?? 0,
+        opcode: _parseOpcode(json[kOpcode]),
         data: json[kData]?.toString() ?? '',
         comment: json[HarObject.kComment]?.toString(),
         custom: HarUtils.collectCustom(json),
       );
+
+  static int _parseOpcode(Object? raw) {
+    final str = raw?.toString() ?? '';
+    final asInt = int.tryParse(str);
+    if (asInt != null) return asInt;
+    final asNum = num.tryParse(str);
+
+    return asNum != null && asNum.isFinite && asNum == asNum.toInt()
+        ? asNum.toInt()
+        : 0;
+  }
 
   /// JSON key for the message type (`"type"`).
   static const kType = 'type';

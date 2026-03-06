@@ -251,7 +251,9 @@ class DevToolsHarEntry extends HarEntry<DevToolsHarCookie> {
     Json? custom,
   }) => DevToolsHarEntry(
     startedDateTime: startedDateTime ?? this.startedDateTime,
-    startedDateTimeRaw: startedDateTimeRaw ?? this.startedDateTimeRaw,
+    startedDateTimeRaw: startedDateTime == null
+        ? (startedDateTimeRaw ?? this.startedDateTimeRaw)
+        : null,
     totalTime: totalTime ?? this.totalTime,
     request: request ?? this.request,
     response: response ?? this.response,

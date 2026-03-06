@@ -248,7 +248,9 @@ class HarEntry<T extends HarCookie> extends HarObject {
     Json? custom,
   }) => HarEntry<T>(
     startedDateTime: startedDateTime ?? this.startedDateTime,
-    startedDateTimeRaw: startedDateTimeRaw ?? this.startedDateTimeRaw,
+    startedDateTimeRaw: startedDateTime == null
+        ? (startedDateTimeRaw ?? this.startedDateTimeRaw)
+        : null,
     totalTime: totalTime ?? this.totalTime,
     request: request ?? this.request,
     response: response ?? this.response,
