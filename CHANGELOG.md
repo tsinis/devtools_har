@@ -1,4 +1,4 @@
-# 1.0.0
+## 1.0.0
 
 First stable release with new public models, enums, and `Duration`-based timings.
 
@@ -18,4 +18,4 @@ First stable release with new public models, enums, and `Duration`-based timings
 
 ## 0.1.1
 
-- Initial version.
+* Initial version.
